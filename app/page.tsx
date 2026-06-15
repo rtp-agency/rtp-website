@@ -97,6 +97,7 @@ export default function Home() {
 
       {/* Stats */}
       <section className="stats">
+        <SectionDeco variant={6} />
         <div className="container">
           <div className="stats-grid">
             {stats.map((s, i) => (
