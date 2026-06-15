@@ -10,7 +10,7 @@ import { OfferVisual } from "@/components/OfferVisual";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { stats, offers, work, additional, testimonials } from "@/lib/site";
 
-const CAL_URL = "https://cal.com/david-chistiy-lmbu8n";
+const TG_URL = "https://t.me/rtp_agency";
 
 export default function Home() {
   return (
@@ -46,7 +46,7 @@ export default function Home() {
               <Reveal delay={0.2}>
                 <div className="hero-actions">
                   <a
-                    href={CAL_URL}
+                    href={TG_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-primary"
@@ -309,7 +309,7 @@ export default function Home() {
           <Reveal delay={0.2}>
             <div className="contact-options">
               <a
-                href={CAL_URL}
+                href={TG_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary"
