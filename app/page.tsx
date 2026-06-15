@@ -8,6 +8,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { CardCostBar } from "@/components/CardCostBar";
 import { OfferVisual } from "@/components/OfferVisual";
 import { ProcessSteps } from "@/components/ProcessSteps";
+import { SectionDeco } from "@/components/SectionDeco";
 import { stats, offers, work, additional, testimonials } from "@/lib/site";
 
 const TG_URL = "https://t.me/rtp_agency";
@@ -39,8 +40,8 @@ export default function Home() {
               </Reveal>
               <Reveal delay={0.1}>
                 <p className="lead">
-                  Сокращаем расходы компаний на ИИ в масштабе — и делаем его
-                  надёжным там, где он обычно ломается.
+                  Сокращаем расходы компаний на ИИ — и делаем его надёжным там,
+                  где он обычно даёт сбои.
                 </p>
               </Reveal>
               <Reveal delay={0.2}>
@@ -91,19 +92,20 @@ export default function Home() {
 
       {/* Offers */}
       <section id="services" className="section-line">
+        <SectionDeco variant={0} />
         <div className="container">
           <div className="section-header">
             <Reveal>
               <div className="eyebrow">Чем помогаем</div>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2>Две вещи — на высшем уровне.</h2>
+              <h2>Две услуги — обе делаем на максимум.</h2>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="lead">
-                Не абстрактный «ИИ-консалтинг». Два чётких направления с понятным
-                результатом: меньше счёт и ИИ, на который реально можно
-                положиться.
+                Никакого абстрактного «ИИ-консалтинга». Два чётких направления с
+                понятным результатом: счёт меньше — и ИИ, на который реально
+                можно положиться.
               </p>
             </Reveal>
           </div>
@@ -135,6 +137,7 @@ export default function Home() {
 
       {/* Process */}
       <section className="section-line section-raised">
+        <SectionDeco variant={1} />
         <div className="container">
           <div className="section-header">
             <Reveal>
@@ -151,7 +154,8 @@ export default function Home() {
 
       {/* Work */}
       <section id="work" className="section-line">
-        <div className="container-read">
+        <SectionDeco variant={2} />
+        <div className="container">
           <div className="section-header">
             <Reveal>
               <div className="eyebrow">Избранные кейсы</div>
@@ -161,7 +165,7 @@ export default function Home() {
             </Reveal>
           </div>
 
-          <div className="reading-col">
+          <div className="work-grid">
             {work.map((c) => (
               <Reveal key={c.slug}>
                 <Link href={`/work/${c.slug}`} className="case-study">
@@ -200,6 +204,7 @@ export default function Home() {
 
       {/* Additional */}
       <section className="section-line section-raised">
+        <SectionDeco variant={3} />
         <div className="container-read">
           <div className="section-header">
             <Reveal>
@@ -223,6 +228,7 @@ export default function Home() {
 
       {/* Testimonials */}
       <section id="testimonials" className="section-line">
+        <SectionDeco variant={4} />
         <div className="container-read">
           <div className="section-header">
             <Reveal>
@@ -285,6 +291,7 @@ export default function Home() {
 
       {/* CTA — Free AI Cost Audit */}
       <section id="contact" className="cta section-line">
+        <SectionDeco variant={5} />
         <div className="container">
           <Reveal>
             <div className="eyebrow">Бесплатно, без обязательств</div>

@@ -1,20 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
 
+// Conservative, Replit-style: one clean grotesque (Inter) for headings + body,
+// JetBrains Mono for labels/numbers. No display serif.
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
   variable: "--font-inter",
-  weight: ["400", "500", "600"],
-  display: "swap",
-});
-
-// Fraunces has no Cyrillic — Playfair Display is the closest high-contrast
-// display serif that covers Cyrillic. Keep the same CSS variable name.
-const fraunces = Playfair_Display({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-fraunces",
   weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   display: "swap",
@@ -128,7 +121,7 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable}`}
+      className={`${inter.variable} ${jetbrains.variable}`}
     >
       <body>
         <script
