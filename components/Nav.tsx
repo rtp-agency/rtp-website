@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LiquidGlass } from "./LiquidGlass";
+import { LogoMark } from "./LogoMark";
 
 export function Nav({ variant = "home" }: { variant?: "home" | "case" }) {
   return (
@@ -14,7 +15,8 @@ export function Nav({ variant = "home" }: { variant?: "home" | "case" }) {
       >
         <div className="nav-inner">
           <Link href="/" className="nav-logo">
-            RTP Agency
+            <LogoMark />
+            <span className="nav-logo-text">RTP Agency</span>
           </Link>
         {variant === "home" ? (
           <ul className="nav-links">

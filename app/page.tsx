@@ -29,6 +29,16 @@ export default function Home() {
           <svg className="hero-deco-2" viewBox="0 0 200 200">
             <polygon points="100,5 182,52 182,148 100,195 18,148 18,52" />
           </svg>
+          <svg className="hero-deco-3" viewBox="0 0 200 200">
+            <polygon points="100,12 188,180 12,180" />
+          </svg>
+          <svg className="hero-deco-4" viewBox="0 0 200 200">
+            <rect x="40" y="40" width="120" height="120" />
+          </svg>
+          <svg className="hero-deco-5" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="70" />
+            <circle cx="100" cy="100" r="40" />
+          </svg>
         </div>
         <div className="container">
           <div className="hero-grid">
@@ -103,9 +113,8 @@ export default function Home() {
             </Reveal>
             <Reveal delay={0.1}>
               <p className="lead">
-                Никакого абстрактного «ИИ-консалтинга». Два чётких направления с
-                понятным результатом: счёт меньше — и ИИ, на который реально
-                можно положиться.
+                Без абстрактного «ИИ-консалтинга». Два направления с понятным
+                результатом: счёт меньше — и ИИ, которому можно доверять.
               </p>
             </Reveal>
           </div>
@@ -301,8 +310,8 @@ export default function Home() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="lead">
-              Узнайте, сколько реально можно сэкономить на ИИ — и как сделать его
-              надёжнее. Без впаривания, просто честная диагностика.
+              Покажем, сколько реально можно сэкономить на ИИ и как сделать его
+              надёжнее. Без впаривания — просто честная диагностика.
             </p>
           </Reveal>
           <Reveal delay={0.15}>

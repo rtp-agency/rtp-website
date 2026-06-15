@@ -15,13 +15,34 @@ export default function Icon() {
           justifyContent: "center",
           background: "#0a0a0a",
           color: "#fafafa",
-          fontSize: 22,
-          fontWeight: 700,
-          letterSpacing: "-0.04em",
           borderRadius: 14,
         }}
       >
-        RTP
+        <svg width="40" height="40" viewBox="0 0 32 32">
+          <polygon
+            points="16,1.6 29,9 29,23 16,30.4 3,23 3,9"
+            fill="none"
+            stroke="#fafafa"
+            strokeWidth="1.3"
+            strokeOpacity="0.5"
+          />
+          <polyline
+            points="9.5,12.5 16,19 22.5,12.5"
+            fill="none"
+            stroke="#fafafa"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <polyline
+            points="9.5,18 16,24.5 22.5,18"
+            fill="none"
+            stroke="#fafafa"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
     ),
     { ...size }

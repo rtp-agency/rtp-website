@@ -16,22 +16,29 @@ export function Particles() {
       "(prefers-reduced-motion: reduce)"
     ).matches;
     const mobile = window.innerWidth < 768;
-    const N = mobile ? 26 : 44;
+    const N = mobile ? 40 : 78;
+    // Constellation lines between nearby particles — desktop only (O(N²)).
+    const link = !mobile;
+    const LINK_DIST = 0.13; // in normalized space
 
     let w = 0;
     let h = 0;
     let raf = 0;
     let visible = true;
 
-    const parts = Array.from({ length: N }, () => ({
-      x: Math.random(),
-      y: Math.random(),
-      r: Math.random() * 1.6 + 0.4,
-      vx: (Math.random() - 0.5) * 0.0005,
-      vy: (Math.random() - 0.5) * 0.0005,
-      a: Math.random() * 0.4 + 0.12,
-      g: 200 + Math.floor(Math.random() * 55),
-    }));
+    const parts = Array.from({ length: N }, () => {
+      const bright = Math.random() < 0.18; // a few brighter "stars"
+      return {
+        x: Math.random(),
+        y: Math.random(),
+        r: bright ? Math.random() * 1.6 + 1.6 : Math.random() * 1.5 + 0.4,
+        vx: (Math.random() - 0.5) * 0.0006,
+        vy: (Math.random() - 0.5) * 0.0006,
+        a: bright ? Math.random() * 0.3 + 0.45 : Math.random() * 0.35 + 0.12,
+        g: 200 + Math.floor(Math.random() * 55),
+        bright,
+      };
+    });
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -53,11 +60,39 @@ export function Particles() {
         else if (p.x > 1) p.x = 0;
         if (p.y < 0) p.y = 1;
         else if (p.y > 1) p.y = 0;
+      }
+      // Faint links between nearby particles (constellation look).
+      if (link) {
+        ctx.lineWidth = 1;
+        for (let i = 0; i < parts.length; i++) {
+          for (let j = i + 1; j < parts.length; j++) {
+            const dx = parts[i].x - parts[j].x;
+            const dy = parts[i].y - parts[j].y;
+            const d = Math.hypot(dx, dy);
+            if (d < LINK_DIST) {
+              const a = (1 - d / LINK_DIST) * 0.07;
+              ctx.strokeStyle = `rgba(235,235,235,${a})`;
+              ctx.beginPath();
+              ctx.moveTo(parts[i].x * w, parts[i].y * h);
+              ctx.lineTo(parts[j].x * w, parts[j].y * h);
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      for (const p of parts) {
         ctx.beginPath();
         ctx.arc(p.x * w, p.y * h, p.r, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${p.g},${p.g},${p.g},${p.a})`;
+        if (p.bright) {
+          ctx.shadowColor = "rgba(255,255,255,0.5)";
+          ctx.shadowBlur = 6;
+        } else {
+          ctx.shadowBlur = 0;
+        }
         ctx.fill();
       }
+      ctx.shadowBlur = 0;
     };
 
     const frame = () => {
