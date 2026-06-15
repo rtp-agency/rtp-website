@@ -1,0 +1,21 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="1024" fill="#0a0a0a"/>
+  <g fill="none" stroke="#fafafa" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+    <!-- head outline (fierce raptor, front-facing) -->
+    <polygon points="512,225 648,268 726,372 660,548 512,648 364,548 298,372 376,268"/>
+    <!-- fierce brows angling down to beak -->
+    <line x1="330" y1="368" x2="478" y2="436"/>
+    <line x1="694" y1="368" x2="546" y2="436"/>
+    <!-- brow-to-crown facets -->
+    <line x1="376" y1="268" x2="478" y2="436"/>
+    <line x1="648" y1="268" x2="546" y2="436"/>
+    <!-- eyes -->
+    <line x1="396" y1="470" x2="466" y2="482"/>
+    <line x1="628" y1="470" x2="558" y2="482"/>
+    <!-- hooked beak pointing down -->
+    <polygon points="488,464 536,464 521,556 512,584 503,556"/>
+    <!-- cheek facets -->
+    <line x1="298" y1="372" x2="512" y2="648"/>
+    <line x1="726" y1="372" x2="512" y2="648"/>
+  </g>
+</svg>
