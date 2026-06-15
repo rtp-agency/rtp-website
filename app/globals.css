@@ -224,6 +224,21 @@ section > .container-narrow {
   top: -40px;
   animation: sd-float 18s ease-in-out infinite;
 }
+.sd-shape-c {
+  width: 180px;
+  height: 180px;
+  opacity: 0.7;
+}
+.sd-0 .sd-shape-c {
+  left: 40%;
+  top: 30%;
+  animation: deco-rot 70s linear infinite reverse;
+}
+.sd-1 .sd-shape-c {
+  right: 38%;
+  bottom: 26%;
+  animation: deco-rot 80s linear infinite;
+}
 @keyframes sd-float {
   0%,
   100% {
@@ -279,15 +294,55 @@ section > .container-narrow {
   animation-duration: 6s;
   animation-delay: 0.8s;
 }
+.sd-d7 {
+  left: 33%;
+  top: 40%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 10s;
+  animation-delay: 1.2s;
+}
+.sd-d8 {
+  left: 58%;
+  top: 50%;
+  animation-duration: 7s;
+  animation-delay: 0.3s;
+}
+.sd-d9 {
+  left: 7%;
+  top: 52%;
+  animation-duration: 9s;
+  animation-delay: 2.4s;
+}
+.sd-d10 {
+  left: 74%;
+  top: 82%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 8.5s;
+  animation-delay: 0.6s;
+}
+.sd-d11 {
+  left: 52%;
+  top: 12%;
+  animation-duration: 6.8s;
+  animation-delay: 1.8s;
+}
+.sd-d12 {
+  left: 38%;
+  top: 88%;
+  animation-duration: 9.5s;
+  animation-delay: 1s;
+}
 @keyframes sd-twinkle {
   0%,
   100% {
-    opacity: 0.12;
+    opacity: 0.1;
     transform: translateY(0);
   }
   50% {
-    opacity: 0.5;
-    transform: translateY(-16px);
+    opacity: 0.55;
+    transform: translateY(-18px);
   }
 }
 

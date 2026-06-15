@@ -16,10 +16,10 @@ export function Particles() {
       "(prefers-reduced-motion: reduce)"
     ).matches;
     const mobile = window.innerWidth < 768;
-    const N = mobile ? 40 : 78;
+    const N = mobile ? 54 : 110;
     // Constellation lines between nearby particles — desktop only (O(N²)).
     const link = !mobile;
-    const LINK_DIST = 0.13; // in normalized space
+    const LINK_DIST = 0.14; // in normalized space
 
     let w = 0;
     let h = 0;
