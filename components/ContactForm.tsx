@@ -7,7 +7,7 @@ import { useState } from "react";
 // protection), so it's fine to ship in the bundle. Env var overrides if set.
 const ACCESS_KEY =
   process.env.NEXT_PUBLIC_WEB3FORMS_KEY ||
-  "72ef2613-5e6d-486f-921f-7fd614e8c494";
+  "e689946f-fc82-4a66-a2b5-8c50a46dd941";
 
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">(
