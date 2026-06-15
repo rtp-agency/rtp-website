@@ -1,23 +1,20 @@
 <svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
   <rect width="1024" height="1024" fill="#0a0a0a"/>
-  <g fill="none" stroke="#fafafa" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">
-    <!-- head + deep blunt blade beak, profile facing left, rounded -->
-    <path d="M 205,430
-             Q 325,418 442,406
-             Q 522,352 602,346
-             Q 742,352 762,496
-             Q 758,604 690,632
-             Q 580,652 472,622
-             Q 452,610 450,578
-             Q 330,592 212,576
-             Q 196,503 205,430 Z"/>
-    <!-- gape / mouth line -->
-    <path d="M 212,528 Q 330,520 448,524"/>
-    <!-- signature vertical band near beak tip -->
-    <path d="M 272,438 Q 274,508 278,572"/>
-    <!-- thin line from beak base to eye -->
-    <path d="M 452,452 Q 502,446 542,446"/>
-    <!-- eye -->
-    <circle cx="562" cy="449" r="13"/>
+  <g fill="none" stroke="#fafafa" stroke-width="11" stroke-linejoin="round" stroke-linecap="round">
+    <!-- crown: connects the two temples over the top of the head -->
+    <path d="M 340,350 Q 512,150 684,350"/>
+    <!-- signature white facial lines (lyre) from temples to the beak -->
+    <path d="M 340,350 Q 436,448 500,478"/>
+    <path d="M 684,350 Q 588,448 524,478"/>
+    <!-- beak pointing down -->
+    <path d="M 500,478 Q 470,575 512,656 Q 554,575 524,478"/>
+    <!-- white stripe down the beak -->
+    <path d="M 512,494 L 512,636"/>
+    <!-- eyes at the temples -->
+    <circle cx="392" cy="372" r="7"/>
+    <circle cx="632" cy="372" r="7"/>
+    <!-- white breast flaring below -->
+    <path d="M 474,658 Q 384,700 316,790"/>
+    <path d="M 550,658 Q 640,700 708,790"/>
   </g>
 </svg>
