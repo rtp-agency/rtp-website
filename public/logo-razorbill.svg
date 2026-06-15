@@ -1,0 +1,23 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="1024" fill="#0a0a0a"/>
+  <g fill="none" stroke="#fafafa" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">
+    <!-- head + deep blunt blade beak, profile facing left, rounded -->
+    <path d="M 205,430
+             Q 325,418 442,406
+             Q 522,352 602,346
+             Q 742,352 762,496
+             Q 758,604 690,632
+             Q 580,652 472,622
+             Q 452,610 450,578
+             Q 330,592 212,576
+             Q 196,503 205,430 Z"/>
+    <!-- gape / mouth line -->
+    <path d="M 212,528 Q 330,520 448,524"/>
+    <!-- signature vertical band near beak tip -->
+    <path d="M 272,438 Q 274,508 278,572"/>
+    <!-- thin line from beak base to eye -->
+    <path d="M 452,452 Q 502,446 542,446"/>
+    <!-- eye -->
+    <circle cx="562" cy="449" r="13"/>
+  </g>
+</svg>
