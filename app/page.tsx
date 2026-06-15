@@ -9,7 +9,15 @@ import { CardCostBar } from "@/components/CardCostBar";
 import { OfferVisual } from "@/components/OfferVisual";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { SectionDeco } from "@/components/SectionDeco";
-import { stats, offers, work, additional, testimonials } from "@/lib/site";
+import { Marquee } from "@/components/Marquee";
+import {
+  stats,
+  offers,
+  work,
+  additional,
+  testimonials,
+  marqueeTech,
+} from "@/lib/site";
 
 const TG_URL = "https://t.me/rtp_agency";
 
@@ -83,6 +91,9 @@ export default function Home() {
           </span>
         </div>
       </section>
+
+      {/* Tech credibility marquee */}
+      <Marquee items={marqueeTech} />
 
       {/* Stats */}
       <section className="stats">

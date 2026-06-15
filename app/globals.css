@@ -192,21 +192,48 @@ section > .container-narrow {
 }
 .sd-shape {
   position: absolute;
-  width: 460px;
-  height: 460px;
   fill: none;
   stroke: rgba(255, 255, 255, 0.05);
   stroke-width: 1;
 }
-.sd-0 .sd-shape {
+.sd-shape-a {
+  width: 460px;
+  height: 460px;
+}
+.sd-shape-b {
+  width: 240px;
+  height: 240px;
+}
+.sd-0 .sd-shape-a {
   right: -160px;
   top: -130px;
   animation: deco-rot 92s linear infinite;
 }
-.sd-1 .sd-shape {
+.sd-0 .sd-shape-b {
+  left: -90px;
+  bottom: -70px;
+  animation: sd-float 15s ease-in-out infinite;
+}
+.sd-1 .sd-shape-a {
   left: -180px;
   bottom: -150px;
   animation: deco-rot 112s linear infinite reverse;
+}
+.sd-1 .sd-shape-b {
+  right: -70px;
+  top: -55px;
+  animation: sd-float 18s ease-in-out infinite;
+}
+@keyframes sd-float {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-26px);
+    opacity: 0.28;
+  }
 }
 
 /* 2×2 case grid */
@@ -2013,6 +2040,40 @@ nav {
   transform: translateY(-3px);
   border-color: var(--warm-dim);
   box-shadow: 0 18px 50px -24px rgba(0, 0, 0, 0.7);
+}
+
+/* sheen sweep across cards on hover */
+.offer,
+.case-study {
+  position: relative;
+  overflow: hidden;
+}
+.offer::before,
+.case-study::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -130%;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.07),
+    transparent
+  );
+  transform: skewX(-18deg);
+  pointer-events: none;
+  z-index: 0;
+}
+.offer:hover::before,
+.case-study:hover::before {
+  animation: card-sheen 0.9s ease-out;
+}
+@keyframes card-sheen {
+  to {
+    left: 130%;
+  }
 }
 .case-number {
   font-family: var(--font-mono);
