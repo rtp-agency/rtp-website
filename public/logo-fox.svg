@@ -1,0 +1,18 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="1024" fill="#0a0a0a"/>
+  <g fill="none" stroke="#fafafa" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+    <!-- main face + ears outline -->
+    <polygon points="300,175 512,330 724,175 769,470 624,615 512,740 400,615 255,470"/>
+    <!-- inner ears -->
+    <polyline points="300,175 430,350 512,330"/>
+    <polyline points="724,175 594,350 512,330"/>
+    <!-- eyes (slanted) -->
+    <line x1="380" y1="442" x2="448" y2="458"/>
+    <line x1="644" y1="442" x2="576" y2="458"/>
+    <!-- muzzle lines converging to nose -->
+    <line x1="255" y1="470" x2="512" y2="582"/>
+    <line x1="769" y1="470" x2="512" y2="582"/>
+    <!-- nose -->
+    <polygon points="484,576 540,576 512,612"/>
+  </g>
+</svg>
