@@ -74,8 +74,6 @@ export type Home = {
   heroLead: string;
   heroCtaPrimary: string;
   heroCtaSecondary: string;
-  heroChipsLabel: string;
-  heroChips: string[];
   offersEyebrow: string;
   offersHeading: string;
   offersLead: string;
@@ -121,19 +119,9 @@ const uk: SiteContent = {
       post: " за допомогою ШІ.",
     },
     heroLead:
-      "Беремо процес, який з'їдає найбільше часу — заявки, відповіді клієнтам, контент, документи, звіти — і налаштовуємо так, щоб його робив ШІ. Надійно, недорого і прямо у звичних вам інструментах.",
+      "Беремо процес, який з'їдає найбільше часу, і налаштовуємо так, щоб його робив ШІ. Надійно й недорого.",
     heroCtaPrimary: "Безкоштовний розбір: що автоматизувати першим",
     heroCtaSecondary: "Подивитись приклади",
-    heroChipsLabel: "Що можна віддати ШІ:",
-    heroChips: [
-      "відповіді клієнтам",
-      "обробка заявок і лідів",
-      "контент і пости",
-      "описи товарів",
-      "документи й договори",
-      "звіти",
-      "нагадування",
-    ],
     offersEyebrow: "Що ми робимо",
     offersHeading: "Що ми автоматизуємо.",
     offersLead:
@@ -368,19 +356,9 @@ const en: SiteContent = {
       post: " with AI.",
     },
     heroLead:
-      "We take the process that eats the most time — inquiries, customer replies, content, documents, reports — and set it up so AI does it. Reliable, affordable, right inside the tools you already use.",
+      "We take the process that eats the most time and set it up so AI does it. Reliable and affordable.",
     heroCtaPrimary: "Free teardown: what to automate first",
     heroCtaSecondary: "See examples",
-    heroChipsLabel: "What you can hand to AI:",
-    heroChips: [
-      "customer replies",
-      "inquiries & leads",
-      "content & posts",
-      "product descriptions",
-      "documents & contracts",
-      "reports",
-      "reminders",
-    ],
     offersEyebrow: "What we do",
     offersHeading: "What we automate.",
     offersLead:

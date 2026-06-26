@@ -77,16 +77,6 @@ export default async function Home({
                   </a>
                 </div>
               </Reveal>
-              <Reveal delay={0.3}>
-                <div className="hero-chips">
-                  <div className="hero-chips-label">{home.heroChipsLabel}</div>
-                  <ul className="hero-chips-list">
-                    {home.heroChips.map((c) => (
-                      <li key={c}>{c}</li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
             </div>
 
             <div className="hero-visual">
