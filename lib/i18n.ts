@@ -26,6 +26,7 @@ export const ui = {
     readCase: "Читати кейс",
     step: "КРОК",
     toCosts: "до витрат",
+    stickyCta: "Написати нам",
     form: {
       name: "Ваше ім'я",
       email: "Email",
@@ -75,6 +76,7 @@ export const ui = {
     readCase: "Read case study",
     step: "STEP",
     toCosts: "on costs",
+    stickyCta: "Get in touch",
     form: {
       name: "Your name",
       email: "Email",

@@ -88,11 +88,6 @@ export default async function Home({
             </div>
           </div>
         </div>
-        <div className="scroll-cue" aria-hidden="true">
-          <span className="scroll-cue-track">
-            <span className="scroll-cue-dot" />
-          </span>
-        </div>
       </section>
 
       {/* Tech credibility marquee */}

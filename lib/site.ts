@@ -150,7 +150,7 @@ const uk: SiteContent = {
   stats: [
     { value: 99, prefix: "", suffix: "%+", label: "Максимальне зниження витрат на ШІ" },
     { value: 30, prefix: "$", suffix: "K+", label: "Заощадили клієнтам на ШІ-інфраструктурі за рік" },
-    { value: 4, prefix: "", suffix: "", label: "ШІ-систем працюють у продакшені в клієнтів" },
+    { value: 10, prefix: "", suffix: "+", label: "Різних систем у продакшені в клієнтів" },
   ],
   offers: [
     {
@@ -328,9 +328,9 @@ const en: SiteContent = {
     heroCtaPrimary: "Free AI cost audit",
     heroCtaSecondary: "View case studies",
     offersEyebrow: "How we help",
-    offersHeading: "Two services — both done to the max.",
+    offersHeading: "Two services — both done right.",
     offersLead:
-      'No abstract "AI consulting." Two directions with clear outcomes: a smaller bill — and AI you can trust.',
+      'No vague "AI consulting." Two focused services with clear outcomes: a smaller bill — and AI you can trust.',
     offerDoesLabel: "What we do",
     processEyebrow: "How we work",
     processHeading: "Audit, architecture, results.",
@@ -364,14 +364,14 @@ const en: SiteContent = {
   },
   stats: [
     { value: 99, prefix: "", suffix: "%+", label: "Maximum AI cost reduction" },
-    { value: 30, prefix: "$", suffix: "K+", label: "Saved for clients on AI infrastructure in a year" },
-    { value: 4, prefix: "", suffix: "", label: "AI systems running in production for clients" },
+    { value: 30, prefix: "$", suffix: "K+", label: "Saved on clients' AI infrastructure in a year" },
+    { value: 10, prefix: "", suffix: "+", label: "Different systems running in production" },
   ],
   offers: [
     {
       num: "01",
       name: "AI cost optimization",
-      promise: "We sharply cut AI costs — without losing quality.",
+      promise: "We slash AI costs — without losing quality.",
       problem:
         "Most teams overpay for AI many times over and don't even measure where.",
       does: [

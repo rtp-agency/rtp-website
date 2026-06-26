@@ -530,6 +530,46 @@ nav {
   background: rgba(255, 255, 255, 0.05);
 }
 
+/* floating contact pill — slides away on scroll-down, returns on scroll-up */
+.sticky-contact {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 200;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: var(--color-text);
+  color: var(--color-bg);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 160%);
+  transition: transform 0.45s var(--ease), opacity 0.3s ease;
+}
+.sticky-contact.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+.sticky-contact .arrow {
+  transition: transform 0.25s var(--ease);
+}
+.sticky-contact:hover .arrow {
+  transform: translateX(3px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sticky-contact {
+    transition: opacity 0.3s ease;
+  }
+}
+
 /* buttons */
 .btn {
   display: inline-flex;

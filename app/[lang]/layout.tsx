@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "../globals.css";
 import { Footer } from "@/components/Footer";
+import { StickyContact } from "@/components/StickyContact";
 import {
   languages,
   isLang,
@@ -95,6 +96,7 @@ export default async function LangLayout({
         />
         <div className="grain" aria-hidden="true" />
         {children}
+        <StickyContact lang={typedLang} />
         <Footer />
       </body>
     </html>
