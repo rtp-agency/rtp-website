@@ -1895,15 +1895,18 @@ nav {
 
 /* price note under the CTA */
 .price-note {
-  margin-top: 18px;
+  max-width: 480px;
+  margin: 18px auto 0;
   font-size: 13px;
   color: var(--color-muted);
 }
 
-/* CTA contact line (Telegram + email) */
+/* CTA contact line (Telegram + email) — aligned to the form column */
 .contact-line {
-  margin: 16px 0 4px;
+  max-width: 480px;
+  margin: 18px auto 10px;
   font-size: 14px;
+  line-height: 1.7;
   color: var(--color-muted);
 }
 .contact-line a {
