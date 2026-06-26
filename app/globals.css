@@ -1665,7 +1665,6 @@ nav {
   .ov-bar,
   .ov-cost::after,
   .or-ring,
-  .scroll-cue-dot,
   .sc-scan,
   .sc-bars span.flag::after,
   .hero-deco svg,
@@ -2014,49 +2013,6 @@ nav {
   100% {
     width: 96px;
     height: 96px;
-    opacity: 0;
-  }
-}
-
-/* hero scroll cue */
-.scroll-cue {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-}
-.scroll-cue-track {
-  display: block;
-  width: 1px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.16);
-  position: relative;
-  overflow: hidden;
-}
-.scroll-cue-dot {
-  position: absolute;
-  left: -1.5px;
-  width: 4px;
-  height: 9px;
-  border-radius: 2px;
-  background: #ffffff;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-  animation: scroll-cue-move 2.1s ease-in-out infinite;
-}
-@keyframes scroll-cue-move {
-  0% {
-    top: -9px;
-    opacity: 0;
-  }
-  25% {
-    opacity: 1;
-  }
-  75% {
-    opacity: 1;
-  }
-  100% {
-    top: 48px;
     opacity: 0;
   }
 }
