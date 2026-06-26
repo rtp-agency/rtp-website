@@ -1732,7 +1732,7 @@ nav {
 /* offers (productized services) */
 .offers {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 .offer {
@@ -1823,6 +1823,127 @@ nav {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-muted);
+}
+
+/* offer footer: who it's for + the result */
+.offer-foot {
+  margin-top: auto;
+  padding-top: 22px;
+  border-top: 1px solid var(--color-line);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.offer-foot-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.offer-foot-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-warm);
+}
+.offer-foot-val {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-text2);
+}
+.offer-foot-val-hi {
+  color: var(--color-text);
+}
+
+/* offer visual: assistant hub + satellite systems */
+.oa {
+  position: relative;
+  height: 80px;
+  margin-bottom: 30px;
+}
+.oa svg {
+  width: 100%;
+  height: 100%;
+}
+.oa-ln {
+  stroke: var(--color-warm);
+  stroke-width: 1.4;
+  opacity: 0.35;
+  stroke-dasharray: 6;
+  animation: oa-dash 3s linear infinite;
+}
+@keyframes oa-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+.oa-nd {
+  fill: rgba(255, 255, 255, 0.55);
+  animation: oa-pulse 2.6s ease-in-out infinite;
+}
+.oa-core {
+  fill: #ffffff;
+}
+@keyframes oa-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* hero chips: what you can hand to AI */
+.hero-chips {
+  margin-top: 30px;
+}
+.hero-chips-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 14px;
+}
+.hero-chips-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.hero-chips-list li {
+  font-size: 13px;
+  color: var(--color-text2);
+  padding: 7px 13px;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  background: var(--color-bg2);
+}
+
+/* price note under the CTA */
+.price-note {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+/* CTA contact line (Telegram + email) */
+.contact-line {
+  margin: 16px 0 4px;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+.contact-line a {
+  color: var(--color-text2);
+  border-bottom: 1px solid var(--color-line);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.contact-line a:hover {
+  color: var(--color-text);
+  border-color: var(--color-warm);
 }
 
 /* offer visual: animated bars */

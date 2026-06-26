@@ -15,6 +15,7 @@ import { getSite, marqueeTech } from "@/lib/site";
 import { isLang, ui, type Lang } from "@/lib/i18n";
 
 const TG_URL = "https://t.me/rtp_agency";
+const EMAIL = "solutions@rtp-agency.com";
 
 export default async function Home({
   params,
@@ -68,17 +69,22 @@ export default async function Home({
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="hero-actions">
-                  <a
-                    href={TG_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-primary"
-                  >
+                  <a href="#contact" className="btn btn-primary">
                     {home.heroCtaPrimary} <span className="arrow">→</span>
                   </a>
                   <a href="#work" className="btn btn-secondary">
                     {home.heroCtaSecondary}
                   </a>
+                </div>
+              </Reveal>
+              <Reveal delay={0.3}>
+                <div className="hero-chips">
+                  <div className="hero-chips-label">{home.heroChipsLabel}</div>
+                  <ul className="hero-chips-list">
+                    {home.heroChips.map((c) => (
+                      <li key={c}>{c}</li>
+                    ))}
+                  </ul>
                 </div>
               </Reveal>
             </div>
@@ -89,9 +95,6 @@ export default async function Home({
           </div>
         </div>
       </section>
-
-      {/* Tech credibility marquee */}
-      <Marquee items={marqueeTech} />
 
       {/* Stats */}
       <section className="stats">
@@ -110,7 +113,7 @@ export default async function Home({
         </div>
       </section>
 
-      {/* Offers */}
+      {/* Offers — 3 SMB plays */}
       <section id="services" className="section-line">
         <SectionDeco variant={0} />
         <div className="container">
@@ -140,9 +143,21 @@ export default async function Home({
                       <li key={d}>{d}</li>
                     ))}
                   </ul>
-                  <div className="offer-metric">
-                    <span className="offer-metric-num">{o.metric}</span>
-                    <span className="offer-metric-label">{o.metricLabel}</span>
+                  <div className="offer-foot">
+                    <div className="offer-foot-row">
+                      <span className="offer-foot-label">
+                        {home.offerAudienceLabel}
+                      </span>
+                      <span className="offer-foot-val">{o.audience}</span>
+                    </div>
+                    <div className="offer-foot-row">
+                      <span className="offer-foot-label">
+                        {home.offerResultLabel}
+                      </span>
+                      <span className="offer-foot-val offer-foot-val-hi">
+                        {o.result}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </Reveal>
@@ -168,8 +183,26 @@ export default async function Home({
         </div>
       </section>
 
+      {/* Why it works */}
+      <section className="section-line">
+        <SectionDeco variant={6} />
+        <div className="container-read">
+          <div className="section-header">
+            <Reveal>
+              <div className="eyebrow">{home.whyEyebrow}</div>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <h2>{home.whyHeading}</h2>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="lead">{home.whyText}</p>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       {/* Work */}
-      <section id="work" className="section-line">
+      <section id="work" className="section-line section-raised">
         <SectionDeco variant={2} />
         <div className="container">
           <div className="section-header">
@@ -219,7 +252,7 @@ export default async function Home({
       </section>
 
       {/* Additional */}
-      <section className="section-line section-raised">
+      <section className="section-line">
         <SectionDeco variant={3} />
         <div className="container-read">
           <div className="section-header">
@@ -242,8 +275,11 @@ export default async function Home({
         </div>
       </section>
 
+      {/* Tech credibility marquee — proof for technical readers, kept low */}
+      <Marquee items={marqueeTech} />
+
       {/* Testimonials */}
-      <section id="testimonials" className="section-line">
+      <section id="testimonials" className="section-line section-raised">
         <SectionDeco variant={4} />
         <div className="container-read">
           <div className="section-header">
@@ -305,7 +341,7 @@ export default async function Home({
         </div>
       </section>
 
-      {/* CTA — Free AI Cost Audit */}
+      {/* CTA — Free teardown */}
       <section id="contact" className="cta section-line">
         <SectionDeco variant={5} />
         <div className="container">
@@ -336,8 +372,16 @@ export default async function Home({
                 {home.ctaButton} <span className="arrow">→</span>
               </a>
             </div>
-            <div className="contact-or">{home.ctaOr}</div>
+            <div className="contact-line">
+              {home.ctaContactPrefix}{" "}
+              <a href={TG_URL} target="_blank" rel="noopener noreferrer">
+                Telegram @rtp_agency
+              </a>
+              {" · "}
+              <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+            </div>
             <ContactForm lang={l} />
+            <div className="price-note">{home.priceNote}</div>
           </Reveal>
         </div>
       </section>

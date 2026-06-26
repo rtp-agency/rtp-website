@@ -44,13 +44,14 @@ export function ContactForm({ lang }: { lang: Lang }) {
   return (
     <form className="contact-form" onSubmit={onSubmit}>
       <input type="text" name="name" placeholder={t.name} required />
-      <input type="email" name="email" placeholder={t.email} required />
+      <input type="text" name="business" placeholder={t.business} />
       <textarea
         name="message"
         placeholder={t.message}
         rows={4}
         required
       />
+      <input type="text" name="contact" placeholder={t.contact} required />
       <button
         type="submit"
         className="btn btn-primary"

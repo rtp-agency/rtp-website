@@ -42,7 +42,7 @@ export type CaseStudy = {
 const uk: CaseStudy[] = [
   {
     slug: "metra-ai",
-    eyebrow: "Кейс 04",
+    eyebrow: "Кейс 01",
     title: "Metra AI — Production-SaaS для автоматизації контенту в Telegram",
     lead: "Побудували під ключ SaaS-платформу з мультиагентною LLM-оркестрацією. Від архітектури до запуску за 3 місяці.",
     meta: {
@@ -173,13 +173,13 @@ const uk: CaseStudy[] = [
         ],
       },
     ],
-    prev: { href: "/work/video-localization", label: "← Назад: Локалізація відео" },
-    next: { href: "/#work", label: "Усі кейси →" },
+    prev: { href: "/#work", label: "← Усі кейси" },
+    next: { href: "/work/open-source-lipsync", label: "Далі: Ліпсинк-система →" },
   },
 
   {
     slug: "open-source-lipsync",
-    eyebrow: "Кейс 01",
+    eyebrow: "Кейс 02",
     title: "Ліпсинк-система — зниження витрат на 99%+ проти преміум відео-ШІ",
     lead: "Замінили преміум відео-ШІ ($3–5/хв) на опенсорс-воркфлоу на ComfyUI. Та сама якість, витрати в центах.",
     meta: {
@@ -318,13 +318,13 @@ const uk: CaseStudy[] = [
         ],
       },
     ],
-    prev: { href: "/#work", label: "← Усі кейси" },
+    prev: { href: "/work/metra-ai", label: "← Назад: Metra AI" },
     next: { href: "/work/motion-control", label: "Далі: Motion Control →" },
   },
 
   {
     slug: "video-localization",
-    eyebrow: "Кейс 03",
+    eyebrow: "Кейс 04",
     title: "Мультимодельний ШІ-пайплайн локалізації відео",
     lead: "Чотири ШІ-сервіси в одному зв'язному пайплайні. На вхід — вихідне відео, на вихід — локалізоване похідне відео, дешевше $1.",
     meta: {
@@ -491,12 +491,12 @@ const uk: CaseStudy[] = [
       },
     ],
     prev: { href: "/work/motion-control", label: "← Назад: Motion Control" },
-    next: { href: "/work/metra-ai", label: "Далі: Metra AI →" },
+    next: { href: "/#work", label: "Усі кейси →" },
   },
 
   {
     slug: "motion-control",
-    eyebrow: "Кейс 02",
+    eyebrow: "Кейс 03",
     title: "Motion Control воркфлоу — зниження витрат на 84% проти преміум відео-ШІ",
     lead: "Замінили преміум-сервіси motion control на опенсорс-воркфлоу на ComfyUI. Близько $12 000 річної економії на клієнта на масштабі продакшену — і можливості, яких немає у преміум-сервісів.",
     meta: {
@@ -684,7 +684,7 @@ const uk: CaseStudy[] = [
 const en: CaseStudy[] = [
   {
     slug: "metra-ai",
-    eyebrow: "Case 04",
+    eyebrow: "Case 01",
     title: "Metra AI — Production SaaS for content automation in Telegram",
     lead: "We built a turnkey SaaS platform with multi-agent LLM orchestration. From architecture to launch in 3 months.",
     meta: {
@@ -815,13 +815,13 @@ const en: CaseStudy[] = [
         ],
       },
     ],
-    prev: { href: "/work/video-localization", label: "← Back: Video localization" },
-    next: { href: "/#work", label: "All case studies →" },
+    prev: { href: "/#work", label: "← All case studies" },
+    next: { href: "/work/open-source-lipsync", label: "Next: Lipsync system →" },
   },
 
   {
     slug: "open-source-lipsync",
-    eyebrow: "Case 01",
+    eyebrow: "Case 02",
     title: "Lipsync system — 99%+ cost reduction versus premium video AI",
     lead: "We replaced premium video AI ($3–5/min) with an open-source ComfyUI workflow. Same quality, costs measured in cents.",
     meta: {
@@ -960,13 +960,13 @@ const en: CaseStudy[] = [
         ],
       },
     ],
-    prev: { href: "/#work", label: "← All case studies" },
+    prev: { href: "/work/metra-ai", label: "← Back: Metra AI" },
     next: { href: "/work/motion-control", label: "Next: Motion Control →" },
   },
 
   {
     slug: "video-localization",
-    eyebrow: "Case 03",
+    eyebrow: "Case 04",
     title: "Multi-model AI video localization pipeline",
     lead: "Four AI services in one coherent pipeline. Source video in, localized derivative video out, for under $1.",
     meta: {
@@ -1133,12 +1133,12 @@ const en: CaseStudy[] = [
       },
     ],
     prev: { href: "/work/motion-control", label: "← Back: Motion Control" },
-    next: { href: "/work/metra-ai", label: "Next: Metra AI →" },
+    next: { href: "/#work", label: "All case studies →" },
   },
 
   {
     slug: "motion-control",
-    eyebrow: "Case 02",
+    eyebrow: "Case 03",
     title: "Motion Control workflow — 84% cost reduction versus premium video AI",
     lead: "We replaced premium motion control services with an open-source ComfyUI workflow. About $12,000 in annual savings per client at production scale — plus capabilities premium services don't have.",
     meta: {

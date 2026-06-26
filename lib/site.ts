@@ -1,6 +1,7 @@
 import type { Lang } from "./i18n";
 
-// Scrolling credibility strip under the hero — technical names, language-neutral.
+// Scrolling credibility strip — technical names, language-neutral. Shown low on
+// the page as proof for technical readers, not in the hero.
 export const marqueeTech = [
   "Multi-agent LLM",
   "FastAPI",
@@ -22,11 +23,10 @@ export type Offer = {
   num: string;
   name: string;
   promise: string;
-  problem: string;
   does: string[];
-  metric: string;
-  metricLabel: string;
-  visual: "cost" | "reliability";
+  audience: string;
+  result: string;
+  visual: "replies" | "content" | "assistant";
 };
 
 export type Stat = {
@@ -74,12 +74,19 @@ export type Home = {
   heroLead: string;
   heroCtaPrimary: string;
   heroCtaSecondary: string;
+  heroChipsLabel: string;
+  heroChips: string[];
   offersEyebrow: string;
   offersHeading: string;
   offersLead: string;
   offerDoesLabel: string;
+  offerAudienceLabel: string;
+  offerResultLabel: string;
   processEyebrow: string;
   processHeading: string;
+  whyEyebrow: string;
+  whyHeading: string;
+  whyText: string;
   workEyebrow: string;
   workHeading: string;
   additionalEyebrow: string;
@@ -91,7 +98,8 @@ export type Home = {
   ctaLead: string;
   auditList: string[];
   ctaButton: string;
-  ctaOr: string;
+  ctaContactPrefix: string;
+  priceNote: string;
   cycle: CycleStep[];
 };
 
@@ -107,111 +115,156 @@ export type SiteContent = {
 
 const uk: SiteContent = {
   home: {
-    heroTitle: { pre: "Платіть за ШІ ", em: "у рази менше", post: "." },
+    heroTitle: {
+      pre: "Автоматизуємо ",
+      em: "рутину вашого бізнесу",
+      post: " за допомогою ШІ.",
+    },
     heroLead:
-      "Скорочуємо витрати компаній на ШІ — і робимо його надійним там, де він зазвичай дає збої.",
-    heroCtaPrimary: "Безкоштовний аудит витрат на ШІ",
-    heroCtaSecondary: "Дивитися кейси",
-    offersEyebrow: "Чим допомагаємо",
-    offersHeading: "Дві послуги — обидві робимо на максимум.",
+      "Беремо процес, який з'їдає найбільше часу — заявки, відповіді клієнтам, контент, документи, звіти — і налаштовуємо так, щоб його робив ШІ. Надійно, недорого і прямо у звичних вам інструментах.",
+    heroCtaPrimary: "Безкоштовний розбір: що автоматизувати першим",
+    heroCtaSecondary: "Подивитись приклади",
+    heroChipsLabel: "Що можна віддати ШІ:",
+    heroChips: [
+      "відповіді клієнтам",
+      "обробка заявок і лідів",
+      "контент і пости",
+      "описи товарів",
+      "документи й договори",
+      "звіти",
+      "нагадування",
+    ],
+    offersEyebrow: "Що ми робимо",
+    offersHeading: "Що ми автоматизуємо.",
     offersLead:
-      "Без абстрактного «ШІ-консалтингу». Два напрями зі зрозумілим результатом: рахунок менший — і ШІ, якому можна довіряти.",
-    offerDoesLabel: "Що робимо",
+      "Беремо один конкретний процес — і робимо так, щоб він працював сам. Дешево, надійно і там, де вам зручно.",
+    offerDoesLabel: "Що це дає",
+    offerAudienceLabel: "Кому",
+    offerResultLabel: "Результат",
     processEyebrow: "Як ми працюємо",
-    processHeading: "Аудит, архітектура, результат.",
-    workEyebrow: "Обрані кейси",
-    workHeading: "ШІ-системи в продакшені.",
+    processHeading: "Розбір, рішення, підтримка.",
+    whyEyebrow: "Чому ми",
+    whyHeading: "Чому це працює.",
+    whyText:
+      "ШІ не вигадує — ми додаємо перевірки, тож результату можна довіряти. Рішення дешеве в експлуатації і живе там, де вам зручно — часто прямо у Telegram. Складне завжди передається людині.",
+    workEyebrow: "Кейси",
+    workHeading: "Що ми вже автоматизували.",
     additionalEyebrow: "Також зробили",
-    additionalHeading: "Інші інженерні проєкти.",
+    additionalHeading: "Інші проєкти.",
     testimonialsEyebrow: "Клієнти",
     testimonialsHeading: "Що кажуть клієнти.",
     ctaEyebrow: "Безкоштовно, без зобов'язань",
-    ctaHeading: "Безкоштовний 30-хвилинний аудит витрат на ШІ.",
+    ctaHeading: "Безкоштовний 30-хвилинний розбір.",
     ctaLead:
-      "Покажемо, скільки реально можна заощадити на ШІ і як зробити його надійнішим. Без втюхування — просто чесна діагностика.",
+      "Покажемо, який процес вам найвигідніше віддати ШІ — і скільки це заощадить часу та грошей. Без втюхування, просто чесна діагностика.",
     auditList: [
-      "Розбір вашого поточного ШІ-стека і куди йдуть гроші",
-      "Конкретні місця, де ви переплачуєте",
-      "1–3 конкретні, дешевші альтернативи під вашу задачу",
-      "Оцінка потенційної річної економії",
+      "Знайдемо процес із найбільшим потенціалом автоматизації",
+      "Оцінимо економію часу та грошей у цифрах",
+      "Дамо план: з чого почати",
     ],
-    ctaButton: "Записатися на безкоштовний аудит",
-    ctaOr: "або напишіть нам",
+    ctaButton: "Записатися на розбір",
+    ctaContactPrefix: "або напишіть:",
+    priceNote:
+      "Вартість залежить від процесу — порахуємо на безкоштовному розборі.",
     cycle: [
-      { n: "01", label: "Аудит", desc: "Аналізуємо стек, знаходимо втрати" },
-      {
-        n: "02",
-        label: "Архітектура",
-        desc: "Проєктуємо дешеву надійну систему",
-      },
-      { n: "03", label: "Запуск", desc: "Викочуємо в продакшен, доводимо" },
+      { n: "01", label: "Розбір", desc: "Знаходимо процес, рахуємо економію" },
+      { n: "02", label: "Рішення", desc: "Налаштовуємо під ваш процес" },
+      { n: "03", label: "Запуск", desc: "Запускаємо й супроводжуємо" },
     ],
   },
   stats: [
-    { value: 99, prefix: "", suffix: "%+", label: "Максимальне зниження витрат на ШІ" },
-    { value: 30, prefix: "$", suffix: "K+", label: "Заощадили клієнтам на ШІ-інфраструктурі за рік" },
-    { value: 10, prefix: "", suffix: "+", label: "Різних систем у продакшені в клієнтів" },
+    {
+      value: 99,
+      prefix: "",
+      suffix: "%+",
+      label: "Зниження вартості процесу проти ручної роботи / готових сервісів",
+    },
+    { value: 30, prefix: "$", suffix: "K+", label: "Заощаджено клієнтам за рік" },
+    { value: 10, prefix: "", suffix: "+", label: "Систем у продакшені в клієнтів" },
   ],
   offers: [
     {
       num: "01",
-      name: "Оптимізація витрат на ШІ",
-      promise: "Різко скорочуємо витрати на ШІ — без втрати якості.",
-      problem:
-        "Більшість команд переплачують за ШІ в рази й навіть не вимірюють, де саме.",
+      name: "Спілкування з клієнтами та обробка заявок",
+      promise: "Жодна заявка не загубиться, відповідь — за секунди.",
       does: [
-        "Знаходимо, де у стеку витікають гроші",
-        "Замінюємо дорогі компоненти на дешеві аналоги",
-        "Показуємо економію в цифрах",
+        "ШІ-помічник відповідає клієнтам у Telegram, на сайті чи в Instagram — 24/7",
+        "Приймає й кваліфікує заявки, передає менеджеру тільки те, що потребує людини",
+        "Веде історію спілкування у вашій CRM",
       ],
-      metric: "80–99%",
-      metricLabel: "економія на ШІ",
-      visual: "cost",
+      audience: "агентства, клініки, інтернет-магазини, сфера послуг",
+      result:
+        "швидші відповіді, менше навантаження на команду, більше доведених до продажу заявок",
+      visual: "replies",
     },
     {
       num: "02",
-      name: "Надійність ШІ-систем",
-      promise: "Змушуємо ШІ працювати стабільно там, де він зазвичай ламається.",
-      problem:
-        "У демо все гарно, а на обсязі — галюцинації та нестабільність.",
+      name: "Контент і рутина на потоці",
+      promise: "Більше контенту і менше ручної роботи — тим самим складом.",
       does: [
-        "Знаходимо, де ШІ дає збої",
-        "Розбиваємо складні задачі на чіткі кроки",
-        "Додаємо перевірки та обмежувачі",
+        "Генеруємо пости, описи товарів, розсилки під ваш стиль",
+        "Готуємо типові документи та звіти автоматично",
+        "Додаємо перевірку якості, щоб результат був стабільним",
       ],
-      metric: "−90%",
-      metricLabel: "менше помилок",
-      visual: "reliability",
+      audience: "магазини, агентства, онлайн-школи",
+      result: "у рази більше контенту і закритої рутини без нового найму",
+      visual: "content",
+    },
+    {
+      num: "03",
+      name: "ШІ-помічник, підключений до ваших систем",
+      promise: "Цифровий співробітник, який сам робить рутину.",
+      does: [
+        "Підключаємо помічника до вашої CRM, таблиць, диска й Telegram",
+        "Він сам дістає дані, готує відповіді й документи, виконує дії",
+        "Працює надійно (з перевіркою) і дешево в експлуатації",
+      ],
+      audience: "будь-який бізнес із великою ручною операційкою",
+      result: "рутину закрито без додаткового найму",
+      visual: "assistant",
     },
   ],
   process: [
     {
       num: "01",
-      title: "Аудит",
+      title: "Розбір",
       icon: "scan",
-      body: "Показуємо в цифрах, куди йдуть гроші на ШІ і де моделі дають збої — ще до того, як платити за рішення.",
+      body: "Знаходимо процес із найбільшою віддачею і рахуємо, скільки він заощадить. Безкоштовно.",
     },
     {
       num: "02",
-      title: "Архітектура",
+      title: "Збираємо під ключ",
       icon: "graph",
-      body: "Проєктуємо найдешевший стек, що тримає вашу планку якості, і надійну оркестрацію моделей.",
+      body: "Налаштовуємо рішення під ваш процес і ваші інструменти.",
     },
     {
       num: "03",
-      title: "Запуск і результат",
+      title: "Запуск і підтримка",
       icon: "check",
-      body: "Збираємо під ключ, запускаємо в продакшен і показуємо результат «до/після» — за ціною та надійністю.",
+      body: "Запускаємо, навчаємо команду і далі супроводжуємо.",
     },
   ],
   work: [
     {
+      slug: "metra-ai",
+      number: "01 — Metra AI",
+      title: "Production-SaaS для автоматизації контенту в Telegram",
+      meta: ["RTP Agency", "Працює в продакшені", "metra-ai.org"],
+      summary:
+        "Автоматизували створення і публікацію контенту в Telegram-каналах. Команда випускає в рази більше постів тим самим складом.",
+      highlights: [
+        { number: "3 міс", label: "Від старту розробки до запуску" },
+        { number: "16", label: "Docker-контейнерів у продакшені" },
+      ],
+      tech: "FastAPI · React · PostgreSQL · Multi-agent LLM",
+    },
+    {
       slug: "open-source-lipsync",
-      number: "01 — Ліпсинк-система",
+      number: "02 — Ліпсинк-система",
       title: "Зниження витрат на 99%+ проти преміум відео-ШІ",
       meta: ["RTP Agency", "6+ місяців у продакшені", "3+ комерційних впроваджень"],
       summary:
-        "Замінили преміум відео-ШІ ($3–5/хв) на кастомний ComfyUI-воркфлоу (Infinity Talk + Wan 2.1). Вартість відео впала з доларів до центів.",
+        "Замінили дорогий відео-сервіс на власне рішення — вартість відео впала з доларів до центів, без втрати якості.",
       highlights: [
         { number: "99%+", label: "Зниження витрат проти пропрієтарного API" },
         { number: "6+ міс", label: "Безперервно працює в продакшені" },
@@ -221,11 +274,11 @@ const uk: SiteContent = {
     },
     {
       slug: "motion-control",
-      number: "02 — Motion Control",
+      number: "03 — Motion Control",
       title: "Зниження витрат на 84% — і можливості, яких немає у преміум-сервісів",
       meta: ["RTP Agency", "4–5 місяців у продакшені", "2 комерційні клієнти"],
       summary:
-        "Замінили преміум motion-control на кастомний ComfyUI-воркфлоу на Wan 2.2. ~$12 000 економії на рік на обсягах клієнта.",
+        "Власне рішення для відео замість преміум-сервісу: −84% до вартості й ~$12 000 економії на рік, плюс можливості, яких немає у готових сервісів.",
       highlights: [
         { number: "84%", label: "Зниження витрат на обсязі клієнта" },
         { number: "~$12K", label: "Річна економія на клієнта" },
@@ -235,29 +288,16 @@ const uk: SiteContent = {
     },
     {
       slug: "video-localization",
-      number: "03 — Локалізація відео",
+      number: "04 — Локалізація відео",
       title: "Мультимодельний ШІ-пайплайн для локалізації відео на потоці",
       meta: ["RTP Agency", "3 місяці у продакшені"],
       summary:
-        "Мультимодельний пайплайн: семантичні ембединги, транскрибація мовлення на власному хостингу, переписування сценарію на LLM і багатомовний синтез голосу.",
+        "Конвеєр, що сам перетворює одне відео на десятки локалізованих версій — менше $1 за 20-хвилинне відео замість годин ручної роботи.",
       highlights: [
         { number: "< $1", label: "За 20-хвилинне відео" },
         { number: "4+", label: "ШІ-сервісів у одній зв'язці" },
       ],
       tech: "Vertex AI · Whisper · Gemini · Qdrant",
-    },
-    {
-      slug: "metra-ai",
-      number: "04 — Metra AI",
-      title: "Production-SaaS для автоматизації контенту в Telegram",
-      meta: ["RTP Agency", "Працює в продакшені", "metra-ai.org"],
-      summary:
-        "SaaS під ключ для автоматизації контенту в Telegram-каналах. Мультиагентна LLM-оркестрація з перехресною перевіркою, що відсікає типові збої ШІ.",
-      highlights: [
-        { number: "3 міс", label: "Від старту розробки до запуску" },
-        { number: "16", label: "Docker-контейнерів у продакшені" },
-      ],
-      tech: "FastAPI · React · PostgreSQL · Multi-agent LLM",
     },
   ],
   additional: [
@@ -266,16 +306,16 @@ const uk: SiteContent = {
       body: "Контент на потоці (100+ відео/год): motion-control воркфлоу та автоматичні варіації зображень.",
     },
     {
-      title: "Мультитенантна бот-платформа для фінтеху",
-      body: "Інфраструктура Telegram-ботів зі строгою ізоляцією клієнтів, суб-ботами та мультивалютним обліком.",
+      title: "Інфраструктура Telegram-CRM (YappiGram)",
+      body: "Мультиакаунтна CRM на Telethon/MTProto з рольовим доступом і шифрованим зберіганням.",
     },
     {
       title: "B2B-пайплайн аутрічу на ШІ",
       body: "Агрегатор лідів з LLM-оцінкою релевантності та персоналізованою генерацією повідомлень.",
     },
     {
-      title: "Інфраструктура Telegram-CRM (YappiGram)",
-      body: "Мультиакаунтна CRM на Telethon/MTProto з рольовим доступом і шифрованим зберіганням.",
+      title: "Мультитенантна бот-платформа для фінтеху",
+      body: "Інфраструктура Telegram-ботів зі строгою ізоляцією клієнтів, суб-ботами та мультивалютним обліком.",
     },
     {
       title: "Інструмент обробки відеоконтенту",
@@ -322,111 +362,156 @@ const uk: SiteContent = {
 
 const en: SiteContent = {
   home: {
-    heroTitle: { pre: "Pay ", em: "far less", post: " for AI." },
+    heroTitle: {
+      pre: "We automate your ",
+      em: "routine work",
+      post: " with AI.",
+    },
     heroLead:
-      "We cut companies' AI costs — and make it reliable where it usually fails.",
-    heroCtaPrimary: "Free AI cost audit",
-    heroCtaSecondary: "View case studies",
-    offersEyebrow: "How we help",
-    offersHeading: "Two services — both done right.",
+      "We take the process that eats the most time — inquiries, customer replies, content, documents, reports — and set it up so AI does it. Reliable, affordable, right inside the tools you already use.",
+    heroCtaPrimary: "Free teardown: what to automate first",
+    heroCtaSecondary: "See examples",
+    heroChipsLabel: "What you can hand to AI:",
+    heroChips: [
+      "customer replies",
+      "inquiries & leads",
+      "content & posts",
+      "product descriptions",
+      "documents & contracts",
+      "reports",
+      "reminders",
+    ],
+    offersEyebrow: "What we do",
+    offersHeading: "What we automate.",
     offersLead:
-      'No vague "AI consulting." Two focused services with clear outcomes: a smaller bill — and AI you can trust.',
-    offerDoesLabel: "What we do",
+      "We take one concrete process — and make it run by itself. Cheap, reliable, and right where it's convenient for you.",
+    offerDoesLabel: "What you get",
+    offerAudienceLabel: "For",
+    offerResultLabel: "Result",
     processEyebrow: "How we work",
-    processHeading: "Audit, architecture, results.",
-    workEyebrow: "Selected case studies",
-    workHeading: "AI systems in production.",
+    processHeading: "Teardown, solution, support.",
+    whyEyebrow: "Why us",
+    whyHeading: "Why it works.",
+    whyText:
+      "AI doesn't make things up — we add checks, so you can trust the output. It's cheap to run and lives where you already work, often right in Telegram. Anything complex is handed to a human.",
+    workEyebrow: "Case studies",
+    workHeading: "What we've already automated.",
     additionalEyebrow: "Also built",
-    additionalHeading: "Other engineering projects.",
+    additionalHeading: "Other projects.",
     testimonialsEyebrow: "Clients",
     testimonialsHeading: "What clients say.",
     ctaEyebrow: "Free, no strings attached",
-    ctaHeading: "A free 30-minute AI cost audit.",
+    ctaHeading: "A free 30-minute teardown.",
     ctaLead:
-      "We'll show how much you can realistically save on AI and how to make it more reliable. No hard sell — just an honest diagnosis.",
+      "We'll show which process is most worth handing to AI — and how much time and money it saves. No hard sell, just an honest diagnosis.",
     auditList: [
-      "A breakdown of your current AI stack and where the money goes",
-      "The specific places where you overpay",
-      "1–3 specific, cheaper alternatives for your case",
-      "An estimate of your potential annual savings",
+      "We'll find the process with the most automation potential",
+      "We'll estimate the time and money saved, in numbers",
+      "We'll give you a plan: where to start",
     ],
-    ctaButton: "Book a free audit",
-    ctaOr: "or write to us",
+    ctaButton: "Book a teardown",
+    ctaContactPrefix: "or write to us:",
+    priceNote:
+      "Pricing depends on the process — we'll work it out on the free teardown.",
     cycle: [
-      { n: "01", label: "Audit", desc: "Analyze the stack, find the leaks" },
-      {
-        n: "02",
-        label: "Architecture",
-        desc: "Design a cheap, reliable system",
-      },
-      { n: "03", label: "Launch", desc: "Ship to production, prove it" },
+      { n: "01", label: "Teardown", desc: "Find the process, estimate savings" },
+      { n: "02", label: "Solution", desc: "Set it up for your process" },
+      { n: "03", label: "Launch", desc: "Ship it and support it" },
     ],
   },
   stats: [
-    { value: 99, prefix: "", suffix: "%+", label: "Maximum AI cost reduction" },
-    { value: 30, prefix: "$", suffix: "K+", label: "Saved on clients' AI infrastructure in a year" },
-    { value: 10, prefix: "", suffix: "+", label: "Different systems running in production" },
+    {
+      value: 99,
+      prefix: "",
+      suffix: "%+",
+      label: "Cut in process cost vs manual work / off-the-shelf tools",
+    },
+    { value: 30, prefix: "$", suffix: "K+", label: "Saved for clients in a year" },
+    { value: 10, prefix: "", suffix: "+", label: "Systems in production for clients" },
   ],
   offers: [
     {
       num: "01",
-      name: "AI cost optimization",
-      promise: "We slash AI costs — without losing quality.",
-      problem:
-        "Most teams overpay for AI many times over and don't even measure where.",
+      name: "Customer replies & inquiry handling",
+      promise: "No lead gets lost, answers in seconds.",
       does: [
-        "Find where money leaks in the stack",
-        "Swap expensive components for cheaper equivalents",
-        "Show the savings in numbers",
+        "An AI assistant answers customers in Telegram, on your site or Instagram — 24/7",
+        "Captures and qualifies inquiries, hands the manager only what needs a human",
+        "Keeps the conversation history in your CRM",
       ],
-      metric: "80–99%",
-      metricLabel: "saved on AI",
-      visual: "cost",
+      audience: "agencies, clinics, online stores, services",
+      result:
+        "faster replies, less load on the team, more inquiries closed to a sale",
+      visual: "replies",
     },
     {
       num: "02",
-      name: "AI system reliability",
-      promise: "We make AI run stably where it usually breaks.",
-      problem:
-        "Demos look great; at volume it's hallucinations and instability.",
+      name: "Content & routine on autopilot",
+      promise: "More output, less manual work — same headcount.",
       does: [
-        "Find where AI fails",
-        "Break complex tasks into clear steps",
-        "Add checks and guardrails",
+        "We generate posts, product descriptions and newsletters in your style",
+        "We prepare routine documents and reports automatically",
+        "We add quality checks so the output stays consistent",
       ],
-      metric: "−90%",
-      metricLabel: "fewer errors",
-      visual: "reliability",
+      audience: "stores, agencies, online schools",
+      result: "far more content and routine handled with no new hires",
+      visual: "content",
+    },
+    {
+      num: "03",
+      name: "An AI assistant connected to your systems",
+      promise: "A digital employee that does the routine itself.",
+      does: [
+        "We connect the assistant to your CRM, spreadsheets, drive and Telegram",
+        "It pulls data, prepares replies and documents, and takes actions on its own",
+        "Runs reliably (with checks) and is cheap to operate",
+      ],
+      audience: "any business with heavy manual operations",
+      result: "the routine is handled with no extra hires",
+      visual: "assistant",
     },
   ],
   process: [
     {
       num: "01",
-      title: "Audit",
+      title: "Teardown",
       icon: "scan",
-      body: "We show in numbers where AI money goes and where models fail — before you pay for a solution.",
+      body: "We find the highest-impact process and calculate how much it'll save. Free.",
     },
     {
       num: "02",
-      title: "Architecture",
+      title: "We build it turnkey",
       icon: "graph",
-      body: "We design the cheapest stack that holds your quality bar, plus reliable model orchestration.",
+      body: "We set up the solution for your process and your tools.",
     },
     {
       num: "03",
-      title: "Launch & results",
+      title: "Launch & support",
       icon: "check",
-      body: "We build turnkey, ship to production and show before/after results — on cost and reliability.",
+      body: "We launch it, train your team and keep supporting it.",
     },
   ],
   work: [
     {
+      slug: "metra-ai",
+      number: "01 — Metra AI",
+      title: "Production SaaS for content automation in Telegram",
+      meta: ["RTP Agency", "Live in production", "metra-ai.org"],
+      summary:
+        "Automated content creation and publishing for Telegram channels. The team ships far more posts with the same headcount.",
+      highlights: [
+        { number: "3 mo", label: "From dev start to launch" },
+        { number: "16", label: "Docker containers in production" },
+      ],
+      tech: "FastAPI · React · PostgreSQL · Multi-agent LLM",
+    },
+    {
       slug: "open-source-lipsync",
-      number: "01 — Lipsync system",
+      number: "02 — Lipsync system",
       title: "99%+ cost reduction vs premium video AI",
       meta: ["RTP Agency", "6+ months in production", "3+ commercial deployments"],
       summary:
-        "Replaced premium video AI ($3–5/min) with a custom ComfyUI workflow (Infinity Talk + Wan 2.1). Video cost dropped from dollars to cents.",
+        "Replaced an expensive video service with our own setup — video cost dropped from dollars to cents, with no loss in quality.",
       highlights: [
         { number: "99%+", label: "Cost reduction vs proprietary API" },
         { number: "6+ mo", label: "Running continuously in production" },
@@ -436,11 +521,11 @@ const en: SiteContent = {
     },
     {
       slug: "motion-control",
-      number: "02 — Motion Control",
+      number: "03 — Motion Control",
       title: "84% cost reduction — plus capabilities premium services don't offer",
       meta: ["RTP Agency", "4–5 months in production", "2 commercial clients"],
       summary:
-        "Replaced premium motion control with a custom ComfyUI workflow on Wan 2.2. ~$12,000 saved per year at the client's volume.",
+        "An in-house video solution instead of a premium service: −84% cost and ~$12,000 saved per year, plus capabilities off-the-shelf services don't offer.",
       highlights: [
         { number: "84%", label: "Cost reduction at the client's volume" },
         { number: "~$12K", label: "Annual savings per client" },
@@ -450,29 +535,16 @@ const en: SiteContent = {
     },
     {
       slug: "video-localization",
-      number: "03 — Video localization",
+      number: "04 — Video localization",
       title: "Multi-model AI pipeline for video localization at scale",
       meta: ["RTP Agency", "3 months in production"],
       summary:
-        "A multi-model pipeline: semantic embeddings, self-hosted speech transcription, LLM script rewriting and multilingual voice synthesis.",
+        "A pipeline that turns one video into dozens of localized versions on its own — under $1 per 20-minute video instead of hours of manual work.",
       highlights: [
         { number: "< $1", label: "Per 20-minute video" },
         { number: "4+", label: "AI services in one pipeline" },
       ],
       tech: "Vertex AI · Whisper · Gemini · Qdrant",
-    },
-    {
-      slug: "metra-ai",
-      number: "04 — Metra AI",
-      title: "Production SaaS for content automation in Telegram",
-      meta: ["RTP Agency", "Live in production", "metra-ai.org"],
-      summary:
-        "A turnkey SaaS for content automation in Telegram channels. Multi-agent LLM orchestration with cross-checking that cuts out typical AI failures.",
-      highlights: [
-        { number: "3 mo", label: "From dev start to launch" },
-        { number: "16", label: "Docker containers in production" },
-      ],
-      tech: "FastAPI · React · PostgreSQL · Multi-agent LLM",
     },
   ],
   additional: [
@@ -481,16 +553,16 @@ const en: SiteContent = {
       body: "Content at scale (100+ videos/hour): motion-control workflows and automatic image variations.",
     },
     {
-      title: "Multi-tenant bot platform for fintech",
-      body: "Telegram bot infrastructure with strict client isolation, sub-bots and multi-currency accounting.",
+      title: "Telegram CRM infrastructure (YappiGram)",
+      body: "A multi-account CRM on Telethon/MTProto with role-based access and encrypted storage.",
     },
     {
       title: "AI-driven B2B outreach pipeline",
       body: "A lead aggregator with LLM relevance scoring and personalized message generation.",
     },
     {
-      title: "Telegram CRM infrastructure (YappiGram)",
-      body: "A multi-account CRM on Telethon/MTProto with role-based access and encrypted storage.",
+      title: "Multi-tenant bot platform for fintech",
+      body: "Telegram bot infrastructure with strict client isolation, sub-bots and multi-currency accounting.",
     },
     {
       title: "Video-content processing tool",
