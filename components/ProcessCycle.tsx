@@ -2,12 +2,7 @@
 
 import { Fragment, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
-const STEPS = [
-  { n: "01", label: "Аудит", desc: "Анализируем стек, находим потери" },
-  { n: "02", label: "Архитектура", desc: "Проектируем дешёвую надёжную систему" },
-  { n: "03", label: "Запуск", desc: "Выкатываем в продакшен, доказываем" },
-];
+import type { CycleStep } from "@/lib/site";
 
 const DURATION = 4200;
 
@@ -79,7 +74,8 @@ function ShipScene() {
   );
 }
 
-export function ProcessCycle() {
+export function ProcessCycle({ steps }: { steps: CycleStep[] }) {
+  const STEPS = steps;
   const [active, setActive] = useState(0);
 
   useEffect(() => {

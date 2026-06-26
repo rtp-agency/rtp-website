@@ -1,8 +1,13 @@
 import { ImageResponse } from "next/og";
+import { languages, isLang, meta as metaDict, defaultLang } from "@/lib/i18n";
 
-export const alt = "RTP Agency — ИИ-консалтинг и оптимизация расходов";
+export const alt = "RTP Agency";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+export function generateStaticParams() {
+  return languages.map((lang) => ({ lang }));
+}
 
 async function loadFont(weight: number) {
   const res = await fetch(
@@ -11,7 +16,13 @@ async function loadFont(weight: number) {
   return res.arrayBuffer();
 }
 
-export default async function OgImage() {
+export default async function OgImage({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  const m = metaDict[isLang(lang) ? lang : defaultLang];
   const [w400, w600] = await Promise.all([loadFont(400), loadFont(600)]);
 
   return new ImageResponse(
@@ -54,8 +65,8 @@ export default async function OgImage() {
             letterSpacing: "-0.02em",
           }}
         >
-          <span>Платите за ИИ</span>
-          <span style={{ color: "#d8d8d8" }}>в разы меньше.</span>
+          <span>{m.ogHeroLine1}</span>
+          <span style={{ color: "#d8d8d8" }}>{m.ogHeroLine2}</span>
         </div>
 
         <div
@@ -66,7 +77,7 @@ export default async function OgImage() {
           }}
         >
           <div style={{ display: "flex", color: "#7d7d7d", fontSize: 24 }}>
-            ИИ-консалтинг · Оптимизация расходов · Внедрение
+            {m.ogTagline}
           </div>
           <div
             style={{
@@ -80,7 +91,7 @@ export default async function OgImage() {
               borderRadius: 999,
             }}
           >
-            Бесплатный аудит →
+            {m.ogCta}
           </div>
         </div>
       </div>

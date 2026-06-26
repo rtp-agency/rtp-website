@@ -1,11 +1,15 @@
 import { ImageResponse } from "next/og";
-import { getCase, cases } from "@/lib/cases";
+import { getCase, caseSlugs } from "@/lib/cases";
+import { languages, isLang, meta as metaDict, ui, defaultLang } from "@/lib/i18n";
 
+export const alt = "RTP Agency";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export function generateStaticParams() {
-  return cases.map((c) => ({ slug: c.slug }));
+  return languages.flatMap((lang) =>
+    caseSlugs.map((slug) => ({ lang, slug }))
+  );
 }
 
 async function loadFont(weight: number) {
@@ -18,12 +22,14 @@ async function loadFont(weight: number) {
 export default async function Image({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ lang: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const c = getCase(slug);
-  const title = c?.title ?? "Кейс";
-  const eyebrow = c?.eyebrow ?? "Кейс";
+  const { lang, slug } = await params;
+  const l = isLang(lang) ? lang : defaultLang;
+  const m = metaDict[l];
+  const c = getCase(l, slug);
+  const title = c?.title ?? m.caseFallback;
+  const eyebrow = c?.eyebrow ?? m.caseFallback;
   const metric = c?.visual?.kind === "cost" ? `−${c.visual.reduction}` : null;
 
   const [w600, w700] = await Promise.all([loadFont(600), loadFont(700)]);
@@ -79,7 +85,7 @@ export default async function Image({
           }}
         >
           <div style={{ display: "flex", color: "#7d7d7d", fontSize: 26 }}>
-            Оптимизация расходов и надёжность ИИ
+            {m.caseOgTagline}
           </div>
           {metric && (
             <div
@@ -94,7 +100,9 @@ export default async function Image({
               }}
             >
               {metric}
-              <span style={{ fontSize: 22, color: "#7d7d7d" }}>к расходам</span>
+              <span style={{ fontSize: 22, color: "#7d7d7d" }}>
+                {ui[l].toCosts}
+              </span>
             </div>
           )}
         </div>

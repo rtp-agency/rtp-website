@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { process } from "@/lib/site";
+import { getSite } from "@/lib/site";
+import { ui, type Lang } from "@/lib/i18n";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -34,7 +35,9 @@ function Icon({ kind }: { kind: "scan" | "graph" | "check" }) {
   );
 }
 
-export function ProcessSteps() {
+export function ProcessSteps({ lang }: { lang: Lang }) {
+  const process = getSite(lang).process;
+  const stepLabel = ui[lang].step;
   return (
     <div className="ps">
       <div className="ps-connector">
@@ -60,7 +63,7 @@ export function ProcessSteps() {
             <div className="ps-node">
               <Icon kind={p.icon} />
             </div>
-            <div className="ps-num">ШАГ {p.num}</div>
+            <div className="ps-num">{stepLabel} {p.num}</div>
             <h4>{p.title}</h4>
             <p>{p.body}</p>
           </motion.div>

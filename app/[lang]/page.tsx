@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
@@ -10,22 +11,26 @@ import { OfferVisual } from "@/components/OfferVisual";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { SectionDeco } from "@/components/SectionDeco";
 import { Marquee } from "@/components/Marquee";
-import {
-  stats,
-  offers,
-  work,
-  additional,
-  testimonials,
-  marqueeTech,
-} from "@/lib/site";
+import { getSite, marqueeTech } from "@/lib/site";
+import { isLang, ui, type Lang } from "@/lib/i18n";
 
 const TG_URL = "https://t.me/rtp_agency";
 
-export default function Home() {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  if (!isLang(lang)) notFound();
+  const l: Lang = lang;
+  const t = ui[l];
+  const { home, stats, offers, work, additional, testimonials } = getSite(l);
+
   return (
     <>
       <div className="bg-grid" aria-hidden="true" />
-      <Nav variant="home" />
+      <Nav variant="home" lang={l} />
 
       {/* Hero */}
       <section className="hero">
@@ -53,14 +58,13 @@ export default function Home() {
             <div className="hero-copy">
               <Reveal>
                 <h1>
-                  Платите за ИИ <em>в разы меньше</em>.
+                  {home.heroTitle.pre}
+                  <em>{home.heroTitle.em}</em>
+                  {home.heroTitle.post}
                 </h1>
               </Reveal>
               <Reveal delay={0.1}>
-                <p className="lead">
-                  Сокращаем расходы компаний на ИИ — и делаем его надёжным там,
-                  где он обычно даёт сбои.
-                </p>
+                <p className="lead">{home.heroLead}</p>
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="hero-actions">
@@ -70,18 +74,17 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="btn btn-primary"
                   >
-                    Бесплатный аудит расходов на ИИ{" "}
-                    <span className="arrow">→</span>
+                    {home.heroCtaPrimary} <span className="arrow">→</span>
                   </a>
                   <a href="#work" className="btn btn-secondary">
-                    Смотреть кейсы
+                    {home.heroCtaSecondary}
                   </a>
                 </div>
               </Reveal>
             </div>
 
             <div className="hero-visual">
-              <ProcessCycle />
+              <ProcessCycle steps={home.cycle} />
             </div>
           </div>
         </div>
@@ -118,16 +121,13 @@ export default function Home() {
         <div className="container">
           <div className="section-header">
             <Reveal>
-              <div className="eyebrow">Чем помогаем</div>
+              <div className="eyebrow">{home.offersEyebrow}</div>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2>Две услуги — обе делаем на максимум.</h2>
+              <h2>{home.offersHeading}</h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="lead">
-                Без абстрактного «ИИ-консалтинга». Два направления с понятным
-                результатом: счёт меньше — и ИИ, которому можно доверять.
-              </p>
+              <p className="lead">{home.offersLead}</p>
             </Reveal>
           </div>
 
@@ -139,7 +139,7 @@ export default function Home() {
                   <div className="offer-num">{o.num}</div>
                   <h3 className="offer-name">{o.name}</h3>
                   <p className="offer-promise">{o.promise}</p>
-                  <div className="offer-does-label">Что делаем</div>
+                  <div className="offer-does-label">{home.offerDoesLabel}</div>
                   <ul className="offer-does">
                     {o.does.map((d) => (
                       <li key={d}>{d}</li>
@@ -162,14 +162,14 @@ export default function Home() {
         <div className="container">
           <div className="section-header">
             <Reveal>
-              <div className="eyebrow">Как мы работаем</div>
+              <div className="eyebrow">{home.processEyebrow}</div>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2>Аудит, архитектура, результат.</h2>
+              <h2>{home.processHeading}</h2>
             </Reveal>
           </div>
 
-          <ProcessSteps />
+          <ProcessSteps lang={l} />
         </div>
       </section>
 
@@ -179,17 +179,17 @@ export default function Home() {
         <div className="container">
           <div className="section-header">
             <Reveal>
-              <div className="eyebrow">Избранные кейсы</div>
+              <div className="eyebrow">{home.workEyebrow}</div>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2>ИИ-системы в продакшене.</h2>
+              <h2>{home.workHeading}</h2>
             </Reveal>
           </div>
 
           <div className="work-grid">
             {work.map((c) => (
               <Reveal key={c.slug}>
-                <Link href={`/work/${c.slug}`} className="case-study">
+                <Link href={`/${l}/work/${c.slug}`} className="case-study">
                   <div className="case-number">{c.number}</div>
                   <h3>{c.title}</h3>
                   <div className="case-meta">
@@ -209,11 +209,11 @@ export default function Home() {
                       </div>
                     ))}
                   </div>
-                  {c.costBar && <CardCostBar {...c.costBar} />}
+                  {c.costBar && <CardCostBar {...c.costBar} lang={l} />}
                   <div className="case-footer">
                     <div className="case-tech-mini">{c.tech}</div>
                     <span className="case-read-more">
-                      Читать кейс <span className="arrow">→</span>
+                      {t.readCase} <span className="arrow">→</span>
                     </span>
                   </div>
                 </Link>
@@ -229,10 +229,10 @@ export default function Home() {
         <div className="container-read">
           <div className="section-header">
             <Reveal>
-              <div className="eyebrow">Также сделали</div>
+              <div className="eyebrow">{home.additionalEyebrow}</div>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2>Другие инженерные проекты.</h2>
+              <h2>{home.additionalHeading}</h2>
             </Reveal>
           </div>
 
@@ -253,54 +253,54 @@ export default function Home() {
         <div className="container-read">
           <div className="section-header">
             <Reveal>
-              <div className="eyebrow">Клиенты</div>
+              <div className="eyebrow">{home.testimonialsEyebrow}</div>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2>Что говорят клиенты.</h2>
+              <h2>{home.testimonialsHeading}</h2>
             </Reveal>
           </div>
 
           <div className="testimonials-grid reading-col">
-            {testimonials.map((t) => (
-              <Reveal key={t.name}>
+            {testimonials.map((tm) => (
+              <Reveal key={tm.name}>
                 <div className="testimonial">
                   <p
                     className={`testimonial-quote${
-                      t.large ? " testimonial-quote-large" : ""
+                      tm.large ? " testimonial-quote-large" : ""
                     }`}
                   >
-                    {t.quote}
+                    {tm.quote}
                   </p>
-                  {t.list && (
+                  {tm.list && (
                     <ul className="testimonial-list">
-                      {t.list.map((li) => (
+                      {tm.list.map((li) => (
                         <li key={li}>{li}</li>
                       ))}
                     </ul>
                   )}
-                  {t.quote2 && (
+                  {tm.quote2 && (
                     <p className="testimonial-quote" style={{ marginTop: 24 }}>
-                      {t.quote2}
+                      {tm.quote2}
                     </p>
                   )}
                   <div className="testimonial-author">
-                    <div className="testimonial-avatar">{t.avatar}</div>
+                    <div className="testimonial-avatar">{tm.avatar}</div>
                     <div className="testimonial-author-info">
                       <span className="testimonial-author-name">
-                        {t.link ? (
+                        {tm.link ? (
                           <a
-                            href={t.link}
+                            href={tm.link}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="testimonial-author-link"
                           >
-                            {t.name}
+                            {tm.name}
                           </a>
                         ) : (
-                          t.name
+                          tm.name
                         )}
                       </span>
-                      <span className="testimonial-author-title">{t.title}</span>
+                      <span className="testimonial-author-title">{tm.title}</span>
                     </div>
                   </div>
                 </div>
@@ -315,23 +315,19 @@ export default function Home() {
         <SectionDeco variant={5} />
         <div className="container">
           <Reveal>
-            <div className="eyebrow">Бесплатно, без обязательств</div>
+            <div className="eyebrow">{home.ctaEyebrow}</div>
           </Reveal>
           <Reveal delay={0.05}>
-            <h2>Бесплатный 30-минутный аудит расходов на ИИ.</h2>
+            <h2>{home.ctaHeading}</h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="lead">
-              Покажем, сколько реально можно сэкономить на ИИ и как сделать его
-              надёжнее. Без впаривания — просто честная диагностика.
-            </p>
+            <p className="lead">{home.ctaLead}</p>
           </Reveal>
           <Reveal delay={0.15}>
             <ul className="audit-list">
-              <li>Разбор вашего текущего ИИ-стека и куда уходят деньги</li>
-              <li>Конкретные места, где вы переплачиваете</li>
-              <li>1–3 конкретные, более дешёвые альтернативы под вашу задачу</li>
-              <li>Оценка потенциальной годовой экономии</li>
+              {home.auditList.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
           </Reveal>
           <Reveal delay={0.2}>
@@ -342,11 +338,11 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="btn btn-primary"
               >
-                Записаться на бесплатный аудит <span className="arrow">→</span>
+                {home.ctaButton} <span className="arrow">→</span>
               </a>
             </div>
-            <div className="contact-or">или напишите нам</div>
-            <ContactForm />
+            <div className="contact-or">{home.ctaOr}</div>
+            <ContactForm lang={l} />
           </Reveal>
         </div>
       </section>

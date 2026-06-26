@@ -1,8 +1,17 @@
 import Link from "next/link";
 import { LiquidGlass } from "./LiquidGlass";
 import { LogoMark } from "./LogoMark";
+import { LangSwitch } from "./LangSwitch";
+import { ui, type Lang } from "@/lib/i18n";
 
-export function Nav({ variant = "home" }: { variant?: "home" | "case" }) {
+export function Nav({
+  variant = "home",
+  lang,
+}: {
+  variant?: "home" | "case";
+  lang: Lang;
+}) {
+  const t = ui[lang].nav;
   return (
     <nav>
       <LiquidGlass
@@ -14,29 +23,35 @@ export function Nav({ variant = "home" }: { variant?: "home" | "case" }) {
         scaleRatio={1.2}
       >
         <div className="nav-inner">
-          <Link href="/" className="nav-logo">
+          <Link href={`/${lang}`} className="nav-logo">
             <LogoMark />
             <span className="nav-logo-text">RTP Agency</span>
           </Link>
         {variant === "home" ? (
           <ul className="nav-links">
             <li>
-              <a href="#services">Услуги</a>
+              <a href="#services">{t.services}</a>
             </li>
             <li>
-              <a href="#work">Кейсы</a>
+              <a href="#work">{t.work}</a>
             </li>
             <li>
-              <a href="#testimonials">Клиенты</a>
+              <a href="#testimonials">{t.testimonials}</a>
             </li>
             <li>
-              <a href="#contact">Контакты</a>
+              <a href="#contact">{t.contact}</a>
+            </li>
+            <li>
+              <LangSwitch lang={lang} />
             </li>
           </ul>
         ) : (
-          <Link href="/#work" className="nav-back">
-            ← Назад к кейсам
-          </Link>
+          <div className="nav-inner-right">
+            <Link href={`/${lang}#work`} className="nav-back">
+              {t.back}
+            </Link>
+            <LangSwitch lang={lang} />
+          </div>
         )}
         </div>
       </LiquidGlass>

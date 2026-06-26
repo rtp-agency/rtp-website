@@ -1,17 +1,34 @@
 import type { MetadataRoute } from "next";
-import { cases } from "@/lib/cases";
+import { caseSlugs } from "@/lib/cases";
+import { languages } from "@/lib/i18n";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://rtp-agency.com";
   const lastModified = new Date();
 
-  return [
-    { url: base, lastModified, changeFrequency: "monthly", priority: 1 },
-    ...cases.map((c) => ({
-      url: `${base}/work/${c.slug}`,
+  const langAlternates = (path: string) => ({
+    languages: Object.fromEntries(
+      languages.map((l) => [l, `${base}/${l}${path}`])
+    ),
+  });
+
+  const home = languages.map((lang) => ({
+    url: `${base}/${lang}`,
+    lastModified,
+    changeFrequency: "monthly" as const,
+    priority: 1,
+    alternates: langAlternates(""),
+  }));
+
+  const work = languages.flatMap((lang) =>
+    caseSlugs.map((slug) => ({
+      url: `${base}/${lang}/work/${slug}`,
       lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.8,
-    })),
-  ];
+      alternates: langAlternates(`/work/${slug}`),
+    }))
+  );
+
+  return [...home, ...work];
 }

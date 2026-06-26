@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ui, type Lang } from "@/lib/i18n";
 
 // Posts to Web3Forms, which emails the submission to you — no backend needed.
 // Web3Forms access keys are public by design (client-side, with built-in spam
@@ -9,7 +10,8 @@ const ACCESS_KEY =
   process.env.NEXT_PUBLIC_WEB3FORMS_KEY ||
   "e689946f-fc82-4a66-a2b5-8c50a46dd941";
 
-export function ContactForm() {
+export function ContactForm({ lang }: { lang: Lang }) {
+  const t = ui[lang].form;
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">(
     "idle"
   );
@@ -20,7 +22,7 @@ export function ContactForm() {
     const form = e.currentTarget;
     const data = new FormData(form);
     data.append("access_key", ACCESS_KEY);
-    data.append("subject", "Новая заявка (RTP Agency)");
+    data.append("subject", t.subject);
     data.append("from_name", "RTP Agency");
     try {
       const res = await fetch("https://api.web3forms.com/submit", {
@@ -41,11 +43,11 @@ export function ContactForm() {
 
   return (
     <form className="contact-form" onSubmit={onSubmit}>
-      <input type="text" name="name" placeholder="Ваше имя" required />
-      <input type="email" name="email" placeholder="Email" required />
+      <input type="text" name="name" placeholder={t.name} required />
+      <input type="email" name="email" placeholder={t.email} required />
       <textarea
         name="message"
-        placeholder="Что вы делаете и где болит по стоимости или надёжности ИИ?"
+        placeholder={t.message}
         rows={4}
         required
       />
@@ -55,18 +57,16 @@ export function ContactForm() {
         disabled={status === "sending" || status === "ok"}
       >
         {status === "sending"
-          ? "Отправляем…"
+          ? t.sending
           : status === "ok"
-            ? "Отправлено ✓"
-            : "Отправить"}
+            ? t.sent
+            : t.send}
         {status === "idle" && <span className="arrow">→</span>}
       </button>
-      {status === "ok" && (
-        <p className="contact-form-status">Спасибо — скоро ответим.</p>
-      )}
+      {status === "ok" && <p className="contact-form-status">{t.ok}</p>}
       {status === "error" && (
         <p className="contact-form-status">
-          Что-то пошло не так. Напишите напрямую на{" "}
+          {t.error}
           <a href="mailto:solutions@rtp-agency.com">solutions@rtp-agency.com</a>.
         </p>
       )}
