@@ -1894,35 +1894,6 @@ nav {
   }
 }
 
-/* hero chips: what you can hand to AI */
-.hero-chips {
-  margin-top: 30px;
-}
-.hero-chips-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-  margin-bottom: 14px;
-}
-.hero-chips-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.hero-chips-list li {
-  font-size: 13px;
-  color: var(--color-text2);
-  padding: 7px 13px;
-  border: 1px solid var(--color-line);
-  border-radius: 999px;
-  background: var(--color-bg2);
-}
-
 /* price note under the CTA */
 .price-note {
   margin-top: 18px;
