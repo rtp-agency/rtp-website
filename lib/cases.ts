@@ -41,8 +41,121 @@ export type CaseStudy = {
 
 const uk: CaseStudy[] = [
   {
-    slug: "metra-ai",
+    slug: "black-camel",
     eyebrow: "Кейс 01",
+    title:
+      "Автоматизація ручного відеомонтажу для навчального контенту на потоці",
+    lead: "Повільний процес монтажу «один ролик — один монтажер» у Premiere Pro перетворили на автоматичний конвеєр, який чистить, перекадровує й монтує записані відеоуроки за хвилини — і розрахований на сотні відео на потоці.",
+    meta: {
+      role: "Керована послуга",
+      timeline: "Постійне виробництво",
+      status: "25+ оброблених відео",
+      link: { href: "https://blackcamel.productions", text: "blackcamel.productions →" },
+    },
+    visual: {
+      kind: "pipeline",
+      stages: [
+        { label: "Прийом", sub: "сирі записи уроків пачками" },
+        { label: "Візуальне чищення", sub: "тулбари, маски, перекадрування" },
+        { label: "Адаптивне кадрування", sub: "з урахуванням контенту, без накладань" },
+        { label: "ШІ-чищення контенту", sub: "тиша / слова-паразити / повтори" },
+        { label: "Рендер і видача", sub: "готове відео у стилі бренду" },
+      ],
+    },
+    sections: [
+      {
+        heading: "Задача",
+        blocks: [
+          { t: "p", html: `Black Camel Productions виробляє велику кількість записаних відеоуроків для клієнта у сфері освітнього контенту — це записи екрана й вебкамери, де викладач розповідає по слайдах. Кожне відео проходило той самий повторюваний ручний монтаж у Premiere Pro:` },
+          { t: "ul", items: [
+            `Обрізка тулбарів запису та зайвих елементів інтерфейсу`,
+            `Масштабування й перекадрування контенту екрана`,
+            `Збільшення та репозиціювання «бульбашки» вебкамери ведучого`,
+            `Маскування сірих розривів сторінок і полів`,
+            `Експорт під фіксовану мовну (broadcast) специфікацію`,
+          ] },
+          { t: "p", html: `До того ж монтажеру доводилося прослуховувати кожне відео, щоб прибрати паузи, слова-паразити, кашель і повторені чи збиті фрази — найдовшу частину роботи.` },
+          { t: "p", html: `Проблема була не в якості, а в пропускній здатності. Кожне відео забирало у монтажера приблизно <strong>годину ручної роботи</strong>, процес не масштабувався, а якість «плавала» між монтажерами. На обсязі саме ручне чищення контенту ставало вузьким місцем.` },
+        ],
+      },
+      {
+        heading: "Рішення",
+        blocks: [
+          { t: "p", html: `Ми побудували автоматизований конвеєр відеовиробництва, який програмно відтворює стандарт ручного монтажу — плюс шар ШІ-чищення контенту, який ручний процес не міг робити ефективно.` },
+          { t: "p", html: `Він працює як керована послуга: Black Camel надсилає сирі записи, конвеєр їх обробляє, і назад повертається готове відео у стилі бренду — готове до фінальної збірки їхньою командою.` },
+          { t: "h3", text: "1. Піксельно точне відтворення бренду" },
+          { t: "p", html: `Ми реконструювали точний стандарт монтажу клієнта з його оригінальних пресетів Premiere та референсних відео, тож результат збігається зі специфікацією до пікселя — кадрування вебкамери, відступи й масштаб виміряні та зафіксовані (наприклад, відступ вебкамери 42px звірено з референсним відео, а не «на око»).` },
+          { t: "h3", text: "2. Автоматичне візуальне чищення" },
+          { t: "p", html: `Прибирання тулбарів та інтерфейсу, маскування розривів сторінок, перекадрування екрана й збільшення «бульбашки» ведучого відбуваються автоматично — без ручного маскування чи ключових кадрів.` },
+          { t: "h3", text: "3. Адаптивне кадрування з урахуванням контенту" },
+          { t: "p", html: `Система аналізує кожен слайд і підлаштовується автоматично, щоб зображення й таблиці на екрані ніколи не обрізались і не накладались на оверлей ведучого — вирішуючи реальні зауваження клієнта без ручної роботи над кожним відео.` },
+          { t: "h3", text: "4. Чищення контенту за допомогою ШІ" },
+          { t: "ul", items: [
+            `Видалення тиші й «мертвого ефіру» через детекцію голосової активності`,
+            `Прибирання слів-паразитів, кашлю й дихання за допомогою мовного ШІ, із запобіжниками, що захищають справжнє мовлення від обрізання`,
+            `Виявлення повторених фраз і збоїв через ШІ-транскрипцію плюс шар текстового аналізу — знаходить, де ведучий повторився, і пропонує точний послівний виріз, лишаючи фінальне рішення людині`,
+          ] },
+        ],
+      },
+      {
+        heading: "Технічні деталі",
+        blocks: [
+          { t: "h3", text: "Точність на основі референсу" },
+          { t: "p", html: `Геометрію бренду розшифрували з власних дизайн-ассетів клієнта й звірили з референсним відео, а не оцінювали приблизно — тож результат стабільно відповідає специфікації щоразу, усуваючи розбіжності між монтажерами.` },
+          { t: "h3", text: "Детермінована детекція повторів" },
+          { t: "p", html: `Для пошуку повторених фраз конвеєр поєднує транскрипцію Whisper (з послівними таймкодами) із шаром текстового зіставлення, налаштованим під задачу — точно локалізує дубльоване мовлення й пропонує чистий виріз, а людина затверджує фінал.` },
+          { t: "h3", text: "Оптимізований рендер" },
+          { t: "p", html: `Ми налаштували рушій рендерингу під Apple Silicon із «розумним» перевикористанням кадрів, приблизно вдвічі скоротивши час рендеру — з ~6 хвилин до ~3 хвилин для типового 15-хвилинного уроку.` },
+          { t: "h3", text: "Стійкість на обсязі" },
+          { t: "p", html: `Пакетна обробка з автоматичними повторами при збоях мережі, збереженням результатів і видимими попередженнями, щоб на великій партії нічого не «падало» тихо.` },
+        ],
+      },
+      {
+        heading: "Результати та ефект",
+        blocks: [
+          { t: "stats", items: [
+            { number: "~3 хв", label: "Автоматична обробка на відео (було ~1 год вручну)" },
+            { number: "25+", label: "Відео оброблено в пакетах" },
+            { number: "~2×", label: "Швидший рендер після оптимізації під Apple Silicon" },
+            { number: "Сотні", label: "Розраховано на роботу на обсязі" },
+          ] },
+          { t: "ul", items: [
+            `Від ~1 години ручного монтажу на відео до ~3 хвилин автоматичної обробки — звільняє монтажерів від рутини`,
+            `Стабільний результат у стилі бренду — вебкамера, розкладка й кадрування відповідають референсному стандарту клієнта, без розбіжностей між монтажерами`,
+            `Найважча ручна задача — прослуховування тиші, слів-паразитів і повторів — тепер автоматичний перший прохід із затвердженням людиною, а не робота «з нуля»`,
+          ] },
+        ],
+      },
+      {
+        heading: "Підсумок",
+        blocks: [
+          { t: "p", html: `Black Camel перейшли від трудомісткого процесу «один монтажер — одне відео» до масштабованої виробничої лінії: надсилаєш записи пачками, конвеєр робить важку повторювану роботу, а людське рішення застосовується лише там, де воно додає цінність.` },
+          { t: "p", html: `Результат — <strong>нижча вартість відео, швидший оборот і стабільна якість бренду на обсязі</strong>, що перетворює відеовиробництво з вузького місця на перевагу в пропускній здатності.` },
+          { t: "p", html: `Реалізовано для <a href="https://blackcamel.productions">Black Camel Productions</a>; кінцевий освітній клієнт лишається анонімним за домовленістю.` },
+        ],
+      },
+      {
+        heading: "Технологічний стек",
+        blocks: [
+          { t: "table", rows: [
+            ["Мова", "Python"],
+            ["Обробка відео", "FFmpeg · OpenCV"],
+            ["API / Оркестрація", "FastAPI"],
+            ["Транскрипція", "Whisper (послівні таймкоди)"],
+            ["Чищення мовлення", "Cleanvoice"],
+            ["LLM / Текстовий аналіз", "Gemini"],
+            ["Оптимізація", "Рендер під Apple Silicon"],
+          ] },
+        ],
+      },
+    ],
+    prev: { href: "/#work", label: "← Усі кейси" },
+    next: { href: "/work/metra-ai", label: "Далі: Metra AI →" },
+  },
+
+  {
+    slug: "metra-ai",
+    eyebrow: "Кейс 02",
     title: "Metra AI — Production-SaaS для автоматизації контенту в Telegram",
     lead: "Побудували під ключ SaaS-платформу з мультиагентною LLM-оркестрацією. Від архітектури до запуску за 3 місяці.",
     meta: {
@@ -173,13 +286,13 @@ const uk: CaseStudy[] = [
         ],
       },
     ],
-    prev: { href: "/#work", label: "← Усі кейси" },
+    prev: { href: "/work/black-camel", label: "← Назад: Black Camel Productions" },
     next: { href: "/work/open-source-lipsync", label: "Далі: Ліпсинк-система →" },
   },
 
   {
     slug: "open-source-lipsync",
-    eyebrow: "Кейс 02",
+    eyebrow: "Кейс 03",
     title: "Ліпсинк-система — зниження витрат на 99%+ проти преміум відео-ШІ",
     lead: "Замінили преміум відео-ШІ ($3–5/хв) на опенсорс-воркфлоу на ComfyUI. Та сама якість, витрати в центах.",
     meta: {
@@ -324,7 +437,7 @@ const uk: CaseStudy[] = [
 
   {
     slug: "video-localization",
-    eyebrow: "Кейс 04",
+    eyebrow: "Кейс 05",
     title: "Мультимодельний ШІ-пайплайн локалізації відео",
     lead: "Чотири ШІ-сервіси в одному зв'язному пайплайні. На вхід — вихідне відео, на вихід — локалізоване похідне відео, дешевше $1.",
     meta: {
@@ -496,7 +609,7 @@ const uk: CaseStudy[] = [
 
   {
     slug: "motion-control",
-    eyebrow: "Кейс 03",
+    eyebrow: "Кейс 04",
     title: "Motion Control воркфлоу — зниження витрат на 84% проти преміум відео-ШІ",
     lead: "Замінили преміум-сервіси motion control на опенсорс-воркфлоу на ComfyUI. Близько $12 000 річної економії на клієнта на масштабі продакшену — і можливості, яких немає у преміум-сервісів.",
     meta: {
@@ -683,8 +796,121 @@ const uk: CaseStudy[] = [
 
 const en: CaseStudy[] = [
   {
-    slug: "metra-ai",
+    slug: "black-camel",
     eyebrow: "Case 01",
+    title:
+      "Automating a manual video-editing workflow for educational content at scale",
+    lead: "A slow, editor-by-editor Premiere Pro process turned into an automated pipeline that cleans, reframes, and AI-edits recorded lesson videos in minutes — built to run hundreds of videos at volume.",
+    meta: {
+      role: "Managed service",
+      timeline: "Ongoing production",
+      status: "25+ videos processed",
+      link: { href: "https://blackcamel.productions", text: "blackcamel.productions →" },
+    },
+    visual: {
+      kind: "pipeline",
+      stages: [
+        { label: "Ingest", sub: "raw lesson recordings in bulk" },
+        { label: "Visual cleanup", sub: "toolbars, masks, re-framing" },
+        { label: "Adaptive reframe", sub: "content-aware, no collisions" },
+        { label: "AI content cleanup", sub: "silence / filler / repeats" },
+        { label: "Render + deliver", sub: "brand-consistent finished video" },
+      ],
+    },
+    sections: [
+      {
+        heading: "The challenge",
+        blocks: [
+          { t: "p", html: `Black Camel Productions produces a high volume of recorded lesson videos for an educational content client — screen-and-webcam recordings of a teacher walking through slides. Every video went through the same repetitive manual edit in Premiere Pro:` },
+          { t: "ul", items: [
+            `Cropping recording toolbars and UI clutter`,
+            `Scaling and re-framing the screen content`,
+            `Enlarging and repositioning the presenter's webcam bubble`,
+            `Masking grey page-breaks and margins`,
+            `Exporting to a fixed broadcast spec`,
+          ] },
+          { t: "p", html: `On top of that, an editor had to listen through each video to remove silences, filler words, coughs, and repeated or stumbled lines — the most time-consuming part of all.` },
+          { t: "p", html: `The problem wasn't quality — it was throughput. Each video cost an editor roughly <strong>an hour of hands-on time</strong>, the process didn't scale, and quality drifted between editors. At volume, the manual content-cleanup pass became the bottleneck.` },
+        ],
+      },
+      {
+        heading: "The solution",
+        blocks: [
+          { t: "p", html: `We built an automated video-production pipeline that reproduces the manual editing standard programmatically — plus an AI-assisted content-cleanup layer the manual process couldn't do efficiently.` },
+          { t: "p", html: `It runs as a managed service: Black Camel sends the raw recordings, the pipeline processes them, and a finished, brand-consistent video comes back — ready for their team to drop into final assembly.` },
+          { t: "h3", text: "1. Pixel-accurate brand reproduction" },
+          { t: "p", html: `We reverse-engineered the client's exact editing standard from their original Premiere presets and reference videos, so output matches their spec to the pixel — webcam framing, spacing, and scale measured and locked (for example, a 42px webcam margin matched against a reference video, not guessed).` },
+          { t: "h3", text: "2. Automated visual cleanup" },
+          { t: "p", html: `Toolbar and UI removal, page-break masking, screen re-framing, and presenter-bubble enlargement happen automatically — no manual masking or keyframing.` },
+          { t: "h3", text: "3. Adaptive, content-aware framing" },
+          { t: "p", html: `The system inspects each slide and adjusts automatically so on-screen images and tables are never cut off and never collide with the presenter overlay — solving real client feedback without per-video manual work.` },
+          { t: "h3", text: "4. AI-powered content cleanup" },
+          { t: "ul", items: [
+            `Silence and dead-air removal using voice-activity detection`,
+            `Filler-word, cough, and breath cleanup via speech AI, with safeguards that protect actual speech from being clipped`,
+            `Repeated-line and stumble detection using AI transcription plus a text-analysis layer — it finds where the presenter repeated themselves and proposes a tight, word-level cut, leaving a human to approve`,
+          ] },
+        ],
+      },
+      {
+        heading: "Technical highlights",
+        blocks: [
+          { t: "h3", text: "Reference-driven accuracy" },
+          { t: "p", html: `Brand geometry was decoded from the client's own design assets and measured against a reference video, not estimated — so output is consistent and on-spec every time, eliminating editor-to-editor drift.` },
+          { t: "h3", text: "Deterministic repeat detection" },
+          { t: "p", html: `For finding repeated lines, the pipeline pairs Whisper transcription (with word-level timestamps) with a text-matching layer tuned for the task — locating duplicated speech precisely and proposing a clean cut, with a human approving the final call.` },
+          { t: "h3", text: "Optimised rendering" },
+          { t: "p", html: `We tuned the render engine for Apple Silicon with smart frame-reuse, roughly halving render time — from about 6 minutes down to ~3 minutes for a typical 15-minute lesson.` },
+          { t: "h3", text: "Resilient at volume" },
+          { t: "p", html: `Batch processing with automatic retries on network hiccups, persisted results, and visible warnings so nothing fails silently across a large batch.` },
+        ],
+      },
+      {
+        heading: "Results & impact",
+        blocks: [
+          { t: "stats", items: [
+            { number: "~3 min", label: "Automated processing per video (was ~1 hr manual)" },
+            { number: "25+", label: "Videos processed across batches" },
+            { number: "~2×", label: "Faster rendering after Apple Silicon tuning" },
+            { number: "100s", label: "Built to run at volume" },
+          ] },
+          { t: "ul", items: [
+            `From ~1 hour of manual editing per video to ~3 minutes of automated processing — freeing editors from repetitive work`,
+            `Brand-consistent output — webcam, layout, and framing matched to the client's reference standard, eliminating editor-to-editor drift`,
+            `The hardest manual task — listening for silences, fillers, and repeated lines — is now an automated first pass with human approval, instead of a from-scratch manual job`,
+          ] },
+        ],
+      },
+      {
+        heading: "The outcome",
+        blocks: [
+          { t: "p", html: `Black Camel moved from a labour-bound, one-editor-per-video process to a scalable production line: send the recordings in bulk, let the pipeline do the heavy, repetitive work, and apply human judgement only where it adds value.` },
+          { t: "p", html: `The result is <strong>lower cost per video, faster turnaround, and consistent brand quality at volume</strong> — turning video production from a bottleneck into a throughput advantage.` },
+          { t: "p", html: `Delivered for <a href="https://blackcamel.productions">Black Camel Productions</a>; the educational end-client is kept anonymous by agreement.` },
+        ],
+      },
+      {
+        heading: "Tech stack",
+        blocks: [
+          { t: "table", rows: [
+            ["Language", "Python"],
+            ["Video processing", "FFmpeg · OpenCV"],
+            ["API / Orchestration", "FastAPI"],
+            ["Transcription", "Whisper (word-level timestamps)"],
+            ["Speech cleanup", "Cleanvoice"],
+            ["LLM / Text analysis", "Gemini"],
+            ["Optimisation", "Apple Silicon render tuning"],
+          ] },
+        ],
+      },
+    ],
+    prev: { href: "/#work", label: "← All case studies" },
+    next: { href: "/work/metra-ai", label: "Next: Metra AI →" },
+  },
+
+  {
+    slug: "metra-ai",
+    eyebrow: "Case 02",
     title: "Metra AI — Production SaaS for content automation in Telegram",
     lead: "We built a turnkey SaaS platform with multi-agent LLM orchestration. From architecture to launch in 3 months.",
     meta: {
@@ -815,13 +1041,13 @@ const en: CaseStudy[] = [
         ],
       },
     ],
-    prev: { href: "/#work", label: "← All case studies" },
+    prev: { href: "/work/black-camel", label: "← Back: Black Camel Productions" },
     next: { href: "/work/open-source-lipsync", label: "Next: Lipsync system →" },
   },
 
   {
     slug: "open-source-lipsync",
-    eyebrow: "Case 02",
+    eyebrow: "Case 03",
     title: "Lipsync system — 99%+ cost reduction versus premium video AI",
     lead: "We replaced premium video AI ($3–5/min) with an open-source ComfyUI workflow. Same quality, costs measured in cents.",
     meta: {
@@ -966,7 +1192,7 @@ const en: CaseStudy[] = [
 
   {
     slug: "video-localization",
-    eyebrow: "Case 04",
+    eyebrow: "Case 05",
     title: "Multi-model AI video localization pipeline",
     lead: "Four AI services in one coherent pipeline. Source video in, localized derivative video out, for under $1.",
     meta: {
@@ -1138,7 +1364,7 @@ const en: CaseStudy[] = [
 
   {
     slug: "motion-control",
-    eyebrow: "Case 03",
+    eyebrow: "Case 04",
     title: "Motion Control workflow — 84% cost reduction versus premium video AI",
     lead: "We replaced premium motion control services with an open-source ComfyUI workflow. About $12,000 in annual savings per client at production scale — plus capabilities premium services don't have.",
     meta: {

@@ -234,8 +234,21 @@ const uk: SiteContent = {
   ],
   work: [
     {
+      slug: "black-camel",
+      number: "01 — Black Camel Productions",
+      title: "~1 година ручного монтажу на відео → ~3 хвилини автоматично",
+      meta: ["Керована послуга", "Лондонська відеоагенція", "25+ оброблених відео"],
+      summary:
+        "Керований конвеєр для лондонської відеоагенції: на вході — сирі записи уроків, на виході — готові відео у стилі бренду. ШІ-чищення, піксельно точне перекадрування, затвердження вирізів людиною.",
+      highlights: [
+        { number: "~3 хв", label: "Автоматична обробка (було ~1 год вручну)" },
+        { number: "25+", label: "Відео оброблено, розраховано на сотні" },
+      ],
+      tech: "Python · FFmpeg · OpenCV · Whisper · Gemini",
+    },
+    {
       slug: "metra-ai",
-      number: "01 — Metra AI",
+      number: "02 — Metra AI",
       title: "Production-SaaS для автоматизації контенту в Telegram",
       meta: ["RTP Agency", "Працює в продакшені", "metra-ai.org"],
       summary:
@@ -248,7 +261,7 @@ const uk: SiteContent = {
     },
     {
       slug: "open-source-lipsync",
-      number: "02 — Ліпсинк-система",
+      number: "03 — Ліпсинк-система",
       title: "Зниження витрат на 99%+ проти преміум відео-ШІ",
       meta: ["RTP Agency", "6+ місяців у продакшені", "3+ комерційних впроваджень"],
       summary:
@@ -262,7 +275,7 @@ const uk: SiteContent = {
     },
     {
       slug: "motion-control",
-      number: "03 — Motion Control",
+      number: "04 — Motion Control",
       title: "Зниження витрат на 84% — і можливості, яких немає у преміум-сервісів",
       meta: ["RTP Agency", "4–5 місяців у продакшені", "2 комерційні клієнти"],
       summary:
@@ -276,7 +289,7 @@ const uk: SiteContent = {
     },
     {
       slug: "video-localization",
-      number: "04 — Локалізація відео",
+      number: "05 — Локалізація відео",
       title: "Мультимодельний ШІ-пайплайн для локалізації відео на потоці",
       meta: ["RTP Agency", "3 місяці у продакшені"],
       summary:
@@ -471,8 +484,21 @@ const en: SiteContent = {
   ],
   work: [
     {
+      slug: "black-camel",
+      number: "01 — Black Camel Productions",
+      title: "~1 hour of manual editing per video → ~3 minutes automated",
+      meta: ["Managed service", "London video agency", "25+ videos processed"],
+      summary:
+        "A managed pipeline for a London video agency: raw lesson recordings in, finished brand-consistent videos out. AI cleanup, pixel-accurate reframing, human approval on cuts.",
+      highlights: [
+        { number: "~3 min", label: "Automated processing (was ~1 hr manual)" },
+        { number: "25+", label: "Videos processed, built for hundreds" },
+      ],
+      tech: "Python · FFmpeg · OpenCV · Whisper · Gemini",
+    },
+    {
       slug: "metra-ai",
-      number: "01 — Metra AI",
+      number: "02 — Metra AI",
       title: "Production SaaS for content automation in Telegram",
       meta: ["RTP Agency", "Live in production", "metra-ai.org"],
       summary:
@@ -485,7 +511,7 @@ const en: SiteContent = {
     },
     {
       slug: "open-source-lipsync",
-      number: "02 — Lipsync system",
+      number: "03 — Lipsync system",
       title: "99%+ cost reduction vs premium video AI",
       meta: ["RTP Agency", "6+ months in production", "3+ commercial deployments"],
       summary:
@@ -499,7 +525,7 @@ const en: SiteContent = {
     },
     {
       slug: "motion-control",
-      number: "03 — Motion Control",
+      number: "04 — Motion Control",
       title: "84% cost reduction — plus capabilities premium services don't offer",
       meta: ["RTP Agency", "4–5 months in production", "2 commercial clients"],
       summary:
@@ -513,7 +539,7 @@ const en: SiteContent = {
     },
     {
       slug: "video-localization",
-      number: "04 — Video localization",
+      number: "05 — Video localization",
       title: "Multi-model AI pipeline for video localization at scale",
       meta: ["RTP Agency", "3 months in production"],
       summary:
