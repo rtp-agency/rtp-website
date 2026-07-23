@@ -31,48 +31,39 @@ export default function Home() {
       <div className="bg-grid" aria-hidden="true" />
       <Nav variant="home" />
 
-      {/* Hero — red dot-wave over black */}
+      {/* Hero — 3D brand over the red dot-wave, with the proof stats */}
       <section className="hero">
         <WaveField />
         <div className="container">
-          <div className="hero-copy">
-            <Reveal>
-              <h1>
-                {home.heroTitle.pre}
-                <em>{home.heroTitle.em}</em>
-                {home.heroTitle.post}
-              </h1>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="lead">{home.heroLead}</p>
-            </Reveal>
-            <Reveal delay={0.2}>
-              <div className="hero-actions">
-                <a href="#contact" className="btn btn-primary">
-                  {home.heroCtaPrimary} <span className="arrow">→</span>
-                </a>
-                <a href="#work" className="btn btn-secondary">
-                  {home.heroCtaSecondary}
-                </a>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="stats">
-        <SectionDeco variant={6} />
-        <div className="container">
-          <div className="stats-grid">
-            {stats.map((s, i) => (
-              <Reveal key={s.label} delay={i * 0.1} className="stat">
-                <div className="stat-number">
-                  <CountUp value={s.value} prefix={s.prefix} suffix={s.suffix} />
+          <div className="hero-center">
+            <h1 className="hero-3d">RTP Agency</h1>
+            <p className="hero-tagline">
+              Преврати рутину в профит.
+              <br />
+              Воплоти свои идеи в реальность.
+            </p>
+            <a
+              href={TG_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary hero-cta"
+            >
+              Бесплатная консультация <span className="arrow">→</span>
+            </a>
+            <div className="hero-stats">
+              {stats.map((s) => (
+                <div className="hero-stat" key={s.label}>
+                  <div className="hero-stat-num">
+                    <CountUp
+                      value={s.value}
+                      prefix={s.prefix}
+                      suffix={s.suffix}
+                    />
+                  </div>
+                  <div className="hero-stat-label">{s.label}</div>
                 </div>
-                <div className="stat-label">{s.label}</div>
-              </Reveal>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>

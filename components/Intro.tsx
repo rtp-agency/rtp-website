@@ -14,9 +14,11 @@ export function Intro() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (sessionStorage.getItem("introSeen")) {
+      window.__rtpIntroDone = true;
       setPhase("done");
       return;
     }
+    window.__rtpIntroActive = true;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
@@ -104,6 +106,9 @@ export function Intro() {
 
     const done = setTimeout(() => {
       document.body.style.overflow = "";
+      window.__rtpIntroActive = false;
+      window.__rtpIntroDone = true;
+      window.dispatchEvent(new Event("rtp-intro-done"));
       setPhase("done");
     }, DURATION);
 
