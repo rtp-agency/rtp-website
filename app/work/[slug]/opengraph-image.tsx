@@ -1,15 +1,13 @@
 import { ImageResponse } from "next/og";
 import { getCase, caseSlugs } from "@/lib/cases";
-import { languages, isLang, meta as metaDict, ui, defaultLang } from "@/lib/i18n";
+import { meta, ui } from "@/lib/i18n";
 
 export const alt = "RTP Agency";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export function generateStaticParams() {
-  return languages.flatMap((lang) =>
-    caseSlugs.map((slug) => ({ lang, slug }))
-  );
+  return caseSlugs.map((slug) => ({ slug }));
 }
 
 async function loadFont(weight: number) {
@@ -22,14 +20,12 @@ async function loadFont(weight: number) {
 export default async function Image({
   params,
 }: {
-  params: Promise<{ lang: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { lang, slug } = await params;
-  const l = isLang(lang) ? lang : defaultLang;
-  const m = metaDict[l];
-  const c = getCase(l, slug);
-  const title = c?.title ?? m.caseFallback;
-  const eyebrow = c?.eyebrow ?? m.caseFallback;
+  const { slug } = await params;
+  const c = getCase(slug);
+  const title = c?.title ?? meta.caseFallback;
+  const eyebrow = c?.eyebrow ?? meta.caseFallback;
   const metric = c?.visual?.kind === "cost" ? `−${c.visual.reduction}` : null;
 
   const [w600, w700] = await Promise.all([loadFont(600), loadFont(700)]);
@@ -43,7 +39,7 @@ export default async function Image({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0a0a0a",
+          background: "#080808",
           padding: 72,
           fontFamily: "Inter",
         }}
@@ -53,13 +49,13 @@ export default async function Image({
             display: "flex",
             alignItems: "center",
             gap: 14,
-            color: "#d8d8d8",
+            color: "#ff3b3b",
             fontSize: 24,
             letterSpacing: "0.12em",
             textTransform: "uppercase",
           }}
         >
-          <div style={{ width: 40, height: 2, background: "#d8d8d8" }} />
+          <div style={{ width: 40, height: 2, background: "#ff3b3b" }} />
           RTP Agency · {eyebrow}
         </div>
 
@@ -84,8 +80,8 @@ export default async function Image({
             justifyContent: "space-between",
           }}
         >
-          <div style={{ display: "flex", color: "#7d7d7d", fontSize: 26 }}>
-            {m.caseOgTagline}
+          <div style={{ display: "flex", color: "#8a8a8a", fontSize: 26 }}>
+            {meta.caseOgTagline}
           </div>
           {metric && (
             <div
@@ -93,15 +89,15 @@ export default async function Image({
                 display: "flex",
                 alignItems: "baseline",
                 gap: 10,
-                color: "#fafafa",
+                color: "#ff3b3b",
                 fontSize: 68,
                 fontWeight: 700,
                 letterSpacing: "-0.02em",
               }}
             >
               {metric}
-              <span style={{ fontSize: 22, color: "#7d7d7d" }}>
-                {ui[l].toCosts}
+              <span style={{ fontSize: 22, color: "#8a8a8a" }}>
+                {ui.toCosts}
               </span>
             </div>
           )}

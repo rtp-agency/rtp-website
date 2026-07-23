@@ -1,87 +1,61 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { Nav } from "@/components/Nav";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
-import { ProcessCycle } from "@/components/ProcessCycle";
-import { Particles } from "@/components/Particles";
 import { ContactForm } from "@/components/ContactForm";
 import { CardCostBar } from "@/components/CardCostBar";
 import { OfferVisual } from "@/components/OfferVisual";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { SectionDeco } from "@/components/SectionDeco";
 import { Marquee } from "@/components/Marquee";
-import { getSite, marqueeTech } from "@/lib/site";
-import { isLang, ui, type Lang } from "@/lib/i18n";
+import { WaveField } from "@/components/WaveField";
+import { Intro } from "@/components/Intro";
+import {
+  home,
+  stats,
+  offers,
+  work,
+  additional,
+  testimonials,
+  marqueeTech,
+} from "@/lib/site";
+import { ui } from "@/lib/i18n";
 
 const TG_URL = "https://t.me/rtp_agency";
 const EMAIL = "solutions@rtp-agency.com";
 
-export default async function Home({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
-  const { lang } = await params;
-  if (!isLang(lang)) notFound();
-  const l: Lang = lang;
-  const t = ui[l];
-  const { home, stats, offers, work, additional, testimonials } = getSite(l);
-
+export default function Home() {
   return (
     <>
+      <Intro />
       <div className="bg-grid" aria-hidden="true" />
-      <Nav variant="home" lang={l} />
+      <Nav variant="home" />
 
-      {/* Hero */}
+      {/* Hero — red dot-wave over black */}
       <section className="hero">
-        <Particles />
-        <div className="hero-deco" aria-hidden="true">
-          <svg className="hero-deco-1" viewBox="0 0 200 200">
-            <circle cx="100" cy="100" r="98" />
-          </svg>
-          <svg className="hero-deco-2" viewBox="0 0 200 200">
-            <polygon points="100,5 182,52 182,148 100,195 18,148 18,52" />
-          </svg>
-          <svg className="hero-deco-3" viewBox="0 0 200 200">
-            <polygon points="100,12 188,180 12,180" />
-          </svg>
-          <svg className="hero-deco-4" viewBox="0 0 200 200">
-            <rect x="40" y="40" width="120" height="120" />
-          </svg>
-          <svg className="hero-deco-5" viewBox="0 0 200 200">
-            <circle cx="100" cy="100" r="70" />
-            <circle cx="100" cy="100" r="40" />
-          </svg>
-        </div>
+        <WaveField />
         <div className="container">
-          <div className="hero-grid">
-            <div className="hero-copy">
-              <Reveal>
-                <h1>
-                  {home.heroTitle.pre}
-                  <em>{home.heroTitle.em}</em>
-                  {home.heroTitle.post}
-                </h1>
-              </Reveal>
-              <Reveal delay={0.1}>
-                <p className="lead">{home.heroLead}</p>
-              </Reveal>
-              <Reveal delay={0.2}>
-                <div className="hero-actions">
-                  <a href="#contact" className="btn btn-primary">
-                    {home.heroCtaPrimary} <span className="arrow">→</span>
-                  </a>
-                  <a href="#work" className="btn btn-secondary">
-                    {home.heroCtaSecondary}
-                  </a>
-                </div>
-              </Reveal>
-            </div>
-
-            <div className="hero-visual">
-              <ProcessCycle steps={home.cycle} />
-            </div>
+          <div className="hero-copy">
+            <Reveal>
+              <h1>
+                {home.heroTitle.pre}
+                <em>{home.heroTitle.em}</em>
+                {home.heroTitle.post}
+              </h1>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="lead">{home.heroLead}</p>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div className="hero-actions">
+                <a href="#contact" className="btn btn-primary">
+                  {home.heroCtaPrimary} <span className="arrow">→</span>
+                </a>
+                <a href="#work" className="btn btn-secondary">
+                  {home.heroCtaSecondary}
+                </a>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -169,7 +143,7 @@ export default async function Home({
             </Reveal>
           </div>
 
-          <ProcessSteps lang={l} />
+          <ProcessSteps />
         </div>
       </section>
 
@@ -207,7 +181,7 @@ export default async function Home({
           <div className="work-grid">
             {work.map((c) => (
               <Reveal key={c.slug}>
-                <Link href={`/${l}/work/${c.slug}`} className="case-study">
+                <Link href={`/work/${c.slug}`} className="case-study">
                   <div className="case-number">{c.number}</div>
                   <h3>{c.title}</h3>
                   <div className="case-meta">
@@ -227,11 +201,11 @@ export default async function Home({
                       </div>
                     ))}
                   </div>
-                  {c.costBar && <CardCostBar {...c.costBar} lang={l} />}
+                  {c.costBar && <CardCostBar {...c.costBar} />}
                   <div className="case-footer">
                     <div className="case-tech-mini">{c.tech}</div>
                     <span className="case-read-more">
-                      {t.readCase} <span className="arrow">→</span>
+                      {ui.readCase} <span className="arrow">→</span>
                     </span>
                   </div>
                 </Link>
@@ -370,7 +344,7 @@ export default async function Home({
               {" · "}
               <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
             </div>
-            <ContactForm lang={l} />
+            <ContactForm />
             <div className="price-note">{home.priceNote}</div>
           </Reveal>
         </div>

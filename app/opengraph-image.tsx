@@ -1,13 +1,9 @@
 import { ImageResponse } from "next/og";
-import { languages, isLang, meta as metaDict, defaultLang } from "@/lib/i18n";
+import { meta } from "@/lib/i18n";
 
 export const alt = "RTP Agency";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-
-export function generateStaticParams() {
-  return languages.map((lang) => ({ lang }));
-}
 
 async function loadFont(weight: number) {
   const res = await fetch(
@@ -16,13 +12,7 @@ async function loadFont(weight: number) {
   return res.arrayBuffer();
 }
 
-export default async function OgImage({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
-  const { lang } = await params;
-  const m = metaDict[isLang(lang) ? lang : defaultLang];
+export default async function OgImage() {
   const [w400, w600] = await Promise.all([loadFont(400), loadFont(600)]);
 
   return new ImageResponse(
@@ -34,7 +24,7 @@ export default async function OgImage({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#0a0a0a",
+          background: "#080808",
           padding: "72px",
           fontFamily: "Inter",
         }}
@@ -44,13 +34,13 @@ export default async function OgImage({
             display: "flex",
             alignItems: "center",
             gap: 14,
-            color: "#d8d8d8",
+            color: "#ff3b3b",
             fontSize: 26,
             letterSpacing: "0.12em",
             textTransform: "uppercase",
           }}
         >
-          <div style={{ width: 40, height: 2, background: "#d8d8d8" }} />
+          <div style={{ width: 40, height: 2, background: "#ff3b3b" }} />
           RTP Agency
         </div>
 
@@ -65,8 +55,8 @@ export default async function OgImage({
             letterSpacing: "-0.02em",
           }}
         >
-          <span>{m.ogHeroLine1}</span>
-          <span style={{ color: "#d8d8d8" }}>{m.ogHeroLine2}</span>
+          <span>{meta.ogHeroLine1}</span>
+          <span style={{ color: "#ff3b3b" }}>{meta.ogHeroLine2}</span>
         </div>
 
         <div
@@ -76,14 +66,14 @@ export default async function OgImage({
             justifyContent: "space-between",
           }}
         >
-          <div style={{ display: "flex", color: "#7d7d7d", fontSize: 24 }}>
-            {m.ogTagline}
+          <div style={{ display: "flex", color: "#8a8a8a", fontSize: 24 }}>
+            {meta.ogTagline}
           </div>
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              background: "#fafafa",
+              background: "#ff3b3b",
               color: "#0a0a0a",
               fontSize: 26,
               fontWeight: 600,
@@ -91,7 +81,7 @@ export default async function OgImage({
               borderRadius: 999,
             }}
           >
-            {m.ogCta}
+            {meta.ogCta}
           </div>
         </div>
       </div>

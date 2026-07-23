@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ui, type Lang } from "@/lib/i18n";
+import { ui } from "@/lib/i18n";
 
 // Posts to Web3Forms, which emails the submission to you — no backend needed.
 // Web3Forms access keys are public by design (client-side, with built-in spam
@@ -10,8 +10,8 @@ const ACCESS_KEY =
   process.env.NEXT_PUBLIC_WEB3FORMS_KEY ||
   "e689946f-fc82-4a66-a2b5-8c50a46dd941";
 
-export function ContactForm({ lang }: { lang: Lang }) {
-  const t = ui[lang].form;
+export function ContactForm() {
+  const t = ui.form;
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">(
     "idle"
   );

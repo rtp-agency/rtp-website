@@ -5,41 +5,30 @@ import { Nav } from "@/components/Nav";
 import { Reveal } from "@/components/Reveal";
 import { CaseVisual } from "@/components/CaseVisual";
 import { getCase, caseSlugs, type Block } from "@/lib/cases";
-import { isLang, ui, htmlLang, languages, type Lang } from "@/lib/i18n";
+import { ui } from "@/lib/i18n";
 
 export function generateStaticParams() {
-  return languages.flatMap((lang) =>
-    caseSlugs.map((slug) => ({ lang, slug }))
-  );
+  return caseSlugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ lang: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const { lang, slug } = await params;
-  if (!isLang(lang)) return {};
-  const c = getCase(lang, slug);
+  const { slug } = await params;
+  const c = getCase(slug);
   if (!c) return {};
-  const t = ui[lang];
   return {
-    title: `${c.title} ${t.casePage.titleSuffix}`,
+    title: `${c.title} ${ui.casePage.titleSuffix}`,
     description: c.lead,
-    keywords: [...t.casePage.keywords],
-    alternates: {
-      canonical: `/${lang}/work/${c.slug}`,
-      languages: {
-        uk: `/uk/work/${c.slug}`,
-        en: `/en/work/${c.slug}`,
-        "x-default": `/uk/work/${c.slug}`,
-      },
-    },
+    keywords: [...ui.casePage.keywords],
+    alternates: { canonical: `/work/${c.slug}` },
     openGraph: {
       title: c.title,
       description: c.lead,
       type: "article",
-      url: `https://rtp-agency.com/${lang}/work/${c.slug}`,
+      url: `https://rtp-agency.com/work/${c.slug}`,
     },
   };
 }
@@ -92,18 +81,11 @@ function BlockView({ block }: { block: Block }) {
 export default async function CasePage({
   params,
 }: {
-  params: Promise<{ lang: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 }) {
-  const { lang, slug } = await params;
-  if (!isLang(lang)) notFound();
-  const l: Lang = lang;
-  const c = getCase(l, slug);
+  const { slug } = await params;
+  const c = getCase(slug);
   if (!c) notFound();
-  const t = ui[l];
-
-  // prev/next hrefs are stored language-neutral ("/work/...", "/#work"); prefix the locale.
-  const localizeHref = (href: string) =>
-    href.startsWith("/#") ? `/${l}${href.slice(1)}` : `/${l}${href}`;
 
   const base = "https://rtp-agency.com";
   const jsonLd = [
@@ -112,11 +94,11 @@ export default async function CasePage({
       "@type": "Article",
       headline: c.title,
       description: c.lead,
-      image: `${base}/${l}/work/${c.slug}/opengraph-image`,
-      inLanguage: htmlLang[l],
+      image: `${base}/work/${c.slug}/opengraph-image`,
+      inLanguage: "ru",
       author: { "@type": "Organization", name: "RTP Agency", url: base },
       publisher: { "@type": "Organization", name: "RTP Agency" },
-      mainEntityOfPage: `${base}/${l}/work/${c.slug}`,
+      mainEntityOfPage: `${base}/work/${c.slug}`,
     },
     {
       "@context": "https://schema.org",
@@ -125,20 +107,20 @@ export default async function CasePage({
         {
           "@type": "ListItem",
           position: 1,
-          name: t.casePage.breadcrumbHome,
-          item: `${base}/${l}`,
+          name: ui.casePage.breadcrumbHome,
+          item: base,
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: t.casePage.breadcrumbWork,
-          item: `${base}/${l}#work`,
+          name: ui.casePage.breadcrumbWork,
+          item: `${base}/#work`,
         },
         {
           "@type": "ListItem",
           position: 3,
           name: c.title,
-          item: `${base}/${l}/work/${c.slug}`,
+          item: `${base}/work/${c.slug}`,
         },
       ],
     },
@@ -150,7 +132,7 @@ export default async function CasePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Nav variant="case" lang={l} />
+      <Nav variant="case" />
 
       <div className="case-detail">
         <div className="container">
@@ -167,15 +149,15 @@ export default async function CasePage({
             <Reveal delay={0.15}>
               <div className="case-meta">
                 <span className="case-meta-item">
-                  <strong>{t.casePage.role}</strong> {c.meta.role}
+                  <strong>{ui.casePage.role}</strong> {c.meta.role}
                 </span>
                 <span className="case-meta-divider">·</span>
                 <span className="case-meta-item">
-                  <strong>{t.casePage.timeline}</strong> {c.meta.timeline}
+                  <strong>{ui.casePage.timeline}</strong> {c.meta.timeline}
                 </span>
                 <span className="case-meta-divider">·</span>
                 <span className="case-meta-item">
-                  <strong>{t.casePage.status}</strong> {c.meta.status}
+                  <strong>{ui.casePage.status}</strong> {c.meta.status}
                 </span>
                 {c.meta.link && (
                   <>
@@ -189,7 +171,7 @@ export default async function CasePage({
 
           {c.visual && (
             <Reveal>
-              <CaseVisual visual={c.visual} lang={l} />
+              <CaseVisual visual={c.visual} />
             </Reveal>
           )}
 
@@ -205,20 +187,20 @@ export default async function CasePage({
 
         <section className="case-cta">
           <div className="container-narrow">
-            <h2>{t.casePage.ctaHeading}</h2>
-            <p>{t.casePage.ctaBody}</p>
-            <Link href={`/${l}#contact`} className="btn btn-primary">
-              {t.casePage.ctaButton} <span className="arrow">→</span>
+            <h2>{ui.casePage.ctaHeading}</h2>
+            <p>{ui.casePage.ctaBody}</p>
+            <Link href="/#contact" className="btn btn-primary">
+              {ui.casePage.ctaButton} <span className="arrow">→</span>
             </Link>
           </div>
         </section>
 
         <div className="case-nav">
           <div className="case-nav-inner">
-            <Link href={localizeHref(c.prev.href)} className="case-nav-link">
+            <Link href={c.prev.href} className="case-nav-link">
               {c.prev.label}
             </Link>
-            <Link href={localizeHref(c.next.href)} className="case-nav-link">
+            <Link href={c.next.href} className="case-nav-link">
               {c.next.label}
             </Link>
           </div>
