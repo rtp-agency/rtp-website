@@ -13,6 +13,8 @@ export function WaveField() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    // capture as non-null so nested rAF/resize closures keep the narrowing
+    const g: CanvasRenderingContext2D = ctx;
 
     const reduce = window.matchMedia?.(
       "(prefers-reduced-motion: reduce)"
@@ -34,12 +36,12 @@ export function WaveField() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     function frame(tms: number) {
       const t = tms / 1000;
-      ctx.clearRect(0, 0, width, height);
+      g.clearRect(0, 0, width, height);
 
       const cx = width * 0.5;
       const horizon = height * 0.26; // where far rows sit
@@ -66,12 +68,12 @@ export function WaveField() {
           const crest = (Math.sin(phase) + 1) * 0.5;
           const alpha = (0.1 + dt * 0.55) * (0.45 + crest * 0.55);
 
-          ctx.beginPath();
-          ctx.arc(x, y, radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, ${Math.round(40 + crest * 55)}, ${Math.round(
+          g.beginPath();
+          g.arc(x, y, radius, 0, Math.PI * 2);
+          g.fillStyle = `rgba(255, ${Math.round(40 + crest * 55)}, ${Math.round(
             40 + crest * 30
           )}, ${alpha})`;
-          ctx.fill();
+          g.fill();
         }
       }
 

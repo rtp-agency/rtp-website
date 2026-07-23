@@ -74,24 +74,25 @@ export function Intro() {
       canvas.width = Math.floor(w * dpr);
       canvas.height = Math.floor(h * dpr);
       if (ctx) {
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const g: CanvasRenderingContext2D = ctx;
+        g.setTransform(dpr, 0, 0, dpr, 0, 0);
         const font = 16;
         const cols = Math.floor(w / font);
         // start most streams near the middle (where the word was), then fall
         const drops = Array.from({ length: cols }, () => (h * 0.42) / font + Math.random() * 6);
         const speed = Array.from({ length: cols }, () => 0.6 + Math.random() * 1.2);
-        ctx.font = `${font}px monospace`;
+        g.font = `${font}px monospace`;
         const draw = (now: number) => {
           const p = Math.min((now - start) / DURATION, 1);
-          ctx.fillStyle = "rgba(7, 7, 7, 0.22)";
-          ctx.fillRect(0, 0, w, h);
+          g.fillStyle = "rgba(7, 7, 7, 0.22)";
+          g.fillRect(0, 0, w, h);
           for (let i = 0; i < cols; i++) {
             const ch = Math.random() > 0.5 ? "1" : "0";
             const y = drops[i] * font;
-            ctx.fillStyle = `rgba(255, ${40 + Math.floor(Math.random() * 60)}, 40, ${
+            g.fillStyle = `rgba(255, ${40 + Math.floor(Math.random() * 60)}, 40, ${
               (1 - p) * 0.9
             })`;
-            ctx.fillText(ch, i * font, y);
+            g.fillText(ch, i * font, y);
             drops[i] += speed[i] * (1 + p * 2.4);
             if (y > h && Math.random() > 0.975) drops[i] = 0;
           }
