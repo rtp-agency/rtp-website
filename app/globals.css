@@ -3416,7 +3416,7 @@ nav {
   font-family: var(--font-mono);
   font-weight: 500;
   color: var(--color-red);
-  margin: 0 8px 0 12px;
+  margin: 0 9px 0 0;
 }
 .term-brand {
   font-family: var(--font-sans);
@@ -3496,28 +3496,20 @@ nav {
   gap: 24px;
   width: 100%;
 }
-.hero .hero-3d {
-  font-family: var(--font-serif);
+.hero .hero-brand {
+  font-family: var(--font-sans);
   font-weight: 700;
-  font-size: clamp(48px, 11vw, 150px);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
-  color: #f7f5f5;
+  font-size: clamp(56px, 13vw, 190px);
+  line-height: 1;
+  letter-spacing: -0.045em;
   margin: 0;
-  transform: perspective(900px) rotateX(15deg);
-  text-shadow: 0 1px 0 #e23a3a, 0 2px 0 #d42f2f, 0 3px 0 #c62727,
-    0 4px 0 #b81f1f, 0 5px 0 #aa1a1a, 0 6px 0 #9c1616, 0 7px 0 #8e1212,
-    0 10px 16px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(200, 25, 25, 0.35);
-  animation: hero3d-float 6.5s ease-in-out infinite;
-}
-@keyframes hero3d-float {
-  0%,
-  100% {
-    transform: perspective(900px) rotateX(15deg) translateY(0);
-  }
-  50% {
-    transform: perspective(900px) rotateX(15deg) translateY(-12px);
-  }
+  background: linear-gradient(180deg, #ffffff 0%, #d8d0d0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 60px rgba(255, 59, 59, 0.4))
+    drop-shadow(0 10px 34px rgba(0, 0, 0, 0.55));
 }
 .hero-tagline {
   font-size: clamp(17px, 2.3vw, 23px);
@@ -3552,9 +3544,4 @@ nav {
   line-height: 1.45;
   color: var(--color-muted);
   margin-top: 7px;
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero .hero-3d {
-    animation: none;
-  }
 }

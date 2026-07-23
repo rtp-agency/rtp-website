@@ -36,7 +36,7 @@ export default function Home() {
         <WaveField />
         <div className="container">
           <div className="hero-center">
-            <h1 className="hero-3d">RTP Agency</h1>
+            <h1 className="hero-brand">RTP Agency</h1>
             <p className="hero-tagline">
               Преврати рутину в профит.
               <br />

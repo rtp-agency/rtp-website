@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { LogoMark } from "./LogoMark";
 import { ui } from "@/lib/i18n";
 
 const BRAND = "RTP Agency";
@@ -81,7 +80,6 @@ export function Nav({ variant = "home" }: { variant?: "home" | "case" }) {
     <nav>
       <div className={`term-bar${compact ? " is-compact" : ""}`} data-stage={stage}>
         <Link href="/" className="term-logo">
-          <LogoMark />
           <span className="term-prompt">$</span>
           <span className="term-brand">
             {variant === "home" ? typed : BRAND}
