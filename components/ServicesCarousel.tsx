@@ -81,18 +81,19 @@ export function ServicesCarousel() {
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
+    const el: HTMLDivElement = track;
     let paused = false;
     const enter = () => (paused = true);
     const leave = () => (paused = false);
-    track.addEventListener("pointerenter", enter);
-    track.addEventListener("pointerleave", leave);
+    el.addEventListener("pointerenter", enter);
+    el.addEventListener("pointerleave", leave);
     const id = setInterval(() => {
       if (!paused) stepBy(1);
     }, 4200);
     return () => {
       clearInterval(id);
-      track.removeEventListener("pointerenter", enter);
-      track.removeEventListener("pointerleave", leave);
+      el.removeEventListener("pointerenter", enter);
+      el.removeEventListener("pointerleave", leave);
     };
   }, []);
 
@@ -100,6 +101,7 @@ export function ServicesCarousel() {
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
+    const el: HTMLDivElement = track;
     let down = false;
     let startX = 0;
     let startLeft = 0;
@@ -108,18 +110,18 @@ export function ServicesCarousel() {
       down = true;
       moved = false;
       startX = e.clientX;
-      startLeft = track.scrollLeft;
-      track.classList.add("is-dragging");
+      startLeft = el.scrollLeft;
+      el.classList.add("is-dragging");
     };
     const onMove = (e: PointerEvent) => {
       if (!down) return;
       const dx = e.clientX - startX;
       if (Math.abs(dx) > 4) moved = true;
-      track.scrollLeft = startLeft - dx;
+      el.scrollLeft = startLeft - dx;
     };
     const onUp = () => {
       down = false;
-      track.classList.remove("is-dragging");
+      el.classList.remove("is-dragging");
     };
     const onClick = (e: MouseEvent) => {
       if (moved) {
@@ -127,15 +129,15 @@ export function ServicesCarousel() {
         e.stopPropagation();
       }
     };
-    track.addEventListener("pointerdown", onDown);
+    el.addEventListener("pointerdown", onDown);
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
-    track.addEventListener("click", onClick, true);
+    el.addEventListener("click", onClick, true);
     return () => {
-      track.removeEventListener("pointerdown", onDown);
+      el.removeEventListener("pointerdown", onDown);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
-      track.removeEventListener("click", onClick, true);
+      el.removeEventListener("click", onClick, true);
     };
   }, []);
 

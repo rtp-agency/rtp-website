@@ -19,6 +19,7 @@ export function MatrixText({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     const g: CanvasRenderingContext2D = ctx;
+    const cnv: HTMLCanvasElement = canvas;
     const reduce = window.matchMedia?.(
       "(prefers-reduced-motion: reduce)"
     ).matches;
@@ -33,12 +34,12 @@ export function MatrixText({
       `700 ${fontPx}px "Helvetica Neue", Arial, sans-serif`;
 
     function fit() {
-      const rect = canvas.getBoundingClientRect();
+      const rect = cnv.getBoundingClientRect();
       W = rect.width;
       H = rect.height;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(W * dpr);
-      canvas.height = Math.floor(H * dpr);
+      cnv.width = Math.floor(W * dpr);
+      cnv.height = Math.floor(H * dpr);
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       g.font = `700 100px "Helvetica Neue", Arial, sans-serif`;
