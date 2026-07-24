@@ -13,6 +13,9 @@ export function Intro() {
   // Skip on repeat visits within the session; lock scroll while active.
   useEffect(() => {
     if (typeof window === "undefined") return;
+    // land at the top with the hero pinned; no browser scroll restore / jump
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
     if (sessionStorage.getItem("introSeen")) {
       window.__rtpIntroDone = true;
       setPhase("done");
@@ -106,6 +109,7 @@ export function Intro() {
 
     const done = setTimeout(() => {
       document.body.style.overflow = "";
+      window.scrollTo(0, 0);
       window.__rtpIntroActive = false;
       window.__rtpIntroDone = true;
       window.dispatchEvent(new Event("rtp-intro-done"));

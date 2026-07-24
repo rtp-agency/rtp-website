@@ -4116,3 +4116,44 @@ nav {
 .jr-dots {
   z-index: 3;
 }
+
+/* ===== 3D coverflow services carousel ===== */
+.svc3d {
+  position: relative;
+  z-index: 1;
+  perspective: 1700px;
+  perspective-origin: 50% 46%;
+  margin-top: 6px;
+}
+.svc3d-stage {
+  position: relative;
+  height: 440px;
+  transform-style: preserve-3d;
+  cursor: grab;
+}
+.svc3d-card {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 360px;
+  height: 440px;
+  margin-left: -180px;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 28px;
+  border-radius: var(--radius);
+  background: var(--color-bg2);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.85);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.55s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+.svc3d-card.is-active {
+  border-color: var(--warm-dim);
+  box-shadow: 0 34px 74px -26px rgba(255, 59, 59, 0.45);
+}
+.svc3d-card:not(.is-active) {
+  cursor: pointer;
+}

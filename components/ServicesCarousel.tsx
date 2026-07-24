@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { services, type Service } from "@/lib/site";
 
 const TG_URL = "https://t.me/rtp_agency";
@@ -62,153 +62,101 @@ function Icon({ kind }: { kind: Service["icon"] }) {
   }
 }
 
+// 3D coverflow: cards levitate around the centre; the active one faces front,
+// the others angle back into a ring. Swipe / arrows rotate through them.
 export function ServicesCarousel() {
-  const trackRef = useRef<HTMLDivElement>(null);
+  const n = services.length;
+  const [active, setActive] = useState(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const paused = useRef(false);
 
-  const stepBy = (dir: number) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.querySelector<HTMLElement>(".svc-card");
-    const step = card ? card.offsetWidth + 20 : 380;
-    if (dir > 0 && track.scrollLeft + track.clientWidth >= track.scrollWidth - 8) {
-      track.scrollTo({ left: 0, behavior: "smooth" });
-    } else {
-      track.scrollBy({ left: step * dir, behavior: "smooth" });
-    }
-  };
+  const go = (dir: number) => setActive((a) => (a + dir + n) % n);
 
-  // slow auto-advance, paused while the pointer is over the track
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const el: HTMLDivElement = track;
-    let paused = false;
-    const enter = () => (paused = true);
-    const leave = () => (paused = false);
-    el.addEventListener("pointerenter", enter);
-    el.addEventListener("pointerleave", leave);
     const id = setInterval(() => {
-      if (!paused) stepBy(1);
-    }, 4200);
-    return () => {
-      clearInterval(id);
-      el.removeEventListener("pointerenter", enter);
-      el.removeEventListener("pointerleave", leave);
-    };
-  }, []);
+      if (!paused.current) setActive((a) => (a + 1) % n);
+    }, 4600);
+    return () => clearInterval(id);
+  }, [n]);
 
-  // click-drag to scroll on desktop (suppress the click if it was a drag)
+  // swipe / drag to rotate
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const el: HTMLDivElement = track;
+    const el = rootRef.current;
+    if (!el) return;
+    let x0 = 0;
     let down = false;
-    let startX = 0;
-    let startLeft = 0;
-    let moved = false;
     const onDown = (e: PointerEvent) => {
       down = true;
-      moved = false;
-      startX = e.clientX;
-      startLeft = el.scrollLeft;
-      el.classList.add("is-dragging");
+      x0 = e.clientX;
+      paused.current = true;
     };
-    const onMove = (e: PointerEvent) => {
+    const onUp = (e: PointerEvent) => {
       if (!down) return;
-      const dx = e.clientX - startX;
-      if (Math.abs(dx) > 4) moved = true;
-      el.scrollLeft = startLeft - dx;
-    };
-    const onUp = () => {
       down = false;
-      el.classList.remove("is-dragging");
-    };
-    const onClick = (e: MouseEvent) => {
-      if (moved) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
+      const dx = e.clientX - x0;
+      if (dx > 45) go(-1);
+      else if (dx < -45) go(1);
+      window.setTimeout(() => (paused.current = false), 1500);
     };
     el.addEventListener("pointerdown", onDown);
-    window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
-    el.addEventListener("click", onClick, true);
     return () => {
       el.removeEventListener("pointerdown", onDown);
-      window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
-      el.removeEventListener("click", onClick, true);
     };
-  }, []);
-
-  // mark the centered card active (coverflow: it steps forward, others dim)
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const el: HTMLDivElement = track;
-    let ticking = false;
-    const mark = () => {
-      ticking = false;
-      const mid = el.scrollLeft + el.clientWidth / 2;
-      const cards = Array.from(el.querySelectorAll<HTMLElement>(".svc-card"));
-      let best = 0;
-      let bestD = Infinity;
-      cards.forEach((card, i) => {
-        const d = Math.abs(card.offsetLeft + card.offsetWidth / 2 - mid);
-        if (d < bestD) {
-          bestD = d;
-          best = i;
-        }
-      });
-      cards.forEach((card, i) => card.classList.toggle("is-active", i === best));
-    };
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(mark);
-      }
-    };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    mark();
-    requestAnimationFrame(mark);
-    return () => {
-      el.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [n]);
 
   return (
-    <div className="svc">
-      <div className="svc-track" ref={trackRef}>
-        {services.map((s) => (
-          <article className="svc-card" key={s.title}>
-            <div className="svc-ico">
-              <Icon kind={s.icon} />
-            </div>
-            <h3 className="svc-title">{s.title}</h3>
-            <ul className="svc-list">
-              {s.items.map((it) => (
-                <li key={it}>{it}</li>
-              ))}
-            </ul>
-            <a
-              className="svc-cta"
-              href={TG_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+    <div className="svc3d">
+      <div className="svc3d-stage" ref={rootRef}>
+        {services.map((s, i) => {
+          let off = i - active;
+          if (off > n / 2) off -= n;
+          if (off < -n / 2) off += n;
+          const a = Math.abs(off);
+          const style: CSSProperties = {
+            transform: `translateX(${off * 58}%) translateZ(${-a * 200}px) rotateY(${
+              off * -34
+            }deg)`,
+            opacity: a > 2.5 ? 0 : 1 - a * 0.22,
+            zIndex: 20 - a,
+            pointerEvents: off === 0 ? "auto" : "none",
+          };
+          return (
+            <article
+              className={`svc3d-card${off === 0 ? " is-active" : ""}`}
+              style={style}
+              key={s.title}
+              onClick={() => off !== 0 && setActive(i)}
             >
-              Написать по услуге <span className="arrow">→</span>
-            </a>
-          </article>
-        ))}
+              <div className="svc-ico">
+                <Icon kind={s.icon} />
+              </div>
+              <h3 className="svc-title">{s.title}</h3>
+              <ul className="svc-list">
+                {s.items.map((it) => (
+                  <li key={it}>{it}</li>
+                ))}
+              </ul>
+              <a
+                className="svc-cta"
+                href={TG_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Написать по услуге <span className="arrow">→</span>
+              </a>
+            </article>
+          );
+        })}
       </div>
       <div className="svc-nav">
         <button
           type="button"
           className="svc-arrow"
           aria-label="Назад"
-          onClick={() => stepBy(-1)}
+          onClick={() => go(-1)}
         >
           ←
         </button>
@@ -216,7 +164,7 @@ export function ServicesCarousel() {
           type="button"
           className="svc-arrow"
           aria-label="Вперёд"
-          onClick={() => stepBy(1)}
+          onClick={() => go(1)}
         >
           →
         </button>
