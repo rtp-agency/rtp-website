@@ -4292,6 +4292,35 @@ nav {
   font-variant-numeric: tabular-nums;
 }
 
+/* ===== in-pin card-scrub layers (other work + reviews) ===== */
+.jr-projects,
+.jr-reviews {
+  opacity: 0;
+  justify-content: flex-start;
+}
+.jr-scrub-inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 108px 0 52px;
+}
+.jr-scrub-head {
+  flex: 0 0 auto;
+  width: min(820px, 92vw);
+  margin: 0 auto 22px;
+  text-align: left;
+}
+.jr-vviewport {
+  width: min(820px, 92vw);
+  margin: 0 auto;
+}
+.jr-hviewport {
+  width: 100%;
+}
+
 /* ===== nav anchor markers into the pinned journey ===== */
 .jr-anchor {
   position: absolute;

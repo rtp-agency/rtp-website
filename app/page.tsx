@@ -4,9 +4,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { SectionDeco } from "@/components/SectionDeco";
 import { Intro } from "@/components/Intro";
 import { Journey } from "@/components/Journey";
-import { ProjectsScrolly } from "@/components/ProjectsScrolly";
-import { ReviewsScrolly } from "@/components/ReviewsScrolly";
-import { home, additional, testimonials } from "@/lib/site";
+import { home } from "@/lib/site";
 
 const TG_URL = "https://t.me/rtp_agency";
 const EMAIL = "solutions@rtp-agency.com";
@@ -18,32 +16,8 @@ export default function Home() {
       <div className="bg-grid" aria-hidden="true" />
       <Nav variant="home" />
 
-      {/* Hero → services → wave → cases: one pinned journey */}
+      {/* Hero → services → wave → cases → other work → reviews: one pin */}
       <Journey />
-
-      {/* Other work — pinned vertical card column.
-          NB: no .section-line here — its content-visibility:auto clips the
-          sticky pin and fakes an off-screen height. */}
-      <section className="scrub-section">
-        <ProjectsScrolly
-          items={additional}
-          intro={{
-            eyebrow: home.additionalEyebrow,
-            heading: home.additionalHeading,
-          }}
-        />
-      </section>
-
-      {/* Testimonials — pinned horizontal card row */}
-      <section id="testimonials" className="scrub-section">
-        <ReviewsScrolly
-          items={testimonials}
-          intro={{
-            eyebrow: home.testimonialsEyebrow,
-            heading: home.testimonialsHeading,
-          }}
-        />
-      </section>
 
       {/* CTA — Free teardown */}
       <section id="contact" className="cta section-line">

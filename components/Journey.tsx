@@ -12,12 +12,12 @@ import { WaveField } from "./WaveField";
 import { MatrixText } from "./MatrixText";
 import { CountUp } from "./CountUp";
 import { ServicesCarousel } from "./ServicesCarousel";
-import { stats, work } from "@/lib/site";
+import { stats, work, additional, testimonials, home } from "@/lib/site";
 import { ui } from "@/lib/i18n";
 
 const TG_URL = "https://t.me/rtp_agency";
 
-// staggered per-element reveal inside a slide: [start, end, dy]
+// staggered per-element reveal inside a case slide: [start, end, dy]
 const ROLE: Record<string, [number, number, number]> = {
   tag: [0.06, 0.32, 22],
   metric: [0.12, 0.46, 52],
@@ -29,9 +29,11 @@ const ROLE: Record<string, [number, number, number]> = {
 
 type Slide = { key: string; node: ReactNode };
 
-// One continuous pinned journey over the shared red wave:
-// hero (visible) → services → the wave zooms in → cases → other work → reviews,
-// all as cross-fading slides in a single pin (no gaps between chapters).
+// One continuous pinned journey over the shared red wave. Everything lives in a
+// single sticky stage and is driven by one scroll progress, so it reads as one
+// pin rather than separate blocks:
+//   hero → services → wave zoom → cases (cross-fade) →
+//   other work (vertical card scrub) → reviews (horizontal card scrub).
 export function Journey() {
   const reduce = useReducedMotion();
   const [mounted, setMounted] = useState(false);
@@ -39,72 +41,73 @@ export function Journey() {
   useEffect(() => setMounted(true), []);
   const live = mounted && !reduce;
 
-  const intro = (eyebrow: string, heading: string, lead: string): ReactNode => (
-    <div className="jr-inner jr-chapter">
-      <div className="eyebrow" data-role="tag">
-        {eyebrow}
-      </div>
-      <h2 data-role="title">{heading}</h2>
-      <p className="lead" data-role="desc">
-        {lead}
-      </p>
-    </div>
-  );
-
-  // Build the flat slide sequence: intro + cards per chapter.
-  const slides: Slide[] = [];
-  slides.push({
-    key: "cases-intro",
-    node: intro(
-      ui.nav.work,
-      "Что мы уже автоматизировали.",
-      "Реальные проекты в продакшене — листайте вниз."
-    ),
-  });
-  work.forEach((c) => {
-    const hero = c.highlights[0];
-    slides.push({
-      key: c.slug,
+  // cases as cross-fade slides: intro + one per case
+  const caseSlides: Slide[] = [
+    {
+      key: "cases-intro",
       node: (
-        <a href={`/work/${c.slug}`} className="jr-inner cs-link">
-          <div className="cs-tag" data-role="tag">
-            {c.number}
+        <div className="jr-inner jr-chapter">
+          <div className="eyebrow" data-role="tag">
+            {ui.nav.work}
           </div>
-          {hero && (
-            <>
-              <div className="cs-metric" data-role="metric">
-                {hero.number}
-              </div>
-              <div className="cs-sub" data-role="sub">
-                {hero.label}
-              </div>
-            </>
-          )}
-          <h3 className="cs-title" data-role="title">
-            {c.title}
-          </h3>
-          <p className="cs-desc" data-role="desc">
-            {c.summary}
+          <h2 data-role="title">Что мы уже автоматизировали.</h2>
+          <p className="lead" data-role="desc">
+            Реальные проекты в продакшене — листайте вниз.
           </p>
-          <div className="cs-foot" data-role="tech">
-            <span className="cs-tech">{c.tech}</span>
-            <span className="cs-more">{ui.readCase} →</span>
-          </div>
-        </a>
+        </div>
       ),
-    });
-  });
+    },
+    ...work.map((c) => {
+      const hero = c.highlights[0];
+      return {
+        key: c.slug,
+        node: (
+          <a href={`/work/${c.slug}`} className="jr-inner cs-link">
+            <div className="cs-tag" data-role="tag">
+              {c.number}
+            </div>
+            {hero && (
+              <>
+                <div className="cs-metric" data-role="metric">
+                  {hero.number}
+                </div>
+                <div className="cs-sub" data-role="sub">
+                  {hero.label}
+                </div>
+              </>
+            )}
+            <h3 className="cs-title" data-role="title">
+              {c.title}
+            </h3>
+            <p className="cs-desc" data-role="desc">
+              {c.summary}
+            </p>
+            <div className="cs-foot" data-role="tech">
+              <span className="cs-tech">{c.tech}</span>
+              <span className="cs-more">{ui.readCase} →</span>
+            </div>
+          </a>
+        ),
+      } as Slide;
+    }),
+  ];
 
-  const M = slides.length;
-  // hold ≈ number of "screens": hero+services ~2.4, then each slide ~0.62
-  const hold = 2.4 + M * 0.62;
-  const S = 2.4 / (1 + hold); // p-fraction where the slide phase begins
-  const SEG = 1 / M;
-  // where nav anchors should land, as a fraction of the tall journey element:
-  // F = p * hold/(1+hold), p = scroll progress at that moment
+  // phase weights in "screens"
+  const W = {
+    hero: 2.4,
+    cases: caseSlides.length * 0.62,
+    proj: 3.4,
+    rev: 3.0,
+  };
+  const hold = W.hero + W.cases + W.proj + W.rev;
+  const b1 = W.hero / hold; // hero/services → cases
+  const b2 = (W.hero + W.cases) / hold; // cases → projects
+  const b3 = (W.hero + W.cases + W.proj) / hold; // projects → reviews
+  const SEG = 1 / caseSlides.length;
   const fracFor = (p: number) => (p * hold) / (1 + hold);
-  const servicesFrac = fracFor(0.62 * S); // services fully in view
-  const workFrac = fracFor(S + 1.5 * SEG * (1 - S)); // first case centred
+  const servicesFrac = fracFor(0.62 * b1);
+  const workFrac = fracFor(b1 + 1.5 * SEG * (b2 - b1));
+  const reviewsFrac = fracFor(b3 + 0.2 * (1 - b3));
 
   useEffect(() => {
     if (!live) return;
@@ -115,17 +118,29 @@ export function Journey() {
     const svcEl = el.querySelector<HTMLElement>(".jr-services");
     const waveEl = el.querySelector<HTMLElement>(".jr-wave");
     const glow = el.querySelector<HTMLElement>(".jr-glow");
+    const projEl = el.querySelector<HTMLElement>(".jr-projects");
+    const revEl = el.querySelector<HTMLElement>(".jr-reviews");
     if (!heroEl || !svcEl || !waveEl) return;
     const slideEls = Array.from(el.querySelectorAll<HTMLElement>(".jr-slide"));
     const roles = slideEls.map((c) =>
       Array.from(c.querySelectorAll<HTMLElement>("[data-role]"))
     );
+    const vcol = el.querySelector<HTMLElement>(".jr-vcol");
+    const vvp = el.querySelector<HTMLElement>(".jr-vviewport");
+    const vcards = vcol
+      ? Array.from(vcol.querySelectorAll<HTMLElement>(".vsc-card"))
+      : [];
+    const hrow = el.querySelector<HTMLElement>(".jr-hrow");
+    const hvp = el.querySelector<HTMLElement>(".jr-hviewport");
+    const hcards = hrow
+      ? Array.from(hrow.querySelectorAll<HTMLElement>(".hsc-card"))
+      : [];
+
     const clamp = (t: number) => (t < 0 ? 0 : t > 1 ? 1 : t);
     const smooth = (t: number) => {
       t = clamp(t);
       return t * t * (3 - 2 * t);
     };
-    const SEG = 1 / M;
 
     let ticking = false;
     const update = () => {
@@ -134,8 +149,15 @@ export function Journey() {
       if (total <= 0) return;
       const p = clamp(-el.getBoundingClientRect().top / total);
 
-      // ---- hero + services (p in [0, S]) ----
-      const h = clamp(p / S);
+      // cross-fading group opacity between phase windows [a,b]
+      const grp = (a: number, b: number) => {
+        const fin = smooth((p - a + 0.03) / 0.05);
+        const fout = 1 - smooth((p - b + 0.02) / 0.05);
+        return clamp(Math.min(fin, fout));
+      };
+
+      // ---- hero + services (p in [0, b1]) ----
+      const h = clamp(p / b1);
       const heroOut = smooth((h - 0.36) / 0.2);
       heroEl.style.opacity = String(1 - heroOut);
       heroEl.style.transform = `translateY(${-60 * heroOut}px)`;
@@ -147,23 +169,20 @@ export function Journey() {
       svcEl.style.transform = `translateY(${40 * (1 - svcIn)}px)`;
       svcEl.style.pointerEvents = svcO > 0.5 ? "auto" : "none";
 
-      // ---- slides (q in [0, 1]) ----
-      const q = clamp((p - S) / (1 - S));
-      const gate = smooth(clamp((p - (S - 0.02)) / 0.05));
-
-      // shared wave: background during hero/services, zooms during first slide
-      const zoomP = smooth(clamp(q / (SEG * 1.05)));
-      const waveFade = smooth(clamp((q - SEG * 0.8) / (SEG * 0.95)));
+      // ---- cases cross-fade (p in [b1, b2]) ----
+      const qc = clamp((p - b1) / (b2 - b1));
+      const gateC = grp(b1, b2);
+      const zoomP = smooth(clamp(qc / (SEG * 1.05)));
+      const waveFade = smooth(clamp((qc - SEG * 0.8) / (SEG * 0.95)));
       waveEl.style.transform = `scale(${1 + zoomP * 1.7})`;
       waveEl.style.opacity = String(1 - waveFade * 0.76);
-      if (glow) glow.style.opacity = String(gate * 0.14);
-
+      if (glow) glow.style.opacity = String(gateC * 0.14);
       slideEls.forEach((card, i) => {
-        const lpRaw = q / SEG - i;
+        const lpRaw = qc / SEG - i;
         const lp = clamp(lpRaw);
         const fadeIn = smooth((lpRaw + 0.1) / 0.26);
         const fadeOut = 1 - smooth((lpRaw - 0.82) / 0.3);
-        const cardO = clamp(Math.min(fadeIn, fadeOut)) * gate;
+        const cardO = clamp(Math.min(fadeIn, fadeOut)) * gateC;
         card.style.opacity = String(cardO);
         card.style.pointerEvents = cardO > 0.6 ? "auto" : "none";
         roles[i].forEach((r) => {
@@ -173,6 +192,58 @@ export function Journey() {
           r.style.transform = `translateY(${cfg[2] * (1 - t)}px)`;
         });
       });
+
+      // ---- other work: vertical card scrub (p in [b2, b3]) ----
+      const qp = clamp((p - b2) / (b3 - b2));
+      const gateP = grp(b2, b3);
+      if (projEl) {
+        projEl.style.opacity = String(gateP);
+        projEl.style.pointerEvents = gateP > 0.6 ? "auto" : "none";
+      }
+      if (gateP > 0.001 && vcol && vvp && vcards.length) {
+        const vpH = vvp.clientHeight;
+        const first = vcards[0];
+        const last = vcards[vcards.length - 1];
+        const y0 = vpH / 2 - (first.offsetTop + first.offsetHeight / 2);
+        const y1 = vpH / 2 - (last.offsetTop + last.offsetHeight / 2);
+        vcol.style.transform = `translateY(${y0 + qp * (y1 - y0)}px)`;
+        const cRect = vvp.getBoundingClientRect();
+        const center = cRect.top + cRect.height / 2;
+        vcards.forEach((card) => {
+          const r = card.getBoundingClientRect();
+          const d = Math.abs(r.top + r.height / 2 - center) / (cRect.height / 2);
+          const k = clamp(1 - d);
+          card.style.opacity = String(0.3 + 0.7 * k);
+          card.style.transform = `scale(${0.95 + 0.05 * k})`;
+          card.classList.toggle("is-focus", k > 0.72);
+        });
+      }
+
+      // ---- reviews: horizontal card scrub (p in [b3, 1]) ----
+      const qr = clamp((p - b3) / (1 - b3));
+      const gateR = grp(b3, 1.05);
+      if (revEl) {
+        revEl.style.opacity = String(gateR);
+        revEl.style.pointerEvents = gateR > 0.6 ? "auto" : "none";
+      }
+      if (gateR > 0.001 && hrow && hvp && hcards.length) {
+        const vpW = hvp.clientWidth;
+        const first = hcards[0];
+        const last = hcards[hcards.length - 1];
+        const x0 = vpW / 2 - (first.offsetLeft + first.offsetWidth / 2);
+        const x1 = vpW / 2 - (last.offsetLeft + last.offsetWidth / 2);
+        hrow.style.transform = `translateX(${x0 + qr * (x1 - x0)}px)`;
+        const cRect = hvp.getBoundingClientRect();
+        const center = cRect.left + cRect.width / 2;
+        hcards.forEach((card) => {
+          const r = card.getBoundingClientRect();
+          const d = Math.abs(r.left + r.width / 2 - center) / (cRect.width / 2);
+          const k = clamp(1 - d);
+          card.style.opacity = String(0.38 + 0.62 * k);
+          card.style.transform = `scale(${0.955 + 0.045 * k})`;
+          card.classList.toggle("is-focus", k > 0.72);
+        });
+      }
     };
     const onScroll = () => {
       if (!ticking) {
@@ -187,7 +258,7 @@ export function Journey() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [live, S, M]);
+  }, [live, b1, b2, b3, SEG]);
 
   const heroContent = (
     <div className="container">
@@ -265,6 +336,40 @@ export function Journey() {
             ))}
           </div>
         </section>
+        <section className="section-line container-read">
+          <div className="section-header">
+            <div className="eyebrow">{home.additionalEyebrow}</div>
+            <h2>{home.additionalHeading}</h2>
+          </div>
+          <div className="additional-grid reading-col">
+            {additional.map((a) => (
+              <div className="additional-item" key={a.title}>
+                <h4>{a.title}</h4>
+                <p>{a.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section id="testimonials" className="section-line container-read">
+          <div className="section-header">
+            <div className="eyebrow">{home.testimonialsEyebrow}</div>
+            <h2>{home.testimonialsHeading}</h2>
+          </div>
+          <div className="testimonials-grid reading-col">
+            {testimonials.map((tm) => (
+              <div className="testimonial" key={tm.name}>
+                <p className="testimonial-quote">{tm.quote}</p>
+                <div className="testimonial-author">
+                  <div className="testimonial-avatar">{tm.avatar}</div>
+                  <div className="testimonial-author-info">
+                    <span className="testimonial-author-name">{tm.name}</span>
+                    <span className="testimonial-author-title">{tm.title}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </>
     );
   }
@@ -288,6 +393,12 @@ export function Journey() {
         style={{ top: `${workFrac * 100}%` }}
         aria-hidden="true"
       />
+      <span
+        id="testimonials"
+        className="jr-anchor"
+        style={{ top: `${reviewsFrac * 100}%` }}
+        aria-hidden="true"
+      />
       <div className="jr-sticky">
         <div className="jr-wave" aria-hidden="true">
           <WaveField />
@@ -297,11 +408,77 @@ export function Journey() {
         <div className="jr-layer jr-hero">{heroContent}</div>
         <div className="jr-layer jr-services">{servicesContent}</div>
 
-        {slides.map((s) => (
+        {caseSlides.map((s) => (
           <div className="jr-layer jr-slide" key={s.key}>
             {s.node}
           </div>
         ))}
+
+        {/* other work — vertical card scrub, inside the same pin */}
+        <div className="jr-layer jr-projects jr-scrub">
+          <div className="jr-scrub-inner">
+            <div className="section-header jr-scrub-head">
+              <div className="eyebrow">{home.additionalEyebrow}</div>
+              <h2>{home.additionalHeading}</h2>
+            </div>
+            <div className="vsc-viewport jr-vviewport">
+              <div className="vsc-col jr-vcol">
+                {additional.map((a, i) => (
+                  <article className="vsc-card" key={a.title}>
+                    <span className="vsc-cardglow" aria-hidden="true" />
+                    <div className="vsc-num">
+                      Проект {String(i + 1).padStart(2, "0")}
+                    </div>
+                    <h4>{a.title}</h4>
+                    <p>{a.body}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* reviews — horizontal card scrub, inside the same pin */}
+        <div className="jr-layer jr-reviews jr-scrub">
+          <div className="jr-scrub-inner">
+            <div className="section-header jr-scrub-head">
+              <div className="eyebrow">{home.testimonialsEyebrow}</div>
+              <h2>{home.testimonialsHeading}</h2>
+            </div>
+            <div className="hsc-viewport jr-hviewport">
+              <div className="hsc-row jr-hrow">
+                {testimonials.map((tm) => (
+                  <figure className="hsc-card" key={tm.name}>
+                    <span className="vsc-cardglow" aria-hidden="true" />
+                    <p className="hsc-quote">«{tm.quote}»</p>
+                    <div className="testimonial-author">
+                      <div className="testimonial-avatar">{tm.avatar}</div>
+                      <div className="testimonial-author-info">
+                        <span className="testimonial-author-name">
+                          {tm.link ? (
+                            <a
+                              href={tm.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="testimonial-author-link"
+                            >
+                              {tm.name}
+                            </a>
+                          ) : (
+                            tm.name
+                          )}
+                        </span>
+                        <span className="testimonial-author-title">
+                          {tm.title}
+                        </span>
+                      </div>
+                    </div>
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
