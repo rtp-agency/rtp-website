@@ -3914,3 +3914,22 @@ nav {
   position: relative;
   z-index: 1;
 }
+
+/* ===== pinned hero ===== */
+.hero-pinned {
+  min-height: 0;
+  padding: 0;
+  display: block;
+}
+.hero-pinned .pin-stage {
+  overflow: hidden;
+}
+.hero-pinned .wave-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-pinned .container {
+  position: relative;
+  z-index: 1;
+}

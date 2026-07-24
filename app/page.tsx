@@ -23,44 +23,49 @@ export default function Home() {
       <div className="bg-grid" aria-hidden="true" />
       <Nav variant="home" />
 
-      {/* Hero — 3D brand over the red dot-wave, with the proof stats */}
-      <section className="hero">
-        <WaveField />
-        <div className="container">
-          <div className="hero-center">
-            <h1 className="hero-brand">
-              <MatrixText text="RTP" className="matrix-rtp" />
-              <span className="hero-agency">Agency</span>
-            </h1>
-            <p className="hero-tagline">
-              Преврати рутину в профит.
-              <br />
-              Воплоти свои идеи в реальность.
-            </p>
-            <a
-              href={TG_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary hero-cta"
-            >
-              Бесплатная консультация <span className="arrow">→</span>
-            </a>
-            <div className="hero-stats">
-              {stats.map((s) => (
-                <div className="hero-stat" key={s.label}>
-                  <div className="hero-stat-num">
-                    <CountUp
-                      value={s.value}
-                      prefix={s.prefix}
-                      suffix={s.suffix}
-                    />
-                  </div>
-                  <div className="hero-stat-label">{s.label}</div>
+      {/* Hero — pin-scroll start: RTP + stats reveal over the red wave */}
+      <section className="hero hero-pinned">
+        <PinnedReveal hold={1}>
+          <>
+            <WaveField />
+            <div className="container">
+              <div className="hero-center">
+                <h1 className="hero-brand" data-role="heading">
+                  <MatrixText text="RTP" className="matrix-rtp" />
+                  <span className="hero-agency">Agency</span>
+                </h1>
+                <p className="hero-tagline" data-role="lead">
+                  Преврати рутину в профит.
+                  <br />
+                  Воплоти свои идеи в реальность.
+                </p>
+                <a
+                  href={TG_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary hero-cta"
+                  data-role="body"
+                >
+                  Бесплатная консультация <span className="arrow">→</span>
+                </a>
+                <div className="hero-stats" data-role="body">
+                  {stats.map((s) => (
+                    <div className="hero-stat" key={s.label}>
+                      <div className="hero-stat-num">
+                        <CountUp
+                          value={s.value}
+                          prefix={s.prefix}
+                          suffix={s.suffix}
+                        />
+                      </div>
+                      <div className="hero-stat-label">{s.label}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+        </PinnedReveal>
       </section>
 
       {/* Services — pinned intro + coverflow carousel */}
