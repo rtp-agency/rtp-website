@@ -4,8 +4,7 @@ import { ContactForm } from "@/components/ContactForm";
 import { SectionDeco } from "@/components/SectionDeco";
 import { Intro } from "@/components/Intro";
 import { Journey } from "@/components/Journey";
-import { Scrolly } from "@/components/Scrolly";
-import { home, additional, testimonials } from "@/lib/site";
+import { home } from "@/lib/site";
 
 const TG_URL = "https://t.me/rtp_agency";
 const EMAIL = "solutions@rtp-agency.com";
@@ -17,99 +16,8 @@ export default function Home() {
       <div className="bg-grid" aria-hidden="true" />
       <Nav variant="home" />
 
-      {/* Hero → services → wave zoom → cases, one continuous pinned journey */}
+      {/* Hero → services → wave → cases → other work → reviews: one pinned journey */}
       <Journey />
-
-      {/* Additional projects — pinned scrolly */}
-      <section className="section-line">
-        <Scrolly
-          seg="50vh"
-          intro={{
-            eyebrow: home.additionalEyebrow,
-            heading: home.additionalHeading,
-          }}
-          items={additional.map((a, i) => ({
-            key: a.title,
-            content: (
-              <div className="cs-alt">
-                <div className="cs-tag" data-role="tag">
-                  Проект {String(i + 1).padStart(2, "0")}
-                </div>
-                <h3 className="cs-title" data-role="title">
-                  {a.title}
-                </h3>
-                <p className="cs-desc" data-role="desc">
-                  {a.body}
-                </p>
-              </div>
-            ),
-          }))}
-          fallback={
-            <div className="container-read">
-              <div className="section-header">
-                <div className="eyebrow">{home.additionalEyebrow}</div>
-                <h2>{home.additionalHeading}</h2>
-              </div>
-              <div className="additional-grid reading-col">
-                {additional.map((a) => (
-                  <div className="additional-item" key={a.title}>
-                    <h4>{a.title}</h4>
-                    <p>{a.body}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          }
-        />
-      </section>
-
-      {/* Testimonials — pinned scrolly */}
-      <section id="testimonials" className="section-line section-raised">
-        <Scrolly
-          seg="52vh"
-          intro={{
-            eyebrow: home.testimonialsEyebrow,
-            heading: home.testimonialsHeading,
-          }}
-          items={testimonials.map((tm) => ({
-            key: tm.name,
-            content: (
-              <div className="cs-quote">
-                <p className="cs-quote-text" data-role="title">
-                  «{tm.quote}»
-                </p>
-                <div className="cs-quote-author" data-role="sub">
-                  <strong>{tm.name}</strong> — {tm.title}
-                </div>
-              </div>
-            ),
-          }))}
-          fallback={
-            <div className="container-read">
-              <div className="section-header">
-                <div className="eyebrow">{home.testimonialsEyebrow}</div>
-                <h2>{home.testimonialsHeading}</h2>
-              </div>
-              <div className="testimonials-grid reading-col">
-                {testimonials.map((tm) => (
-                  <div className="testimonial" key={tm.name}>
-                    <p className="testimonial-quote">{tm.quote}</p>
-                    <div className="testimonial-author">
-                      <div className="testimonial-avatar">{tm.avatar}</div>
-                      <div className="testimonial-author-info">
-                        <span className="testimonial-author-name">{tm.name}</span>
-                        <span className="testimonial-author-title">
-                          {tm.title}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          }
-        />
-      </section>
 
       {/* CTA — Free teardown */}
       <section id="contact" className="cta section-line">

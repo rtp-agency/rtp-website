@@ -63,21 +63,18 @@ function Icon({ kind }: { kind: Service["icon"] }) {
 }
 
 // 3D coverflow: cards levitate around the centre; the active one faces front,
-// the others angle back into a ring. Swipe / arrows rotate through them.
+// the others angle back into a ring. The user drives it — big translucent
+// edge arrows and swipe rotate through the cards (no auto-spin).
 export function ServicesCarousel() {
   const n = services.length;
   const [active, setActive] = useState(0);
+  const [hint, setHint] = useState(true);
   const rootRef = useRef<HTMLDivElement>(null);
-  const paused = useRef(false);
 
-  const go = (dir: number) => setActive((a) => (a + dir + n) % n);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      if (!paused.current) setActive((a) => (a + 1) % n);
-    }, 4600);
-    return () => clearInterval(id);
-  }, [n]);
+  const go = (dir: number) => {
+    setActive((a) => (a + dir + n) % n);
+    setHint(false);
+  };
 
   // swipe / drag to rotate
   useEffect(() => {
@@ -88,7 +85,6 @@ export function ServicesCarousel() {
     const onDown = (e: PointerEvent) => {
       down = true;
       x0 = e.clientX;
-      paused.current = true;
     };
     const onUp = (e: PointerEvent) => {
       if (!down) return;
@@ -96,7 +92,6 @@ export function ServicesCarousel() {
       const dx = e.clientX - x0;
       if (dx > 45) go(-1);
       else if (dx < -45) go(1);
-      window.setTimeout(() => (paused.current = false), 1500);
     };
     el.addEventListener("pointerdown", onDown);
     window.addEventListener("pointerup", onUp);
@@ -108,8 +103,29 @@ export function ServicesCarousel() {
   }, [n]);
 
   return (
-    <div className="svc3d">
-      <div className="svc3d-stage" ref={rootRef}>
+    <div className="svc3d" ref={rootRef}>
+      <button
+        type="button"
+        className="svc3d-edge svc3d-edge-left"
+        aria-label="Предыдущая карточка"
+        onClick={() => go(-1)}
+      >
+        <span className="svc3d-chev" aria-hidden="true">
+          ‹
+        </span>
+      </button>
+      <button
+        type="button"
+        className="svc3d-edge svc3d-edge-right"
+        aria-label="Следующая карточка"
+        onClick={() => go(1)}
+      >
+        <span className="svc3d-chev" aria-hidden="true">
+          ›
+        </span>
+      </button>
+
+      <div className="svc3d-stage">
         {services.map((s, i) => {
           let off = i - active;
           if (off > n / 2) off -= n;
@@ -128,7 +144,7 @@ export function ServicesCarousel() {
               className={`svc3d-card${off === 0 ? " is-active" : ""}`}
               style={style}
               key={s.title}
-              onClick={() => off !== 0 && setActive(i)}
+              onClick={() => off !== 0 && (setActive(i), setHint(false))}
             >
               <div className="svc-ico">
                 <Icon kind={s.icon} />
@@ -151,23 +167,12 @@ export function ServicesCarousel() {
           );
         })}
       </div>
-      <div className="svc-nav">
-        <button
-          type="button"
-          className="svc-arrow"
-          aria-label="Назад"
-          onClick={() => go(-1)}
-        >
-          ←
-        </button>
-        <button
-          type="button"
-          className="svc-arrow"
-          aria-label="Вперёд"
-          onClick={() => go(1)}
-        >
-          →
-        </button>
+
+      <div className={`svc3d-swipe${hint ? " is-on" : ""}`} aria-hidden="true">
+        <span>»</span>
+      </div>
+      <div className="svc3d-count" aria-hidden="true">
+        {active + 1} / {n}
       </div>
     </div>
   );

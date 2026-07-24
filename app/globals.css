@@ -382,8 +382,10 @@ section > .container-narrow {
 
 /* nav — floating capsule wrapping a real liquid-glass layer */
 nav {
-  position: sticky;
+  position: fixed;
   top: 14px;
+  left: 0;
+  right: 0;
   z-index: 100;
   padding: 0 20px;
 }
@@ -4096,8 +4098,33 @@ nav {
 }
 .jr-services,
 .jr-intro,
-.jr-case {
+.jr-case,
+.jr-slide {
   opacity: 0;
+}
+.jr-services .section-header {
+  margin-bottom: 2px;
+}
+.jr-services .section-header h2 {
+  font-size: clamp(26px, 3.4vw, 40px);
+  margin-bottom: 10px;
+}
+.jr-services .section-header .lead {
+  max-width: 560px;
+}
+.jr-services .svc3d {
+  margin-top: 0;
+}
+.jr-chapter {
+  text-align: center;
+}
+.jr-chapter h2 {
+  font-size: clamp(30px, 4.4vw, 54px);
+  margin: 12px 0 14px;
+}
+.jr-chapter .lead {
+  margin: 0 auto;
+  max-width: 560px;
 }
 .jr-layer .container {
   position: relative;
@@ -4109,7 +4136,8 @@ nav {
   text-decoration: none;
   color: inherit;
 }
-.jr-live .jr-case [data-role] {
+.jr-live .jr-case [data-role],
+.jr-live .jr-slide [data-role] {
   opacity: 0;
   will-change: transform, opacity;
 }
@@ -4121,12 +4149,14 @@ nav {
 .svc3d {
   position: relative;
   z-index: 1;
+  width: 100%;
   perspective: 1700px;
   perspective-origin: 50% 46%;
   margin-top: 6px;
 }
 .svc3d-stage {
   position: relative;
+  width: 100%;
   height: 440px;
   transform-style: preserve-3d;
   cursor: grab;
@@ -4156,4 +4186,108 @@ nav {
 }
 .svc3d-card:not(.is-active) {
   cursor: pointer;
+}
+
+/* big translucent edge arrows — click the sides to rotate the ring */
+.svc3d-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 18%;
+  min-width: 90px;
+  z-index: 30;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  color: var(--color-red);
+  transition: background 0.3s ease;
+}
+.svc3d-edge-left {
+  left: 0;
+  justify-content: flex-start;
+  padding-left: clamp(10px, 3vw, 42px);
+  background: linear-gradient(90deg, rgba(255, 59, 59, 0.1), transparent);
+}
+.svc3d-edge-right {
+  right: 0;
+  justify-content: flex-end;
+  padding-right: clamp(10px, 3vw, 42px);
+  background: linear-gradient(270deg, rgba(255, 59, 59, 0.1), transparent);
+}
+.svc3d-edge:hover {
+  background: linear-gradient(
+    var(--_dir, 90deg),
+    rgba(255, 59, 59, 0.22),
+    transparent
+  );
+}
+.svc3d-edge-right:hover {
+  --_dir: 270deg;
+}
+.svc3d-chev {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: 1px solid var(--warm-dim);
+  background: rgba(255, 59, 59, 0.08);
+  backdrop-filter: blur(4px);
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 300;
+  padding-bottom: 4px;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 16px rgba(255, 59, 59, 0.45));
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+}
+.svc3d-edge:hover .svc3d-chev {
+  opacity: 1;
+  background: rgba(255, 59, 59, 0.2);
+  transform: scale(1.12);
+}
+/* animated ">>" hint that you can swipe */
+.svc3d-swipe {
+  position: absolute;
+  right: clamp(90px, 12vw, 190px);
+  top: 22%;
+  transform: translateY(-50%);
+  z-index: 25;
+  font-size: 52px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--color-red);
+  pointer-events: none;
+  opacity: 0;
+  filter: drop-shadow(0 0 14px rgba(255, 59, 59, 0.55));
+  transition: opacity 0.5s ease;
+}
+.svc3d-swipe.is-on {
+  opacity: 0.85;
+  animation: svcSwipe 1.5s ease-in-out infinite;
+}
+@keyframes svcSwipe {
+  0%,
+  100% {
+    transform: translateY(-50%) translateX(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-50%) translateX(12px);
+    opacity: 0.95;
+  }
+}
+.svc3d-count {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 25;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
 }

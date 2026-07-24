@@ -1,17 +1,23 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { useReducedMotion } from "framer-motion";
 import { WaveField } from "./WaveField";
 import { MatrixText } from "./MatrixText";
 import { CountUp } from "./CountUp";
 import { ServicesCarousel } from "./ServicesCarousel";
-import { stats, work } from "@/lib/site";
+import { stats, work, additional, testimonials, home } from "@/lib/site";
 import { ui } from "@/lib/i18n";
 
 const TG_URL = "https://t.me/rtp_agency";
 
-// staggered per-element reveal inside a case: [start, end, dy]
+// staggered per-element reveal inside a slide: [start, end, dy]
 const ROLE: Record<string, [number, number, number]> = {
   tag: [0.06, 0.32, 22],
   metric: [0.12, 0.46, 52],
@@ -21,8 +27,11 @@ const ROLE: Record<string, [number, number, number]> = {
   tech: [0.44, 0.8, 40],
 };
 
+type Slide = { key: string; node: ReactNode };
+
 // One continuous pinned journey over the shared red wave:
-// hero (visible) → services → the wave zooms in → cases grow out of it.
+// hero (visible) → services → the wave zooms in → cases → other work → reviews,
+// all as cross-fading slides in a single pin (no gaps between chapters).
 export function Journey() {
   const reduce = useReducedMotion();
   const [mounted, setMounted] = useState(false);
@@ -30,10 +39,117 @@ export function Journey() {
   useEffect(() => setMounted(true), []);
   const live = mounted && !reduce;
 
-  const N = work.length;
-  // hold ≈ number of "screens": hero+services ~2.4, cases (intro + N) scaled
-  const hold = 2.4 + (N + 1) * 0.72;
-  const S = 2.4 / (1 + hold); // p-fraction where the cases phase begins
+  const intro = (eyebrow: string, heading: string, lead: string): ReactNode => (
+    <div className="jr-inner jr-chapter">
+      <div className="eyebrow" data-role="tag">
+        {eyebrow}
+      </div>
+      <h2 data-role="title">{heading}</h2>
+      <p className="lead" data-role="desc">
+        {lead}
+      </p>
+    </div>
+  );
+
+  // Build the flat slide sequence: intro + cards per chapter.
+  const slides: Slide[] = [];
+  slides.push({
+    key: "cases-intro",
+    node: intro(
+      ui.nav.work,
+      "Что мы уже автоматизировали.",
+      "Реальные проекты в продакшене — листайте вниз."
+    ),
+  });
+  work.forEach((c) => {
+    const hero = c.highlights[0];
+    slides.push({
+      key: c.slug,
+      node: (
+        <a href={`/work/${c.slug}`} className="jr-inner cs-link">
+          <div className="cs-tag" data-role="tag">
+            {c.number}
+          </div>
+          {hero && (
+            <>
+              <div className="cs-metric" data-role="metric">
+                {hero.number}
+              </div>
+              <div className="cs-sub" data-role="sub">
+                {hero.label}
+              </div>
+            </>
+          )}
+          <h3 className="cs-title" data-role="title">
+            {c.title}
+          </h3>
+          <p className="cs-desc" data-role="desc">
+            {c.summary}
+          </p>
+          <div className="cs-foot" data-role="tech">
+            <span className="cs-tech">{c.tech}</span>
+            <span className="cs-more">{ui.readCase} →</span>
+          </div>
+        </a>
+      ),
+    });
+  });
+
+  slides.push({
+    key: "proj-intro",
+    node: intro(
+      home.additionalEyebrow,
+      home.additionalHeading,
+      "Инженерные проекты, которые мы собрали под ключ."
+    ),
+  });
+  additional.forEach((a, i) => {
+    slides.push({
+      key: a.title,
+      node: (
+        <div className="jr-inner cs-alt">
+          <div className="cs-tag" data-role="tag">
+            Проект {String(i + 1).padStart(2, "0")}
+          </div>
+          <h3 className="cs-title" data-role="title">
+            {a.title}
+          </h3>
+          <p className="cs-desc" data-role="desc">
+            {a.body}
+          </p>
+        </div>
+      ),
+    });
+  });
+
+  slides.push({
+    key: "tst-intro",
+    node: intro(
+      home.testimonialsEyebrow,
+      home.testimonialsHeading,
+      "Отзывы команд, с которыми мы работали."
+    ),
+  });
+  testimonials.forEach((tm) => {
+    slides.push({
+      key: tm.name,
+      node: (
+        <div className="jr-inner cs-quote">
+          <p className="cs-quote-text" data-role="title">
+            «{tm.quote}»
+          </p>
+          <div className="cs-quote-author" data-role="sub">
+            <strong>{tm.name}</strong> — {tm.title}
+          </div>
+        </div>
+      ),
+    });
+  });
+
+  const M = slides.length;
+  // hold ≈ number of "screens": hero+services ~2.4, then each slide ~0.62
+  const hold = 2.4 + M * 0.62;
+  const S = 2.4 / (1 + hold); // p-fraction where the slide phase begins
 
   useEffect(() => {
     if (!live) return;
@@ -43,12 +159,10 @@ export function Journey() {
     const heroEl = el.querySelector<HTMLElement>(".jr-hero");
     const svcEl = el.querySelector<HTMLElement>(".jr-services");
     const waveEl = el.querySelector<HTMLElement>(".jr-wave");
-    const introEl = el.querySelector<HTMLElement>(".jr-intro");
     const glow = el.querySelector<HTMLElement>(".jr-glow");
-    if (!heroEl || !svcEl || !waveEl || !introEl) return;
-    const caseEls = Array.from(el.querySelectorAll<HTMLElement>(".jr-case"));
-    const dots = Array.from(el.querySelectorAll<HTMLElement>(".cs-dot"));
-    const roles = caseEls.map((c) =>
+    if (!heroEl || !svcEl || !waveEl) return;
+    const slideEls = Array.from(el.querySelectorAll<HTMLElement>(".jr-slide"));
+    const roles = slideEls.map((c) =>
       Array.from(c.querySelectorAll<HTMLElement>("[data-role]"))
     );
     const clamp = (t: number) => (t < 0 ? 0 : t > 1 ? 1 : t);
@@ -56,7 +170,7 @@ export function Journey() {
       t = clamp(t);
       return t * t * (3 - 2 * t);
     };
-    const SEG = 1 / (N + 1);
+    const SEG = 1 / M;
 
     let ticking = false;
     const update = () => {
@@ -78,43 +192,31 @@ export function Journey() {
       svcEl.style.transform = `translateY(${40 * (1 - svcIn)}px)`;
       svcEl.style.pointerEvents = svcO > 0.5 ? "auto" : "none";
 
-      // ---- cases (q in [0, 1]) ----
+      // ---- slides (q in [0, 1]) ----
       const q = clamp((p - S) / (1 - S));
       const gate = smooth(clamp((p - (S - 0.02)) / 0.05));
 
-      // shared wave: sits as background during hero/services, zooms during cases
+      // shared wave: background during hero/services, zooms during first slide
       const zoomP = smooth(clamp(q / (SEG * 1.05)));
       const waveFade = smooth(clamp((q - SEG * 0.8) / (SEG * 0.95)));
       waveEl.style.transform = `scale(${1 + zoomP * 1.7})`;
       waveEl.style.opacity = String(1 - waveFade * 0.76);
-
       if (glow) glow.style.opacity = String(gate * 0.14);
 
-      const introLp = clamp(q / SEG);
-      const introOut = smooth((introLp - 0.38) / 0.4);
-      introEl.style.opacity = String((1 - introOut) * gate);
-      introEl.style.transform = `translateY(${-80 * introOut}px)`;
-
-      let active = 0;
-      caseEls.forEach((card, i) => {
-        const lpRaw = (q - SEG * (i + 1)) / SEG;
+      slideEls.forEach((card, i) => {
+        const lpRaw = q / SEG - i;
         const lp = clamp(lpRaw);
         const fadeIn = smooth((lpRaw + 0.1) / 0.26);
         const fadeOut = 1 - smooth((lpRaw - 0.82) / 0.3);
         const cardO = clamp(Math.min(fadeIn, fadeOut)) * gate;
         card.style.opacity = String(cardO);
         card.style.pointerEvents = cardO > 0.6 ? "auto" : "none";
-        if (lpRaw >= -0.05) active = i;
         roles[i].forEach((r) => {
           const cfg = ROLE[r.dataset.role || ""] || ROLE.desc;
           const t = smooth((lp - cfg[0]) / (cfg[1] - cfg[0]));
           r.style.opacity = String(t);
           r.style.transform = `translateY(${cfg[2] * (1 - t)}px)`;
         });
-      });
-      dots.forEach((d, i) => {
-        if (i === active && q >= SEG - 0.0001 && gate > 0.5) d.classList.add("on");
-        else d.classList.remove("on");
       });
     };
     const onScroll = () => {
@@ -130,7 +232,7 @@ export function Journey() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [live, S, N]);
+  }, [live, S, M]);
 
   const heroContent = (
     <div className="container">
@@ -208,6 +310,20 @@ export function Journey() {
             ))}
           </div>
         </section>
+        <section id="testimonials" className="section-line container-read">
+          <div className="section-header">
+            <div className="eyebrow">{home.testimonialsEyebrow}</div>
+            <h2>{home.testimonialsHeading}</h2>
+          </div>
+          {testimonials.map((tm) => (
+            <blockquote className="testimonial" key={tm.name}>
+              <p>{tm.quote}</p>
+              <cite>
+                {tm.name} — {tm.title}
+              </cite>
+            </blockquote>
+          ))}
+        </section>
       </>
     );
   }
@@ -229,52 +345,15 @@ export function Journey() {
           {servicesContent}
         </div>
 
-        <div className="jr-layer jr-intro" id="work">
-          <div className="jr-inner">
-            <div className="eyebrow">{ui.nav.work}</div>
-            <h2>Что мы уже автоматизировали.</h2>
-            <p className="lead">Реальные проекты в продакшене — листайте вниз.</p>
+        {slides.map((s, i) => (
+          <div
+            className="jr-layer jr-slide"
+            key={s.key}
+            id={i === 0 ? "work" : undefined}
+          >
+            {s.node}
           </div>
-        </div>
-
-        {work.map((c) => {
-          const hero = c.highlights[0];
-          return (
-            <article className="jr-layer jr-case" key={c.slug}>
-              <a href={`/work/${c.slug}`} className="jr-inner cs-link">
-                <div className="cs-tag" data-role="tag">
-                  {c.number}
-                </div>
-                {hero && (
-                  <>
-                    <div className="cs-metric" data-role="metric">
-                      {hero.number}
-                    </div>
-                    <div className="cs-sub" data-role="sub">
-                      {hero.label}
-                    </div>
-                  </>
-                )}
-                <h3 className="cs-title" data-role="title">
-                  {c.title}
-                </h3>
-                <p className="cs-desc" data-role="desc">
-                  {c.summary}
-                </p>
-                <div className="cs-foot" data-role="tech">
-                  <span className="cs-tech">{c.tech}</span>
-                  <span className="cs-more">{ui.readCase} →</span>
-                </div>
-              </a>
-            </article>
-          );
-        })}
-
-        <div className="cs-dots jr-dots" aria-hidden="true">
-          {work.map((c) => (
-            <span className="cs-dot" key={c.slug} />
-          ))}
-        </div>
+        ))}
       </div>
     </div>
   );
