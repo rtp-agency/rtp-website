@@ -141,6 +141,38 @@ export function ServicesCarousel() {
     };
   }, []);
 
+  // mark the centered card active (coverflow: it steps forward, others dim)
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const el: HTMLDivElement = track;
+    let ticking = false;
+    const mark = () => {
+      ticking = false;
+      const mid = el.scrollLeft + el.clientWidth / 2;
+      const cards = Array.from(el.querySelectorAll<HTMLElement>(".svc-card"));
+      let best = 0;
+      let bestD = Infinity;
+      cards.forEach((card, i) => {
+        const d = Math.abs(card.offsetLeft + card.offsetWidth / 2 - mid);
+        if (d < bestD) {
+          bestD = d;
+          best = i;
+        }
+      });
+      cards.forEach((card, i) => card.classList.toggle("is-active", i === best));
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(mark);
+      }
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    mark();
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <div className="svc">
       <div className="svc-track" ref={trackRef}>

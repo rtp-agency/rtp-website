@@ -2,8 +2,9 @@
 
 import { useEffect, useRef } from "react";
 
-// Renders `text` as letterforms filled with a falling red binary rain (black
-// letters, red digits running inside) via a canvas + destination-in text mask.
+// Renders `text` as solid letterforms built from streaming red digits (a base
+// digit fill inside the letters + bright falling heads), clipped to the letter
+// shapes with a destination-in text mask.
 export function MatrixText({
   text,
   className,
@@ -28,12 +29,15 @@ export function MatrixText({
     let W = 0;
     let H = 0;
     let fontPx = 0;
-    let cell = 12;
-    let drops: number[] = [];
-    const shapeFont = () =>
-      `700 ${fontPx}px "Helvetica Neue", Arial, sans-serif`;
+    let cell = 8;
+    let cols = 0;
+    let rows = 0;
+    let glyphs: string[] = [];
+    let heads: number[] = [];
+    const rnd = () => (Math.random() > 0.5 ? "1" : "0");
+    const shapeFont = () => `800 ${fontPx}px "Helvetica Neue", Arial, sans-serif`;
 
-    function fit() {
+    const fit = () => {
       const rect = cnv.getBoundingClientRect();
       W = rect.width;
       H = rect.height;
@@ -42,49 +46,42 @@ export function MatrixText({
       cnv.height = Math.floor(H * dpr);
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      g.font = `700 100px "Helvetica Neue", Arial, sans-serif`;
+      g.font = `800 100px "Helvetica Neue", Arial, sans-serif`;
       const w100 = g.measureText(text).width || 1;
-      fontPx = Math.min((W * 0.98) / w100 * 100, H * 0.94);
-      cell = Math.max(9, Math.round(fontPx * 0.09));
-      const cols = Math.ceil(W / cell) + 1;
-      drops = Array.from({ length: cols }, () =>
-        Math.floor((Math.random() * H) / cell - 8)
-      );
-    }
+      fontPx = Math.min((W * 0.99) / w100 * 100, H * 0.98);
+      cell = Math.max(7, Math.round(fontPx * 0.06));
+      cols = Math.ceil(W / cell) + 1;
+      rows = Math.ceil(H / cell) + 1;
+      glyphs = Array.from({ length: cols * rows }, rnd);
+      heads = Array.from({ length: cols }, () => Math.random() * rows);
+    };
 
-    function frame() {
+    const frame = () => {
       g.globalCompositeOperation = "source-over";
       g.clearRect(0, 0, W, H);
-
-      // faint letter body so the shape reads even between digits
-      g.textAlign = "center";
-      g.textBaseline = "middle";
-      g.font = shapeFont();
-      g.fillStyle = "rgba(255,55,55,0.10)";
-      g.fillText(text, W / 2, H / 2);
-
-      // falling digits across the whole canvas
       g.textAlign = "start";
       g.textBaseline = "top";
       g.font = `${cell}px "JetBrains Mono", monospace`;
-      for (let i = 0; i < drops.length; i++) {
-        const x = i * cell;
-        const headRow = drops[i];
-        for (let t = 0; t < 7; t++) {
-          const row = headRow - t;
-          const y = row * cell;
-          if (y < -cell || y > H) continue;
-          const ch = Math.random() > 0.5 ? "1" : "0";
-          if (t === 0) g.fillStyle = "rgba(255,190,180,0.95)";
-          else g.fillStyle = `rgba(255,45,45,${Math.max(0, 0.65 - t * 0.1)})`;
-          g.fillText(ch, x, y);
+      for (let c = 0; c < cols; c++) {
+        const head = heads[c];
+        for (let r = 0; r < rows; r++) {
+          const idx = c * rows + r;
+          if (Math.random() < 0.03) glyphs[idx] = rnd();
+          const dist = head - r;
+          if (dist >= 0 && dist < 10) {
+            g.fillStyle =
+              dist < 1
+                ? "rgba(255,232,224,1)"
+                : `rgba(255,66,58,${Math.max(0.32, 1 - dist * 0.07)})`;
+          } else {
+            g.fillStyle = "rgba(255,48,48,0.3)";
+          }
+          g.fillText(glyphs[idx], c * cell, r * cell);
         }
-        drops[i] += 0.45;
-        if (drops[i] * cell > H + cell * 7)
-          drops[i] = -Math.floor(Math.random() * 10);
+        heads[c] += 0.5;
+        if (heads[c] > rows + 6) heads[c] = -Math.random() * rows;
       }
 
-      // clip everything to the text shape
       g.globalCompositeOperation = "destination-in";
       g.textAlign = "center";
       g.textBaseline = "middle";
@@ -93,7 +90,7 @@ export function MatrixText({
       g.fillText(text, W / 2, H / 2);
 
       if (!reduce) raf = requestAnimationFrame(frame);
-    }
+    };
 
     fit();
     frame();

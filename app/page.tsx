@@ -1,9 +1,7 @@
-import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import { ContactForm } from "@/components/ContactForm";
-import { CardCostBar } from "@/components/CardCostBar";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { SectionDeco } from "@/components/SectionDeco";
 import { Marquee } from "@/components/Marquee";
@@ -11,6 +9,7 @@ import { WaveField } from "@/components/WaveField";
 import { Intro } from "@/components/Intro";
 import { MatrixText } from "@/components/MatrixText";
 import { ServicesCarousel } from "@/components/ServicesCarousel";
+import { CasesScrolly } from "@/components/CasesScrolly";
 import {
   home,
   stats,
@@ -19,7 +18,6 @@ import {
   testimonials,
   marqueeTech,
 } from "@/lib/site";
-import { ui } from "@/lib/i18n";
 
 const TG_URL = "https://t.me/rtp_agency";
 const EMAIL = "solutions@rtp-agency.com";
@@ -128,54 +126,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Work */}
-      <section id="work" className="section-line section-raised">
-        <SectionDeco variant={2} />
-        <div className="container">
-          <div className="section-header">
-            <Reveal>
-              <div className="eyebrow">{home.workEyebrow}</div>
-            </Reveal>
-            <Reveal delay={0.05}>
-              <h2>{home.workHeading}</h2>
-            </Reveal>
-          </div>
-
-          <div className="work-grid">
-            {work.map((c) => (
-              <Reveal key={c.slug}>
-                <Link href={`/work/${c.slug}`} className="case-study">
-                  <div className="case-number">{c.number}</div>
-                  <h3>{c.title}</h3>
-                  <div className="case-meta">
-                    {c.meta.map((m, i) => (
-                      <span key={m} style={{ display: "contents" }}>
-                        {i > 0 && <span className="case-meta-divider">·</span>}
-                        <span>{m}</span>
-                      </span>
-                    ))}
-                  </div>
-                  <div className="case-summary">{c.summary}</div>
-                  <div className="case-highlights">
-                    {c.highlights.map((h) => (
-                      <div key={h.label}>
-                        <div className="case-highlight-number">{h.number}</div>
-                        <div className="case-highlight-label">{h.label}</div>
-                      </div>
-                    ))}
-                  </div>
-                  {c.costBar && <CardCostBar {...c.costBar} />}
-                  <div className="case-footer">
-                    <div className="case-tech-mini">{c.tech}</div>
-                    <span className="case-read-more">
-                      {ui.readCase} <span className="arrow">→</span>
-                    </span>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
+      {/* Work — pinned scroll-choreography */}
+      <section id="work">
+        <CasesScrolly
+          items={work}
+          intro={{
+            eyebrow: home.workEyebrow,
+            heading: home.workHeading,
+            sub: "Реальные проекты в продакшене — листайте вниз.",
+          }}
+        />
       </section>
 
       {/* Additional */}
