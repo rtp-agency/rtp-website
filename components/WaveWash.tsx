@@ -37,7 +37,7 @@ export function WaveWash() {
       cnv.width = Math.floor(W * dpr);
       cnv.height = Math.floor(H * dpr);
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
-      spacing = Math.max(13, Math.round(W / 82));
+      spacing = Math.max(11, Math.round(W / 104));
     };
 
     const readProgress = () => {
@@ -59,9 +59,9 @@ export function WaveWash() {
           const front = frontBase + Math.sin(x * 0.012 + t * 1.4) * amp;
           for (let y = H; y >= front; y -= spacing) {
             const d = clamp((y - front) / H);
-            const flick = 0.6 + 0.4 * Math.sin(x * 0.3 + y * 0.2 + t * 3);
-            const a = op * clamp(0.22 + (1 - d) * 0.78) * flick;
-            const rad = 1.3 + (1 - d) * 1.5;
+            const flick = 0.72 + 0.28 * Math.sin(x * 0.3 + y * 0.2 + t * 3);
+            const a = op * clamp(0.42 + (1 - d) * 0.55) * flick;
+            const rad = 1.5 + (1 - d) * 1.4;
             g.beginPath();
             g.arc(x + Math.sin(y * 0.05 + t) * 2, y, rad, 0, Math.PI * 2);
             g.fillStyle = `rgba(255,${50 + Math.floor((1 - d) * 45)},46,${a})`;

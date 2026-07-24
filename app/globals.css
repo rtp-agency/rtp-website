@@ -3697,7 +3697,7 @@ nav {
 /* ===== cases: pinned scroll-choreography ===== */
 .case-scrolly.scrolly-live {
   position: relative;
-  --seg: 84vh;
+  --seg: 68vh;
   height: calc((var(--n) + 1) * var(--seg));
   --accent: var(--color-red);
 }
@@ -3890,7 +3890,7 @@ nav {
 /* ===== wave-wash transition (services -> cases) ===== */
 .wave-wash {
   position: relative;
-  height: 120vh;
+  height: 95vh;
   background: radial-gradient(
     80% 60% at 50% 100%,
     rgba(255, 59, 59, 0.08),

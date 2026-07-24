@@ -69,8 +69,8 @@ export function CasesScrolly({
         const segStart = SEG * (i + 1);
         const lpRaw = (p - segStart) / SEG;
         const lp = clamp(lpRaw);
-        const fadeIn = smooth((lpRaw + 0.1) / 0.34);
-        const fadeOut = 1 - smooth((lpRaw - 1.0) / 0.3);
+        const fadeIn = smooth((lpRaw + 0.32) / 0.34);
+        const fadeOut = 1 - smooth((lpRaw - 1.04) / 0.28);
         const cardO = clamp(Math.min(fadeIn, fadeOut));
         card.style.opacity = String(cardO);
         card.style.pointerEvents = cardO > 0.6 ? "auto" : "none";

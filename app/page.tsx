@@ -40,7 +40,7 @@ export default function Home() {
       {/* Additional projects — pinned scrolly */}
       <section className="section-line">
         <Scrolly
-          seg="58vh"
+          seg="50vh"
           intro={{
             eyebrow: home.additionalEyebrow,
             heading: home.additionalHeading,
@@ -83,7 +83,7 @@ export default function Home() {
       {/* Testimonials — pinned scrolly */}
       <section id="testimonials" className="section-line section-raised">
         <Scrolly
-          seg="60vh"
+          seg="52vh"
           intro={{
             eyebrow: home.testimonialsEyebrow,
             heading: home.testimonialsHeading,

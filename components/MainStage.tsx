@@ -69,7 +69,7 @@ export function MainStage() {
     <div
       ref={rootRef}
       className={`main-stage${live ? " ms-live" : ""}`}
-      style={{ "--hold": 1.7 } as CSSProperties}
+      style={{ "--hold": 1.35 } as CSSProperties}
     >
       <div className="ms-sticky">
         <WaveField />
