@@ -4055,3 +4055,64 @@ nav {
   transform-origin: 50% 58%;
   will-change: transform, opacity;
 }
+
+/* ===== unified journey: hero -> services -> wave -> cases (one pin) ===== */
+.journey {
+  position: relative;
+}
+.jr-live {
+  height: calc((1 + var(--hold)) * 100vh);
+}
+.jr-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: #070707;
+}
+.jr-wave {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transform-origin: 50% 58%;
+  will-change: transform, opacity;
+}
+.jr-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(62% 55% at 50% 50%, rgba(255, 59, 59, 0.5), transparent 62%);
+}
+.jr-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.jr-services,
+.jr-intro,
+.jr-case {
+  opacity: 0;
+}
+.jr-layer .container {
+  position: relative;
+  z-index: 1;
+}
+.jr-inner {
+  width: min(880px, 90vw);
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.jr-live .jr-case [data-role] {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.jr-dots {
+  z-index: 3;
+}

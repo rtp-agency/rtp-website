@@ -3,10 +3,9 @@ import { Reveal } from "@/components/Reveal";
 import { ContactForm } from "@/components/ContactForm";
 import { SectionDeco } from "@/components/SectionDeco";
 import { Intro } from "@/components/Intro";
-import { MainStage } from "@/components/MainStage";
-import { CasesScrolly } from "@/components/CasesScrolly";
+import { Journey } from "@/components/Journey";
 import { Scrolly } from "@/components/Scrolly";
-import { home, work, additional, testimonials } from "@/lib/site";
+import { home, additional, testimonials } from "@/lib/site";
 
 const TG_URL = "https://t.me/rtp_agency";
 const EMAIL = "solutions@rtp-agency.com";
@@ -18,20 +17,8 @@ export default function Home() {
       <div className="bg-grid" aria-hidden="true" />
       <Nav variant="home" />
 
-      {/* Main — pinned: hero (visible) lifts away, services fade in on the wave */}
-      <MainStage />
-
-      {/* Work — the hero wave zooms in, then the cases grow out of it */}
-      <section id="work">
-        <CasesScrolly
-          items={work}
-          intro={{
-            eyebrow: home.workEyebrow,
-            heading: home.workHeading,
-            sub: "Реальные проекты в продакшене — листайте вниз.",
-          }}
-        />
-      </section>
+      {/* Hero → services → wave zoom → cases, one continuous pinned journey */}
+      <Journey />
 
       {/* Additional projects — pinned scrolly */}
       <section className="section-line">
