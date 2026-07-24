@@ -74,7 +74,7 @@ export function MatrixText({
                 ? "rgba(255,232,224,1)"
                 : `rgba(255,66,58,${Math.max(0.32, 1 - dist * 0.07)})`;
           } else {
-            g.fillStyle = "rgba(255,48,48,0.3)";
+            g.fillStyle = "rgba(255,66,60,0.46)";
           }
           g.fillText(glyphs[idx], c * cell, r * cell);
         }
@@ -88,6 +88,12 @@ export function MatrixText({
       g.font = shapeFont();
       g.fillStyle = "#fff";
       g.fillText(text, W / 2, H / 2);
+
+      // bright contour so the letters separate from the background
+      g.globalCompositeOperation = "source-over";
+      g.lineWidth = Math.max(1.5, fontPx * 0.016);
+      g.strokeStyle = "rgba(255,78,70,0.95)";
+      g.strokeText(text, W / 2, H / 2);
 
       if (!reduce) raf = requestAnimationFrame(frame);
     };

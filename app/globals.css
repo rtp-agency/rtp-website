@@ -3510,6 +3510,8 @@ nav {
   display: block;
   width: 1.86em;
   height: 0.94em;
+  filter: drop-shadow(0 0 20px rgba(255, 59, 59, 0.5))
+    drop-shadow(0 4px 22px rgba(0, 0, 0, 0.55));
 }
 .hero-agency {
   font-family: var(--font-sans);
@@ -3836,4 +3838,24 @@ nav {
     align-items: flex-start;
     gap: 10px;
   }
+}
+
+/* ===== generic pinned reveal (content blocks) ===== */
+.pin-outer {
+  position: relative;
+  height: calc((1 + var(--hold)) * 100vh);
+}
+.pin-stage {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.pin-stage > * {
+  width: 100%;
+}
+.pin-live [data-role] {
+  opacity: 0;
+  will-change: transform, opacity;
 }

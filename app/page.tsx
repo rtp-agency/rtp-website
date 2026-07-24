@@ -10,6 +10,7 @@ import { Intro } from "@/components/Intro";
 import { MatrixText } from "@/components/MatrixText";
 import { ServicesCarousel } from "@/components/ServicesCarousel";
 import { CasesScrolly } from "@/components/CasesScrolly";
+import { PinnedReveal } from "@/components/PinnedReveal";
 import {
   home,
   stats,
@@ -91,39 +92,38 @@ export default function Home() {
         <ServicesCarousel />
       </section>
 
-      {/* Process */}
+      {/* Process — pinned reveal */}
       <section className="section-line section-raised">
-        <SectionDeco variant={1} />
-        <div className="container">
-          <div className="section-header">
-            <Reveal>
-              <div className="eyebrow">{home.processEyebrow}</div>
-            </Reveal>
-            <Reveal delay={0.05}>
-              <h2>{home.processHeading}</h2>
-            </Reveal>
+        <PinnedReveal>
+          <div className="container">
+            <div className="section-header">
+              <div className="eyebrow" data-role="eyebrow">
+                {home.processEyebrow}
+              </div>
+              <h2 data-role="heading">{home.processHeading}</h2>
+            </div>
+            <div data-role="body">
+              <ProcessSteps />
+            </div>
           </div>
-
-          <ProcessSteps />
-        </div>
+        </PinnedReveal>
       </section>
 
-      {/* Why it works */}
+      {/* Why it works — pinned reveal */}
       <section className="section-line">
-        <SectionDeco variant={6} />
-        <div className="container-read">
-          <div className="section-header">
-            <Reveal>
-              <div className="eyebrow">{home.whyEyebrow}</div>
-            </Reveal>
-            <Reveal delay={0.05}>
-              <h2>{home.whyHeading}</h2>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="lead">{home.whyText}</p>
-            </Reveal>
+        <PinnedReveal hold={0.8}>
+          <div className="container-read">
+            <div className="section-header">
+              <div className="eyebrow" data-role="eyebrow">
+                {home.whyEyebrow}
+              </div>
+              <h2 data-role="heading">{home.whyHeading}</h2>
+              <p className="lead" data-role="lead">
+                {home.whyText}
+              </p>
+            </div>
           </div>
-        </div>
+        </PinnedReveal>
       </section>
 
       {/* Work — pinned scroll-choreography */}
