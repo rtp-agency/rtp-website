@@ -70,7 +70,7 @@ export function Scrolly({
       const p = clamp(-el.getBoundingClientRect().top / total);
 
       const introLp = clamp(p / SEG);
-      const out = smooth((introLp - 0.5) / 0.5);
+      const out = smooth((introLp - 0.6) / 0.45);
       introEl.style.opacity = String(1 - out);
       introEl.style.transform = `translateY(${-80 * out}px)`;
 
@@ -79,8 +79,8 @@ export function Scrolly({
         const segStart = SEG * (i + 1);
         const lpRaw = (p - segStart) / SEG;
         const lp = clamp(lpRaw);
-        const fadeIn = smooth((lpRaw + 0.32) / 0.34);
-        const fadeOut = 1 - smooth((lpRaw - 1.04) / 0.28);
+        const fadeIn = smooth((lpRaw + 0.1) / 0.26);
+        const fadeOut = 1 - smooth((lpRaw - 0.82) / 0.3);
         const cardO = clamp(Math.min(fadeIn, fadeOut));
         card.style.opacity = String(cardO);
         card.style.pointerEvents = cardO > 0.6 ? "auto" : "none";

@@ -2,7 +2,6 @@ import { Nav } from "@/components/Nav";
 import { Reveal } from "@/components/Reveal";
 import { ContactForm } from "@/components/ContactForm";
 import { SectionDeco } from "@/components/SectionDeco";
-import { WaveWash } from "@/components/WaveWash";
 import { Intro } from "@/components/Intro";
 import { MainStage } from "@/components/MainStage";
 import { CasesScrolly } from "@/components/CasesScrolly";
@@ -22,10 +21,7 @@ export default function Home() {
       {/* Main — pinned: hero (visible) lifts away, services fade in on the wave */}
       <MainStage />
 
-      {/* Wave washes over the screen → into the cases */}
-      <WaveWash />
-
-      {/* Work — pinned scroll-choreography */}
+      {/* Work — the hero wave zooms in, then the cases grow out of it */}
       <section id="work">
         <CasesScrolly
           items={work}

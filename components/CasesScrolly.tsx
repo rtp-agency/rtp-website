@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useReducedMotion } from "framer-motion";
+import { WaveField } from "./WaveField";
 import type { WorkItem } from "@/lib/site";
 import { ui } from "@/lib/i18n";
 
@@ -37,6 +38,7 @@ export function CasesScrolly({
     const el = root;
     const introEl = el.querySelector<HTMLElement>(".cs-intro");
     const glow = el.querySelector<HTMLElement>(".cs-glow");
+    const waveEl = el.querySelector<HTMLElement>(".cs-wave");
     const caseEls = Array.from(el.querySelectorAll<HTMLElement>(".cs-case"));
     const dots = Array.from(el.querySelectorAll<HTMLElement>(".cs-dot"));
     if (!introEl || !glow) return;
@@ -60,17 +62,25 @@ export function CasesScrolly({
       const p = clamp(-el.getBoundingClientRect().top / total);
 
       const introLp = clamp(p / SEG);
-      const out = smooth((introLp - 0.5) / 0.5);
+      const out = smooth((introLp - 0.6) / 0.45);
       introEl.style.opacity = String(1 - out);
       introEl.style.transform = `translateY(${-80 * out}px)`;
+
+      // the hero wave zooms into the screen, then recedes as the cases emerge
+      if (waveEl) {
+        const zoomP = smooth(clamp(p / (SEG * 1.05)));
+        const fade = smooth(clamp((p - SEG * 0.8) / (SEG * 0.95)));
+        waveEl.style.transform = `scale(${1 + zoomP * 1.7})`;
+        waveEl.style.opacity = String(0.95 - fade * 0.72);
+      }
 
       let active = 0;
       caseEls.forEach((card, i) => {
         const segStart = SEG * (i + 1);
         const lpRaw = (p - segStart) / SEG;
         const lp = clamp(lpRaw);
-        const fadeIn = smooth((lpRaw + 0.32) / 0.34);
-        const fadeOut = 1 - smooth((lpRaw - 1.04) / 0.28);
+        const fadeIn = smooth((lpRaw + 0.1) / 0.26);
+        const fadeOut = 1 - smooth((lpRaw - 0.82) / 0.3);
         const cardO = clamp(Math.min(fadeIn, fadeOut));
         card.style.opacity = String(cardO);
         card.style.pointerEvents = cardO > 0.6 ? "auto" : "none";
@@ -140,6 +150,9 @@ export function CasesScrolly({
       style={{ "--n": items.length } as CSSProperties}
     >
       <div className="cs-stage">
+        <div className="cs-wave" aria-hidden="true">
+          <WaveField />
+        </div>
         <div className="cs-glow" aria-hidden="true" />
         <div className="cs-grid" aria-hidden="true" />
 

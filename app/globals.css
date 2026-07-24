@@ -3982,3 +3982,76 @@ nav {
   position: relative;
   z-index: 1;
 }
+
+/* ===== compact services so the pinned stage fits laptop viewports ===== */
+.svc-track {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+.svc-card {
+  padding: 24px 28px;
+  opacity: 0.5;
+  transform: scale(0.9);
+}
+.svc-card.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+.svc-ico {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 15px;
+}
+.svc-ico svg {
+  width: 22px;
+  height: 22px;
+}
+.svc-title {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+.svc-list {
+  gap: 9px;
+  margin: 0 0 16px;
+}
+.svc-list li {
+  font-size: 13.5px;
+  line-height: 1.4;
+  padding-left: 20px;
+}
+.svc-list li::before {
+  top: 7px;
+  width: 6px;
+  height: 6px;
+}
+.svc-cta {
+  padding: 9px 17px;
+  font-size: 13px;
+}
+.svc-nav {
+  margin-top: 16px;
+}
+.ms-services .section-header {
+  margin-bottom: 6px;
+}
+.ms-services .section-header .eyebrow {
+  margin-bottom: 10px;
+}
+.ms-services .section-header h2 {
+  font-size: clamp(26px, 3.2vw, 38px);
+  margin-bottom: 12px;
+}
+.ms-services .section-header .lead {
+  font-size: 15.5px;
+  margin: 0 auto;
+  max-width: 520px;
+}
+
+/* ===== the hero wave zooming into the cases ===== */
+.cs-wave {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  transform-origin: 50% 58%;
+  will-change: transform, opacity;
+}
