@@ -4,16 +4,16 @@ import { Reveal } from "@/components/Reveal";
 import { CountUp } from "@/components/CountUp";
 import { ContactForm } from "@/components/ContactForm";
 import { CardCostBar } from "@/components/CardCostBar";
-import { OfferVisual } from "@/components/OfferVisual";
 import { ProcessSteps } from "@/components/ProcessSteps";
 import { SectionDeco } from "@/components/SectionDeco";
 import { Marquee } from "@/components/Marquee";
 import { WaveField } from "@/components/WaveField";
 import { Intro } from "@/components/Intro";
+import { MatrixText } from "@/components/MatrixText";
+import { ServicesCarousel } from "@/components/ServicesCarousel";
 import {
   home,
   stats,
-  offers,
   work,
   additional,
   testimonials,
@@ -36,7 +36,10 @@ export default function Home() {
         <WaveField />
         <div className="container">
           <div className="hero-center">
-            <h1 className="hero-brand">RTP Agency</h1>
+            <h1 className="hero-brand">
+              <MatrixText text="RTP" className="matrix-rtp" />
+              <span className="hero-agency">Agency</span>
+            </h1>
             <p className="hero-tagline">
               Преврати рутину в профит.
               <br />
@@ -74,51 +77,20 @@ export default function Home() {
         <div className="container">
           <div className="section-header">
             <Reveal>
-              <div className="eyebrow">{home.offersEyebrow}</div>
+              <div className="eyebrow">Что мы разрабатываем</div>
             </Reveal>
             <Reveal delay={0.05}>
-              <h2>{home.offersHeading}</h2>
+              <h2>Разработка под задачу.</h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="lead">{home.offersLead}</p>
+              <p className="lead">
+                Не «ИИ-консалтинг» вообще, а конкретные вещи, которые собираем
+                под ключ. Листайте карточки.
+              </p>
             </Reveal>
           </div>
-
-          <div className="offers">
-            {offers.map((o, i) => (
-              <Reveal key={o.num} delay={i * 0.1}>
-                <div className="offer">
-                  <OfferVisual kind={o.visual} />
-                  <div className="offer-num">{o.num}</div>
-                  <h3 className="offer-name">{o.name}</h3>
-                  <p className="offer-promise">{o.promise}</p>
-                  <div className="offer-does-label">{home.offerDoesLabel}</div>
-                  <ul className="offer-does">
-                    {o.does.map((d) => (
-                      <li key={d}>{d}</li>
-                    ))}
-                  </ul>
-                  <div className="offer-foot">
-                    <div className="offer-foot-row">
-                      <span className="offer-foot-label">
-                        {home.offerAudienceLabel}
-                      </span>
-                      <span className="offer-foot-val">{o.audience}</span>
-                    </div>
-                    <div className="offer-foot-row">
-                      <span className="offer-foot-label">
-                        {home.offerResultLabel}
-                      </span>
-                      <span className="offer-foot-val offer-foot-val-hi">
-                        {o.result}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </div>
+        <ServicesCarousel />
       </section>
 
       {/* Process */}
