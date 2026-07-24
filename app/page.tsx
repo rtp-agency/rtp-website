@@ -1,17 +1,13 @@
 import { Nav } from "@/components/Nav";
 import { Reveal } from "@/components/Reveal";
-import { CountUp } from "@/components/CountUp";
 import { ContactForm } from "@/components/ContactForm";
 import { SectionDeco } from "@/components/SectionDeco";
-import { WaveField } from "@/components/WaveField";
 import { WaveWash } from "@/components/WaveWash";
 import { Intro } from "@/components/Intro";
-import { MatrixText } from "@/components/MatrixText";
-import { ServicesCarousel } from "@/components/ServicesCarousel";
+import { MainStage } from "@/components/MainStage";
 import { CasesScrolly } from "@/components/CasesScrolly";
-import { PinnedReveal } from "@/components/PinnedReveal";
 import { Scrolly } from "@/components/Scrolly";
-import { home, stats, work, additional, testimonials } from "@/lib/site";
+import { home, work, additional, testimonials } from "@/lib/site";
 
 const TG_URL = "https://t.me/rtp_agency";
 const EMAIL = "solutions@rtp-agency.com";
@@ -23,76 +19,8 @@ export default function Home() {
       <div className="bg-grid" aria-hidden="true" />
       <Nav variant="home" />
 
-      {/* Hero — pin-scroll start: RTP + stats reveal over the red wave */}
-      <section className="hero hero-pinned">
-        <PinnedReveal hold={1}>
-          <>
-            <WaveField />
-            <div className="container">
-              <div className="hero-center">
-                <h1 className="hero-brand" data-role="heading">
-                  <MatrixText text="RTP" className="matrix-rtp" />
-                  <span className="hero-agency">Agency</span>
-                </h1>
-                <p className="hero-tagline" data-role="lead">
-                  Преврати рутину в профит.
-                  <br />
-                  Воплоти свои идеи в реальность.
-                </p>
-                <a
-                  href={TG_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-primary hero-cta"
-                  data-role="body"
-                >
-                  Бесплатная консультация <span className="arrow">→</span>
-                </a>
-                <div className="hero-stats" data-role="body">
-                  {stats.map((s) => (
-                    <div className="hero-stat" key={s.label}>
-                      <div className="hero-stat-num">
-                        <CountUp
-                          value={s.value}
-                          prefix={s.prefix}
-                          suffix={s.suffix}
-                        />
-                      </div>
-                      <div className="hero-stat-label">{s.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </>
-        </PinnedReveal>
-      </section>
-
-      {/* Services — pinned intro + coverflow carousel */}
-      <section id="services" className="section-line">
-        <PinnedReveal hold={0.8}>
-          <div className="svc-stagewrap">
-            <WaveField />
-            <div className="svc-stage-content">
-              <div className="container">
-                <div className="section-header">
-                  <div className="eyebrow" data-role="eyebrow">
-                    Что мы разрабатываем
-                  </div>
-                  <h2 data-role="heading">Разработка под задачу.</h2>
-                  <p className="lead" data-role="lead">
-                    Не «ИИ-консалтинг» вообще, а конкретные вещи, которые
-                    собираем под ключ. Листайте карточки.
-                  </p>
-                </div>
-              </div>
-              <div data-role="body">
-                <ServicesCarousel />
-              </div>
-            </div>
-          </div>
-        </PinnedReveal>
-      </section>
+      {/* Main — pinned: hero (visible) lifts away, services fade in on the wave */}
+      <MainStage />
 
       {/* Wave washes over the screen → into the cases */}
       <WaveWash />

@@ -3496,7 +3496,7 @@ nav {
   gap: 24px;
   width: 100%;
 }
-.hero .hero-brand {
+.hero-brand {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3930,6 +3930,50 @@ nav {
   z-index: 0;
 }
 .hero-pinned .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== main stage (hero -> services, pinned over the wave) ===== */
+.main-stage {
+  position: relative;
+}
+.ms-live {
+  height: calc((1 + var(--hold)) * 100vh);
+}
+.ms-sticky {
+  position: relative;
+  overflow: hidden;
+  background: #070707;
+}
+.ms-live .ms-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+.ms-live .wave-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.ms-layer {
+  position: relative;
+  z-index: 1;
+  padding: 90px 0;
+}
+.ms-live .ms-layer {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.ms-live .ms-services {
+  opacity: 0;
+}
+.ms-layer .container {
   position: relative;
   z-index: 1;
 }
