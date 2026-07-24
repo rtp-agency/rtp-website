@@ -3697,7 +3697,8 @@ nav {
 /* ===== cases: pinned scroll-choreography ===== */
 .case-scrolly.scrolly-live {
   position: relative;
-  height: calc((var(--n) + 1) * var(--seg, 84vh));
+  --seg: 84vh;
+  height: calc((var(--n) + 1) * var(--seg));
   --accent: var(--color-red);
 }
 /* project card (additional) */
@@ -3857,7 +3858,7 @@ nav {
 }
 @media (max-width: 640px) {
   .case-scrolly.scrolly-live {
-    height: calc((var(--n) + 1) * var(--seg, 78vh));
+    --seg: 78vh;
   }
   .cs-foot {
     flex-direction: column;
