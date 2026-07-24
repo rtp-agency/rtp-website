@@ -37,7 +37,7 @@ export function WaveWash() {
       cnv.width = Math.floor(W * dpr);
       cnv.height = Math.floor(H * dpr);
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
-      spacing = Math.max(16, Math.round(W / 64));
+      spacing = Math.max(13, Math.round(W / 82));
     };
 
     const readProgress = () => {
@@ -48,8 +48,9 @@ export function WaveWash() {
     const draw = (tms: number) => {
       const t = tms / 1000;
       const p = progress;
-      const cover = clamp(p / 0.6); // fills the screen by p = 0.6
-      const op = p < 0.72 ? 1 : clamp(1 - (p - 0.72) / 0.28); // then clears
+      // starts with a band at the bottom (continues the hero wave), fills fast
+      const cover = clamp(0.2 + (p / 0.45) * 0.8);
+      const op = p < 0.82 ? 1 : clamp(1 - (p - 0.82) / 0.18); // then clears
       g.clearRect(0, 0, W, H);
       if (op > 0.002) {
         const frontBase = (1 - cover) * (H + 40);

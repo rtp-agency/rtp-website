@@ -169,8 +169,13 @@ export function ServicesCarousel() {
       }
     };
     el.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     mark();
-    return () => el.removeEventListener("scroll", onScroll);
+    requestAnimationFrame(mark);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   return (

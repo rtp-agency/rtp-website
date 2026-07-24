@@ -40,14 +40,14 @@ export function MainStage() {
       if (total <= 0) return;
       const p = clamp(-el.getBoundingClientRect().top / total);
 
-      const heroOut = smooth((p - 0.3) / 0.22);
+      const heroOut = smooth((p - 0.24) / 0.2);
       heroEl.style.opacity = String(1 - heroOut);
-      heroEl.style.transform = `translateY(${-64 * heroOut}px)`;
+      heroEl.style.transform = `translateY(${-60 * heroOut}px)`;
       heroEl.style.pointerEvents = heroOut > 0.5 ? "none" : "auto";
 
-      const svcIn = smooth((p - 0.46) / 0.22);
+      const svcIn = smooth((p - 0.44) / 0.18);
       svcEl.style.opacity = String(svcIn);
-      svcEl.style.transform = `translateY(${44 * (1 - svcIn)}px)`;
+      svcEl.style.transform = `translateY(${40 * (1 - svcIn)}px)`;
       svcEl.style.pointerEvents = svcIn > 0.5 ? "auto" : "none";
     };
     const onScroll = () => {
@@ -69,7 +69,7 @@ export function MainStage() {
     <div
       ref={rootRef}
       className={`main-stage${live ? " ms-live" : ""}`}
-      style={{ "--hold": 2.4 } as CSSProperties}
+      style={{ "--hold": 1.7 } as CSSProperties}
     >
       <div className="ms-sticky">
         <WaveField />

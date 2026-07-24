@@ -3533,7 +3533,7 @@ nav {
   gap: 20px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 44px calc(50vw - min(43vw, 200px)) 44px;
+  padding: 26px calc(50vw - min(43vw, 200px)) 26px;
   scrollbar-width: none;
   cursor: grab;
 }
@@ -3554,8 +3554,8 @@ nav {
   border-radius: var(--radius);
   background: var(--color-bg2);
   border: 1px solid var(--color-line);
-  opacity: 0.42;
-  transform: scale(0.9);
+  opacity: 0.6;
+  transform: scale(0.93);
   transition: border-color 0.35s var(--ease), transform 0.5s var(--ease),
     opacity 0.5s var(--ease);
 }
@@ -3889,8 +3889,12 @@ nav {
 /* ===== wave-wash transition (services -> cases) ===== */
 .wave-wash {
   position: relative;
-  height: 190vh;
-  background: #070707;
+  height: 120vh;
+  background: radial-gradient(
+    80% 60% at 50% 100%,
+    rgba(255, 59, 59, 0.08),
+    #070707 70%
+  );
 }
 .wave-wash-canvas {
   position: sticky;
