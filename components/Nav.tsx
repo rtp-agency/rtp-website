@@ -63,7 +63,16 @@ export function Nav({ variant = "home" }: { variant?: "home" | "case" }) {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setCompact(window.scrollY > 90);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      // near the top always expanded; otherwise expand on scroll-up, collapse
+      // on scroll-down
+      if (y < 90) setCompact(false);
+      else if (y > lastY + 3) setCompact(true);
+      else if (y < lastY - 3) setCompact(false);
+      lastY = y;
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);

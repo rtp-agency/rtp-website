@@ -12,7 +12,7 @@ import { WaveField } from "./WaveField";
 import { MatrixText } from "./MatrixText";
 import { CountUp } from "./CountUp";
 import { ServicesCarousel } from "./ServicesCarousel";
-import { stats, work, additional, testimonials, home } from "@/lib/site";
+import { stats, work } from "@/lib/site";
 import { ui } from "@/lib/i18n";
 
 const TG_URL = "https://t.me/rtp_agency";
@@ -95,61 +95,16 @@ export function Journey() {
     });
   });
 
-  slides.push({
-    key: "proj-intro",
-    node: intro(
-      home.additionalEyebrow,
-      home.additionalHeading,
-      "Инженерные проекты, которые мы собрали под ключ."
-    ),
-  });
-  additional.forEach((a, i) => {
-    slides.push({
-      key: a.title,
-      node: (
-        <div className="jr-inner cs-alt">
-          <div className="cs-tag" data-role="tag">
-            Проект {String(i + 1).padStart(2, "0")}
-          </div>
-          <h3 className="cs-title" data-role="title">
-            {a.title}
-          </h3>
-          <p className="cs-desc" data-role="desc">
-            {a.body}
-          </p>
-        </div>
-      ),
-    });
-  });
-
-  slides.push({
-    key: "tst-intro",
-    node: intro(
-      home.testimonialsEyebrow,
-      home.testimonialsHeading,
-      "Отзывы команд, с которыми мы работали."
-    ),
-  });
-  testimonials.forEach((tm) => {
-    slides.push({
-      key: tm.name,
-      node: (
-        <div className="jr-inner cs-quote">
-          <p className="cs-quote-text" data-role="title">
-            «{tm.quote}»
-          </p>
-          <div className="cs-quote-author" data-role="sub">
-            <strong>{tm.name}</strong> — {tm.title}
-          </div>
-        </div>
-      ),
-    });
-  });
-
   const M = slides.length;
   // hold ≈ number of "screens": hero+services ~2.4, then each slide ~0.62
   const hold = 2.4 + M * 0.62;
   const S = 2.4 / (1 + hold); // p-fraction where the slide phase begins
+  const SEG = 1 / M;
+  // where nav anchors should land, as a fraction of the tall journey element:
+  // F = p * hold/(1+hold), p = scroll progress at that moment
+  const fracFor = (p: number) => (p * hold) / (1 + hold);
+  const servicesFrac = fracFor(0.62 * S); // services fully in view
+  const workFrac = fracFor(S + 1.5 * SEG * (1 - S)); // first case centred
 
   useEffect(() => {
     if (!live) return;
@@ -310,20 +265,6 @@ export function Journey() {
             ))}
           </div>
         </section>
-        <section id="testimonials" className="section-line container-read">
-          <div className="section-header">
-            <div className="eyebrow">{home.testimonialsEyebrow}</div>
-            <h2>{home.testimonialsHeading}</h2>
-          </div>
-          {testimonials.map((tm) => (
-            <blockquote className="testimonial" key={tm.name}>
-              <p>{tm.quote}</p>
-              <cite>
-                {tm.name} — {tm.title}
-              </cite>
-            </blockquote>
-          ))}
-        </section>
       </>
     );
   }
@@ -334,6 +275,19 @@ export function Journey() {
       className="journey jr-live"
       style={{ "--hold": hold } as CSSProperties}
     >
+      {/* in-flow anchor markers so the nav can jump into the pinned journey */}
+      <span
+        id="services"
+        className="jr-anchor"
+        style={{ top: `${servicesFrac * 100}%` }}
+        aria-hidden="true"
+      />
+      <span
+        id="work"
+        className="jr-anchor"
+        style={{ top: `${workFrac * 100}%` }}
+        aria-hidden="true"
+      />
       <div className="jr-sticky">
         <div className="jr-wave" aria-hidden="true">
           <WaveField />
@@ -341,16 +295,10 @@ export function Journey() {
         <div className="jr-glow" aria-hidden="true" />
 
         <div className="jr-layer jr-hero">{heroContent}</div>
-        <div className="jr-layer jr-services" id="services">
-          {servicesContent}
-        </div>
+        <div className="jr-layer jr-services">{servicesContent}</div>
 
-        {slides.map((s, i) => (
-          <div
-            className="jr-layer jr-slide"
-            key={s.key}
-            id={i === 0 ? "work" : undefined}
-          >
+        {slides.map((s) => (
+          <div className="jr-layer jr-slide" key={s.key}>
             {s.node}
           </div>
         ))}
