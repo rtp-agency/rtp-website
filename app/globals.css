@@ -4162,12 +4162,13 @@ nav {
   cursor: grab;
 }
 .svc3d-card {
+  --svcw: 360px;
   position: absolute;
   left: 50%;
   top: 0;
-  width: 360px;
+  width: var(--svcw);
   height: 440px;
-  margin-left: -180px;
+  margin-left: calc(var(--svcw) * -0.5);
   display: flex;
   flex-direction: column;
   padding: 26px 28px;
@@ -4292,11 +4293,21 @@ nav {
   font-variant-numeric: tabular-nums;
 }
 
+/* cases group inside the pin (fades / slides as one during phase seams) */
+.jr-cases {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
 /* ===== in-pin card-scrub layers (other work + reviews) ===== */
 .jr-projects,
 .jr-reviews {
   opacity: 0;
   justify-content: flex-start;
+  will-change: transform, opacity;
 }
 .jr-scrub-inner {
   position: relative;
@@ -4525,5 +4536,84 @@ nav {
   .vsc-inner,
   .hsc-inner {
     padding-top: 100px;
+  }
+}
+
+/* ===== phone tuning ===== */
+@media (max-width: 620px) {
+  /* services 3D carousel */
+  .svc3d {
+    perspective: 1100px;
+  }
+  .svc3d-stage {
+    height: 460px;
+  }
+  .svc3d-card {
+    --svcw: min(300px, 80vw);
+    height: 460px;
+    padding: 22px 22px 18px;
+  }
+  .svc3d-card .svc-title {
+    font-size: 18px;
+  }
+  .svc3d-card .svc-list li {
+    font-size: 13.5px;
+  }
+  .svc3d-edge {
+    width: 54px;
+    min-width: 46px;
+  }
+  .svc3d-chev {
+    width: 42px;
+    height: 42px;
+    font-size: 26px;
+  }
+  /* on touch, swipe is obvious and the side cards peek — drop the » hint */
+  .svc3d-swipe {
+    display: none;
+  }
+  /* compact services header so the carousel fits above the fold */
+  .jr-services .section-header h2 {
+    font-size: 24px;
+  }
+  .jr-services .section-header .lead {
+    font-size: 14px;
+    max-width: 92vw;
+  }
+  .jr-services .section-header {
+    margin-bottom: 0;
+  }
+
+  /* in-pin scrub layers */
+  .jr-scrub-inner {
+    padding: 92px 0 40px;
+  }
+  .jr-scrub-head h2 {
+    font-size: 26px;
+  }
+  .jr-chapter h2 {
+    font-size: clamp(24px, 8vw, 34px);
+  }
+
+  /* other-work cards */
+  .vsc-card {
+    padding: 22px 22px;
+    border-radius: 14px;
+  }
+  .vsc-card h4 {
+    font-size: 17px;
+  }
+  .vsc-card p {
+    font-size: 14px;
+  }
+
+  /* review cards */
+  .hsc-card {
+    padding: 26px 24px;
+  }
+  .hsc-quote {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
   }
 }

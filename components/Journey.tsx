@@ -37,8 +37,15 @@ type Slide = { key: string; node: ReactNode };
 export function Journey() {
   const reduce = useReducedMotion();
   const [mounted, setMounted] = useState(false);
+  const [narrow, setNarrow] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    const m = () => setNarrow(window.innerWidth < 620);
+    m();
+    window.addEventListener("resize", m);
+    return () => window.removeEventListener("resize", m);
+  }, []);
   const live = mounted && !reduce;
 
   // cases as cross-fade slides: intro + one per case
@@ -92,13 +99,10 @@ export function Journey() {
     }),
   ];
 
-  // phase weights in "screens"
-  const W = {
-    hero: 2.4,
-    cases: caseSlides.length * 0.62,
-    proj: 3.4,
-    rev: 3.0,
-  };
+  // phase weights in "screens" — shorter on phones (less finger-scrolling)
+  const W = narrow
+    ? { hero: 2.0, cases: caseSlides.length * 0.5, proj: 2.6, rev: 2.4 }
+    : { hero: 2.4, cases: caseSlides.length * 0.62, proj: 3.4, rev: 3.0 };
   const hold = W.hero + W.cases + W.proj + W.rev;
   const b1 = W.hero / hold; // hero/services → cases
   const b2 = (W.hero + W.cases) / hold; // cases → projects
@@ -118,6 +122,7 @@ export function Journey() {
     const svcEl = el.querySelector<HTMLElement>(".jr-services");
     const waveEl = el.querySelector<HTMLElement>(".jr-wave");
     const glow = el.querySelector<HTMLElement>(".jr-glow");
+    const casesEl = el.querySelector<HTMLElement>(".jr-cases");
     const projEl = el.querySelector<HTMLElement>(".jr-projects");
     const revEl = el.querySelector<HTMLElement>(".jr-reviews");
     if (!heroEl || !svcEl || !waveEl) return;
@@ -149,11 +154,14 @@ export function Journey() {
       if (total <= 0) return;
       const p = clamp(-el.getBoundingClientRect().top / total);
 
-      // cross-fading group opacity between phase windows [a,b]
-      const grp = (a: number, b: number) => {
-        const fin = smooth((p - a + 0.03) / 0.05);
-        const fout = 1 - smooth((p - b + 0.02) / 0.05);
-        return clamp(Math.min(fin, fout));
+      // phase group visibility over [start,end]: opacity + a small translateY so
+      // the outgoing group slides up while the incoming slides in from below —
+      // they never sit stacked at half opacity.
+      const FW = 0.05;
+      const seg = (start: number, end: number) => {
+        const fin = smooth((p - start) / FW);
+        const fout = 1 - smooth((p - (end - FW)) / FW);
+        return { g: clamp(Math.min(fin, fout)), off: (fout - fin) * 52 };
       };
 
       // ---- hero + services (p in [0, b1]) ----
@@ -171,20 +179,24 @@ export function Journey() {
 
       // ---- cases cross-fade (p in [b1, b2]) ----
       const qc = clamp((p - b1) / (b2 - b1));
-      const gateC = grp(b1, b2);
+      const gateC = seg(b1 - FW, b2);
+      if (casesEl) {
+        casesEl.style.opacity = String(gateC.g);
+        casesEl.style.transform = `translateY(${gateC.off}px)`;
+      }
       const zoomP = smooth(clamp(qc / (SEG * 1.05)));
       const waveFade = smooth(clamp((qc - SEG * 0.8) / (SEG * 0.95)));
       waveEl.style.transform = `scale(${1 + zoomP * 1.7})`;
       waveEl.style.opacity = String(1 - waveFade * 0.76);
-      if (glow) glow.style.opacity = String(gateC * 0.14);
+      if (glow) glow.style.opacity = String(gateC.g * 0.14);
       slideEls.forEach((card, i) => {
         const lpRaw = qc / SEG - i;
         const lp = clamp(lpRaw);
         const fadeIn = smooth((lpRaw + 0.1) / 0.26);
         const fadeOut = 1 - smooth((lpRaw - 0.82) / 0.3);
-        const cardO = clamp(Math.min(fadeIn, fadeOut)) * gateC;
+        const cardO = clamp(Math.min(fadeIn, fadeOut));
         card.style.opacity = String(cardO);
-        card.style.pointerEvents = cardO > 0.6 ? "auto" : "none";
+        card.style.pointerEvents = cardO > 0.6 && gateC.g > 0.6 ? "auto" : "none";
         roles[i].forEach((r) => {
           const cfg = ROLE[r.dataset.role || ""] || ROLE.desc;
           const t = smooth((lp - cfg[0]) / (cfg[1] - cfg[0]));
@@ -195,12 +207,13 @@ export function Journey() {
 
       // ---- other work: vertical card scrub (p in [b2, b3]) ----
       const qp = clamp((p - b2) / (b3 - b2));
-      const gateP = grp(b2, b3);
+      const gateP = seg(b2 - FW, b3);
       if (projEl) {
-        projEl.style.opacity = String(gateP);
-        projEl.style.pointerEvents = gateP > 0.6 ? "auto" : "none";
+        projEl.style.opacity = String(gateP.g);
+        projEl.style.transform = `translateY(${gateP.off}px)`;
+        projEl.style.pointerEvents = gateP.g > 0.6 ? "auto" : "none";
       }
-      if (gateP > 0.001 && vcol && vvp && vcards.length) {
+      if (gateP.g > 0.001 && vcol && vvp && vcards.length) {
         const vpH = vvp.clientHeight;
         const first = vcards[0];
         const last = vcards[vcards.length - 1];
@@ -221,12 +234,13 @@ export function Journey() {
 
       // ---- reviews: horizontal card scrub (p in [b3, 1]) ----
       const qr = clamp((p - b3) / (1 - b3));
-      const gateR = grp(b3, 1.05);
+      const gateR = seg(b3 - FW, 1 + FW);
       if (revEl) {
-        revEl.style.opacity = String(gateR);
-        revEl.style.pointerEvents = gateR > 0.6 ? "auto" : "none";
+        revEl.style.opacity = String(gateR.g);
+        revEl.style.transform = `translateY(${gateR.off}px)`;
+        revEl.style.pointerEvents = gateR.g > 0.6 ? "auto" : "none";
       }
-      if (gateR > 0.001 && hrow && hvp && hcards.length) {
+      if (gateR.g > 0.001 && hrow && hvp && hcards.length) {
         const vpW = hvp.clientWidth;
         const first = hcards[0];
         const last = hcards[hcards.length - 1];
@@ -408,11 +422,13 @@ export function Journey() {
         <div className="jr-layer jr-hero">{heroContent}</div>
         <div className="jr-layer jr-services">{servicesContent}</div>
 
-        {caseSlides.map((s) => (
-          <div className="jr-layer jr-slide" key={s.key}>
-            {s.node}
-          </div>
-        ))}
+        <div className="jr-cases">
+          {caseSlides.map((s) => (
+            <div className="jr-layer jr-slide" key={s.key}>
+              {s.node}
+            </div>
+          ))}
+        </div>
 
         {/* other work — vertical card scrub, inside the same pin */}
         <div className="jr-layer jr-projects jr-scrub">
