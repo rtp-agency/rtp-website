@@ -154,14 +154,20 @@ export function Journey() {
       if (total <= 0) return;
       const p = clamp(-el.getBoundingClientRect().top / total);
 
-      // phase group visibility over [start,end]: opacity + a small translateY so
-      // the outgoing group slides up while the incoming slides in from below —
-      // they never sit stacked at half opacity.
-      const FW = 0.05;
-      const seg = (start: number, end: number) => {
-        const fin = smooth((p - start) / FW);
-        const fout = 1 - smooth((p - (end - FW)) / FW);
-        return { g: clamp(Math.min(fin, fout)), off: (fout - fin) * 52 };
+      // content scrub finishes here (as a fraction of a phase window); the last
+      // item then holds so it can be read before the group hands off
+      const CONTENT_END = 0.8;
+      // Group opacity + translateY around the phase boundaries. Adjacent groups
+      // cross near half opacity (no black gap) but are pushed apart vertically
+      // (outgoing slides up, incoming rises from below) so they never read as
+      // two stacked blocks.
+      const FADE = 0.055;
+      const OFF = 44;
+      const upC = (c: number) => smooth((p - c) / FADE + 0.5);
+      const mk = (inC: number, outC: number, hasOut: boolean) => {
+        const fi = upC(inC);
+        const fo = hasOut ? upC(outC) : 0;
+        return { g: clamp(fi - fo), off: (1 - fi) * OFF - fo * OFF };
       };
 
       // ---- hero + services (p in [0, b1]) ----
@@ -179,21 +185,25 @@ export function Journey() {
 
       // ---- cases cross-fade (p in [b1, b2]) ----
       const qc = clamp((p - b1) / (b2 - b1));
-      const gateC = seg(b1 - FW, b2);
+      const gateC = mk(b1, b2, true);
       if (casesEl) {
         casesEl.style.opacity = String(gateC.g);
         casesEl.style.transform = `translateY(${gateC.off}px)`;
       }
-      const zoomP = smooth(clamp(qc / (SEG * 1.05)));
-      const waveFade = smooth(clamp((qc - SEG * 0.8) / (SEG * 0.95)));
+      const zoomP = smooth(clamp(qc / (SEG * 0.85)));
+      const waveFade = smooth(clamp((qc - SEG * 0.7) / (SEG * 0.8)));
       waveEl.style.transform = `scale(${1 + zoomP * 1.7})`;
       waveEl.style.opacity = String(1 - waveFade * 0.76);
       if (glow) glow.style.opacity = String(gateC.g * 0.14);
+      // slides scrub over the first CONTENT_END of the window; the last case
+      // then holds full so it can be read before the projects take over.
+      const sc = clamp(qc / CONTENT_END);
+      const lastSlide = slideEls.length - 1;
       slideEls.forEach((card, i) => {
-        const lpRaw = qc / SEG - i;
+        const lpRaw = sc / SEG - i;
         const lp = clamp(lpRaw);
         const fadeIn = smooth((lpRaw + 0.1) / 0.26);
-        const fadeOut = 1 - smooth((lpRaw - 0.82) / 0.3);
+        const fadeOut = i === lastSlide ? 1 : 1 - smooth((lpRaw - 0.82) / 0.3);
         const cardO = clamp(Math.min(fadeIn, fadeOut));
         card.style.opacity = String(cardO);
         card.style.pointerEvents = cardO > 0.6 && gateC.g > 0.6 ? "auto" : "none";
@@ -207,19 +217,20 @@ export function Journey() {
 
       // ---- other work: vertical card scrub (p in [b2, b3]) ----
       const qp = clamp((p - b2) / (b3 - b2));
-      const gateP = seg(b2 - FW, b3);
+      const gateP = mk(b2, b3, true);
       if (projEl) {
         projEl.style.opacity = String(gateP.g);
         projEl.style.transform = `translateY(${gateP.off}px)`;
         projEl.style.pointerEvents = gateP.g > 0.6 ? "auto" : "none";
       }
       if (gateP.g > 0.001 && vcol && vvp && vcards.length) {
+        const scp = clamp(qp / CONTENT_END); // last card centred by CONTENT_END, then holds
         const vpH = vvp.clientHeight;
         const first = vcards[0];
         const last = vcards[vcards.length - 1];
         const y0 = vpH / 2 - (first.offsetTop + first.offsetHeight / 2);
         const y1 = vpH / 2 - (last.offsetTop + last.offsetHeight / 2);
-        vcol.style.transform = `translateY(${y0 + qp * (y1 - y0)}px)`;
+        vcol.style.transform = `translateY(${y0 + scp * (y1 - y0)}px)`;
         const cRect = vvp.getBoundingClientRect();
         const center = cRect.top + cRect.height / 2;
         vcards.forEach((card) => {
@@ -234,19 +245,20 @@ export function Journey() {
 
       // ---- reviews: horizontal card scrub (p in [b3, 1]) ----
       const qr = clamp((p - b3) / (1 - b3));
-      const gateR = seg(b3 - FW, 1 + FW);
+      const gateR = mk(b3, 1, false); // last phase — no fade-out
       if (revEl) {
         revEl.style.opacity = String(gateR.g);
         revEl.style.transform = `translateY(${gateR.off}px)`;
         revEl.style.pointerEvents = gateR.g > 0.6 ? "auto" : "none";
       }
       if (gateR.g > 0.001 && hrow && hvp && hcards.length) {
+        const scr = clamp(qr / CONTENT_END);
         const vpW = hvp.clientWidth;
         const first = hcards[0];
         const last = hcards[hcards.length - 1];
         const x0 = vpW / 2 - (first.offsetLeft + first.offsetWidth / 2);
         const x1 = vpW / 2 - (last.offsetLeft + last.offsetWidth / 2);
-        hrow.style.transform = `translateX(${x0 + qr * (x1 - x0)}px)`;
+        hrow.style.transform = `translateX(${x0 + scr * (x1 - x0)}px)`;
         const cRect = hvp.getBoundingClientRect();
         const center = cRect.left + cRect.width / 2;
         hcards.forEach((card) => {

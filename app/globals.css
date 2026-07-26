@@ -4308,6 +4308,9 @@ nav {
   opacity: 0;
   justify-content: flex-start;
   will-change: transform, opacity;
+  /* opaque bg so, as this layer fades/slides in, it masks the phase leaving
+     underneath — no ghost, no black gap at the seam */
+  background: var(--color-bg);
 }
 .jr-scrub-inner {
   position: relative;
