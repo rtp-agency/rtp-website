@@ -141,6 +141,20 @@ export function Journey() {
       ? Array.from(hrow.querySelectorAll<HTMLElement>(".hsc-card"))
       : [];
 
+    // measure card geometry ONCE (and on resize) so the scroll loop never does
+    // a per-card getBoundingClientRect (that read-after-write thrashes layout)
+    let vvpH = 0;
+    let hvpW = 0;
+    let vMid: number[] = [];
+    let hMid: number[] = [];
+    const measureCards = () => {
+      vvpH = vvp ? vvp.clientHeight : 0;
+      vMid = vcards.map((c) => c.offsetTop + c.offsetHeight / 2);
+      hvpW = hvp ? hvp.clientWidth : 0;
+      hMid = hcards.map((c) => c.offsetLeft + c.offsetWidth / 2);
+    };
+    measureCards();
+
     const clamp = (t: number) => (t < 0 ? 0 : t > 1 ? 1 : t);
     const smooth = (t: number) => {
       t = clamp(t);
@@ -176,6 +190,8 @@ export function Journey() {
       heroEl.style.opacity = String(1 - heroOut);
       heroEl.style.transform = `translateY(${-60 * heroOut}px)`;
       heroEl.style.pointerEvents = heroOut > 0.5 ? "none" : "auto";
+      // pause the hero matrix-text canvas once the hero is gone
+      window.__rtpHeroOff = heroOut >= 0.99;
       const svcIn = smooth((h - 0.4) / 0.16);
       const svcOut = smooth((h - 0.82) / 0.14);
       const svcO = clamp(svcIn - svcOut);
@@ -223,19 +239,16 @@ export function Journey() {
         projEl.style.transform = `translateY(${gateP.off}px)`;
         projEl.style.pointerEvents = gateP.g > 0.6 ? "auto" : "none";
       }
-      if (gateP.g > 0.001 && vcol && vvp && vcards.length) {
+      if (gateP.g > 0.001 && vcol && vcards.length) {
+        if (!vvpH) measureCards();
         const scp = clamp(qp / CONTENT_END); // last card centred by CONTENT_END, then holds
-        const vpH = vvp.clientHeight;
-        const first = vcards[0];
-        const last = vcards[vcards.length - 1];
-        const y0 = vpH / 2 - (first.offsetTop + first.offsetHeight / 2);
-        const y1 = vpH / 2 - (last.offsetTop + last.offsetHeight / 2);
-        vcol.style.transform = `translateY(${y0 + scp * (y1 - y0)}px)`;
-        const cRect = vvp.getBoundingClientRect();
-        const center = cRect.top + cRect.height / 2;
-        vcards.forEach((card) => {
-          const r = card.getBoundingClientRect();
-          const d = Math.abs(r.top + r.height / 2 - center) / (cRect.height / 2);
+        const y0 = vvpH / 2 - vMid[0];
+        const y1 = vvpH / 2 - vMid[vMid.length - 1];
+        const ty = y0 + scp * (y1 - y0);
+        vcol.style.transform = `translateY(${ty}px)`;
+        const half = vvpH / 2;
+        vcards.forEach((card, i) => {
+          const d = Math.abs(vMid[i] + ty - half) / half;
           const k = clamp(1 - d);
           card.style.opacity = String(0.3 + 0.7 * k);
           card.style.transform = `scale(${0.95 + 0.05 * k})`;
@@ -251,25 +264,24 @@ export function Journey() {
         revEl.style.transform = `translateY(${gateR.off}px)`;
         revEl.style.pointerEvents = gateR.g > 0.6 ? "auto" : "none";
       }
-      if (gateR.g > 0.001 && hrow && hvp && hcards.length) {
+      if (gateR.g > 0.001 && hrow && hcards.length) {
+        if (!hvpW) measureCards();
         const scr = clamp(qr / CONTENT_END);
-        const vpW = hvp.clientWidth;
-        const first = hcards[0];
-        const last = hcards[hcards.length - 1];
-        const x0 = vpW / 2 - (first.offsetLeft + first.offsetWidth / 2);
-        const x1 = vpW / 2 - (last.offsetLeft + last.offsetWidth / 2);
-        hrow.style.transform = `translateX(${x0 + scr * (x1 - x0)}px)`;
-        const cRect = hvp.getBoundingClientRect();
-        const center = cRect.left + cRect.width / 2;
-        hcards.forEach((card) => {
-          const r = card.getBoundingClientRect();
-          const d = Math.abs(r.left + r.width / 2 - center) / (cRect.width / 2);
+        const x0 = hvpW / 2 - hMid[0];
+        const x1 = hvpW / 2 - hMid[hMid.length - 1];
+        const tx = x0 + scr * (x1 - x0);
+        hrow.style.transform = `translateX(${tx}px)`;
+        const half = hvpW / 2;
+        hcards.forEach((card, i) => {
+          const d = Math.abs(hMid[i] + tx - half) / half;
           const k = clamp(1 - d);
           card.style.opacity = String(0.38 + 0.62 * k);
           card.style.transform = `scale(${0.955 + 0.045 * k})`;
           card.classList.toggle("is-focus", k > 0.72);
         });
       }
+      // pause the wave canvas while a later phase masks it
+      window.__rtpWaveOff = gateP.g + gateR.g > 0.5;
     };
     const onScroll = () => {
       if (!ticking) {
@@ -277,12 +289,16 @@ export function Journey() {
         requestAnimationFrame(update);
       }
     };
+    const onResize = () => {
+      measureCards();
+      onScroll();
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", onResize);
     update();
     return () => {
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", onResize);
     };
   }, [live, b1, b2, b3, SEG]);
 

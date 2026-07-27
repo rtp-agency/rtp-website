@@ -2,6 +2,12 @@
 
 import { useEffect, useRef } from "react";
 
+declare global {
+  interface Window {
+    __rtpHeroOff?: boolean;
+  }
+}
+
 // Renders `text` as solid letterforms built from streaming red digits (a base
 // digit fill inside the letters + bright falling heads), clipped to the letter
 // shapes with a destination-in text mask.
@@ -24,6 +30,9 @@ export function MatrixText({
     const reduce = window.matchMedia?.(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+    const mobile = window.matchMedia?.("(max-width: 620px)").matches ?? false;
+    const frameMs = mobile ? 1000 / 30 : 0;
+    let last = -1;
 
     let raf = 0;
     let W = 0;
@@ -41,7 +50,7 @@ export function MatrixText({
       const rect = cnv.getBoundingClientRect();
       W = rect.width;
       H = rect.height;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1 : 2);
       cnv.width = Math.floor(W * dpr);
       cnv.height = Math.floor(H * dpr);
       g.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -49,14 +58,15 @@ export function MatrixText({
       g.font = `800 100px "Helvetica Neue", Arial, sans-serif`;
       const w100 = g.measureText(text).width || 1;
       fontPx = Math.min((W * 0.99) / w100 * 100, H * 0.98);
-      cell = Math.max(7, Math.round(fontPx * 0.06));
+      // bigger cells on phones = far fewer glyphs to paint each frame
+      cell = Math.max(mobile ? 12 : 7, Math.round(fontPx * (mobile ? 0.085 : 0.06)));
       cols = Math.ceil(W / cell) + 1;
       rows = Math.ceil(H / cell) + 1;
       glyphs = Array.from({ length: cols * rows }, rnd);
       heads = Array.from({ length: cols }, () => Math.random() * rows);
     };
 
-    const frame = () => {
+    const draw = () => {
       g.globalCompositeOperation = "source-over";
       g.clearRect(0, 0, W, H);
       g.textAlign = "start";
@@ -94,15 +104,23 @@ export function MatrixText({
       g.lineWidth = Math.max(1.5, fontPx * 0.016);
       g.strokeStyle = "rgba(255,78,70,0.95)";
       g.strokeText(text, W / 2, H / 2);
+    };
 
-      if (!reduce) raf = requestAnimationFrame(frame);
+    const loop = (tms: number) => {
+      raf = requestAnimationFrame(loop);
+      // pause when the hero is scrolled away or the tab is hidden
+      if (document.hidden || window.__rtpHeroOff) return;
+      if (frameMs && tms - last < frameMs) return;
+      last = tms;
+      draw();
     };
 
     fit();
-    frame();
+    if (reduce) draw();
+    else raf = requestAnimationFrame(loop);
     const onResize = () => {
       fit();
-      if (reduce) frame();
+      if (reduce) draw();
     };
     window.addEventListener("resize", onResize);
     return () => {

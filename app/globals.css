@@ -4620,3 +4620,35 @@ nav {
     margin-bottom: 20px;
   }
 }
+
+/* ===== phone performance: kill per-frame paint costs ===== */
+@media (max-width: 620px) {
+  /* drop-shadow on an every-frame canvas re-filters constantly — drop it
+     (the matrix text keeps its bright stroked contour, so it stays legible) */
+  .matrix-rtp {
+    filter: none;
+  }
+  /* backdrop-blur repaints while scrolling; give the nav a solid-ish fill */
+  .term-bar {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(14, 10, 10, 0.92);
+  }
+  .svc3d-chev {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  /* don't permanently promote every card / revealed line to its own GPU layer */
+  .vsc-card,
+  .hsc-card,
+  .svc3d-card,
+  .jr-live .jr-slide [data-role],
+  .jr-live .jr-case [data-role] {
+    will-change: auto;
+  }
+  /* lighter shadows paint faster */
+  .vsc-card,
+  .hsc-card {
+    box-shadow: 0 14px 30px -22px rgba(0, 0, 0, 0.85);
+  }
+}
