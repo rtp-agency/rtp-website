@@ -4300,6 +4300,10 @@ nav {
   z-index: 1;
   opacity: 0;
   will-change: transform, opacity;
+  /* the wrapper spans the whole stage and sits above the services layer — it
+     must not swallow pointer events; the individual case slides re-enable their
+     own pointer-events when active */
+  pointer-events: none;
 }
 
 /* ===== in-pin card-scrub layers (other work + reviews) ===== */
