@@ -225,8 +225,21 @@ export const process: ProcessStep[] = [
 
 export const work: WorkItem[] = [
   {
+    slug: "threads-content-system",
+    number: "01 — Автономная контент-система",
+    title: "Один пост — 770 000 просмотров, топ-1 на всём аккаунте",
+    meta: ["RTP Agency", "Работает в продакшене", "Threads"],
+    summary:
+      "Автономная контент-система для Threads: сама ранжирует форматы по охвату, пишет в голосе автора, генерит реалистичные POV-визуалы и публикует по одному тапу одобрения. Ведение блога стало конвейером.",
+    highlights: [
+      { number: "770K", label: "Просмотров у одного поста · 35K лайков" },
+      { number: "Топ-1", label: "Пост на аккаунте — в комментах Киевстар" },
+    ],
+    tech: "Python · FastAPI · Celery · pgvector · LLM · Threads API",
+  },
+  {
     slug: "black-camel",
-    number: "01 — Black Camel Productions",
+    number: "02 — Black Camel Productions",
     title: "~1 час ручного монтажа на видео → ~3 минуты автоматически",
     meta: ["Управляемая услуга", "Лондонское видеоагентство", "25+ обработанных видео"],
     summary:
@@ -239,7 +252,7 @@ export const work: WorkItem[] = [
   },
   {
     slug: "metra-ai",
-    number: "02 — Metra AI",
+    number: "03 — Metra AI",
     title: "Production-SaaS для автоматизации контента в Telegram",
     meta: ["RTP Agency", "Работает в продакшене", "metra-ai.org"],
     summary:
@@ -252,7 +265,7 @@ export const work: WorkItem[] = [
   },
   {
     slug: "open-source-lipsync",
-    number: "03 — Липсинк-система",
+    number: "04 — Липсинк-система",
     title: "Снижение затрат на 99%+ против премиум видео-ИИ",
     meta: ["RTP Agency", "6+ месяцев в продакшене", "3+ коммерческих внедрений"],
     summary:
@@ -266,7 +279,7 @@ export const work: WorkItem[] = [
   },
   {
     slug: "motion-control",
-    number: "04 — Motion Control",
+    number: "05 — Motion Control",
     title: "Снижение затрат на 84% — и возможности, которых нет у премиум-сервисов",
     meta: ["RTP Agency", "4–5 месяцев в продакшене", "2 коммерческих клиента"],
     summary:
@@ -280,7 +293,7 @@ export const work: WorkItem[] = [
   },
   {
     slug: "video-localization",
-    number: "05 — Локализация видео",
+    number: "06 — Локализация видео",
     title: "Мультимодельный ИИ-пайплайн для локализации видео на потоке",
     meta: ["RTP Agency", "3 месяца в продакшене"],
     summary:
