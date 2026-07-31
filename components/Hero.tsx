@@ -1,6 +1,5 @@
 "use client";
 
-import { WaveField } from "./WaveField";
 import { MatrixText } from "./MatrixText";
 import { CountUp } from "./CountUp";
 import { stats } from "@/lib/site";
@@ -12,7 +11,6 @@ const TG_URL = "https://t.me/rtp_agency";
 export function Hero() {
   return (
     <section className="hero hero-home">
-      <WaveField />
       <div className="container">
         <div className="hero-center">
           <h1 className="hero-brand">
