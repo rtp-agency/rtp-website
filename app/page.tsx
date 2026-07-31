@@ -110,7 +110,7 @@ export default function Home() {
       />
 
       {/* Reviews — static card grid */}
-      <section id="testimonials" className="section-line section-raised reviews-block">
+      <section id="testimonials" className="section-line reviews-block">
         <div className="container">
           <div className="section-header">
             <div className="eyebrow">{home.testimonialsEyebrow}</div>

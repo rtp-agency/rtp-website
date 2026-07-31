@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { StickyContact } from "@/components/StickyContact";
+import { Nebula } from "@/components/Nebula";
 import { meta, jsonLd } from "@/lib/i18n";
 
 const inter = Inter({
@@ -56,10 +57,13 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Nebula />
         <div className="grain" aria-hidden="true" />
-        {children}
-        <StickyContact />
-        <Footer />
+        <div className="site">
+          {children}
+          <StickyContact />
+          <Footer />
+        </div>
       </body>
     </html>
   );

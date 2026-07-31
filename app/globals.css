@@ -3230,7 +3230,7 @@ footer {
 .hero {
   position: relative;
   overflow: hidden;
-  background: #070707;
+  background: transparent;
 }
 .wave-field {
   position: absolute;
@@ -4382,7 +4382,7 @@ nav {
   top: 0;
   height: 100vh;
   overflow: hidden;
-  background: var(--color-bg);
+  background: transparent;
 }
 .vsc-inner {
   position: relative;
@@ -4745,4 +4745,35 @@ nav {
   .reviews-block .testimonials-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ===== site-wide 3D nebula background ===== */
+.nebula-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+}
+/* a very soft red haze floor behind the points, for gas-cloud depth */
+.nebula-bg::after {
+  content: "";
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 42% at 48% 28%, rgba(255, 48, 48, 0.09), transparent 70%),
+    radial-gradient(52% 40% at 72% 72%, rgba(210, 32, 42, 0.07), transparent 72%),
+    radial-gradient(40% 34% at 22% 60%, rgba(190, 30, 48, 0.05), transparent 74%);
+}
+/* all real content sits above the nebula */
+.site {
+  position: relative;
+  z-index: 1;
 }
