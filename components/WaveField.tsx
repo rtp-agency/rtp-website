@@ -2,16 +2,10 @@
 
 import { useEffect, useRef } from "react";
 
-declare global {
-  interface Window {
-    __rtpWaveOff?: boolean;
-  }
-}
-
 // A receding grid of red dots over black whose height is driven by a travelling
 // sine wave — a 2D canvas that reads as a 3D dot-wave. Cheap, dependency-free,
 // DPR-aware. On phones it runs at lower density / 30fps / DPR 1, and it pauses
-// whenever it is tab-hidden or masked by a later phase.
+// whenever it is tab-hidden or scrolled off-screen.
 export function WaveField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -32,6 +26,14 @@ export function WaveField() {
     let dpr = 1;
     let raf = 0;
     let last = -1;
+    let visible = true;
+    const io = new IntersectionObserver(
+      (es) => {
+        visible = es[0].isIntersecting;
+      },
+      { rootMargin: "140px" }
+    );
+    io.observe(canvas);
 
     const COLS = mobile ? 46 : 84; // dots across a row
     const ROWS = mobile ? 26 : 46; // rows receding into depth
@@ -91,7 +93,7 @@ export function WaveField() {
 
     function loop(tms: number) {
       raf = requestAnimationFrame(loop);
-      if (document.hidden || window.__rtpWaveOff) return;
+      if (document.hidden || !visible) return;
       if (frameMs && tms - last < frameMs) return;
       last = tms;
       draw(tms / 1000);
@@ -106,6 +108,7 @@ export function WaveField() {
     window.addEventListener("resize", resize);
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       window.removeEventListener("resize", resize);
     };
   }, []);

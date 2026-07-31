@@ -2,12 +2,6 @@
 
 import { useEffect, useRef } from "react";
 
-declare global {
-  interface Window {
-    __rtpHeroOff?: boolean;
-  }
-}
-
 // Renders `text` as solid letterforms built from streaming red digits (a base
 // digit fill inside the letters + bright falling heads), clipped to the letter
 // shapes with a destination-in text mask.
@@ -33,6 +27,14 @@ export function MatrixText({
     const mobile = window.matchMedia?.("(max-width: 620px)").matches ?? false;
     const frameMs = mobile ? 1000 / 30 : 0;
     let last = -1;
+    let visible = true;
+    const io = new IntersectionObserver(
+      (es) => {
+        visible = es[0].isIntersecting;
+      },
+      { rootMargin: "140px" }
+    );
+    io.observe(canvas);
 
     let raf = 0;
     let W = 0;
@@ -108,8 +110,8 @@ export function MatrixText({
 
     const loop = (tms: number) => {
       raf = requestAnimationFrame(loop);
-      // pause when the hero is scrolled away or the tab is hidden
-      if (document.hidden || window.__rtpHeroOff) return;
+      // pause when scrolled off-screen or the tab is hidden
+      if (document.hidden || !visible) return;
       if (frameMs && tms - last < frameMs) return;
       last = tms;
       draw();
@@ -125,6 +127,7 @@ export function MatrixText({
     window.addEventListener("resize", onResize);
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       window.removeEventListener("resize", onResize);
     };
   }, [text]);

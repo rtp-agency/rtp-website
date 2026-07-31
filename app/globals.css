@@ -4656,3 +4656,93 @@ nav {
     box-shadow: 0 14px 30px -22px rgba(0, 0, 0, 0.85);
   }
 }
+
+/* ===== restructured home: separate blocks ===== */
+/* hero as a normal full-height block */
+.hero-home {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 96px 0 64px;
+}
+/* services block spacing */
+.services-block {
+  padding: 96px 0 40px;
+}
+.services-block .section-header {
+  text-align: center;
+}
+.services-block .section-header .lead {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* card-scrolly divider between the pinned sections */
+.vsc {
+  border-top: 1px solid var(--color-line-soft);
+}
+
+/* case cards inside the pinned scrolly (richer than project cards) */
+.vsc-case {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.vsc-case:hover {
+  border-color: var(--warm-dim);
+}
+.vsc-metric {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.vsc-metric-num {
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  line-height: 1;
+}
+.vsc-metric-label {
+  font-size: 13.5px;
+  color: var(--color-muted);
+  max-width: 320px;
+}
+.vsc-case .vsc-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-line);
+}
+.vsc-tech {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+}
+.vsc-more {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--color-red);
+  white-space: nowrap;
+}
+
+/* reviews as a normal 2-column block */
+.reviews-block {
+  padding: 90px 0;
+}
+.reviews-block .testimonials-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (max-width: 720px) {
+  .reviews-block .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+}
