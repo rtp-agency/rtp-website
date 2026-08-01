@@ -50,7 +50,9 @@ body {
   font-size: 17px;
   font-weight: 400;
   letter-spacing: -0.01em;
-  overflow-x: hidden;
+  /* clip (not hidden) so we don't create a scroll container that would break
+     position: sticky in the pinned card sections */
+  overflow-x: clip;
 }
 
 /* film grain texture */
@@ -4776,4 +4778,39 @@ body::before {
 .site {
   position: relative;
   z-index: 1;
+}
+
+/* ===== center all section content + card text ===== */
+.section-header {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.section-header .lead {
+  margin-left: auto;
+  margin-right: auto;
+}
+/* pinned card-scrolly: tighter header so cards sit a touch higher */
+.vsc-inner {
+  padding-top: 92px;
+}
+/* card text centered */
+.vsc-card {
+  text-align: center;
+}
+.vsc-metric {
+  justify-content: center;
+}
+.vsc-case .vsc-foot {
+  justify-content: center;
+}
+.vsc-metric-label {
+  max-width: 420px;
+}
+/* reviews centered */
+.reviews-block .testimonial {
+  text-align: center;
+}
+.reviews-block .testimonial-author {
+  justify-content: center;
 }

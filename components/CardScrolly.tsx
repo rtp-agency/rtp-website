@@ -56,13 +56,15 @@ export function CardScrolly({
       const total = root.offsetHeight - window.innerHeight;
       if (total <= 0) return;
       const p = clamp(-root.getBoundingClientRect().top / total);
-      const y0 = vpH / 2 - mids[0];
-      const y1 = vpH / 2 - mids[mids.length - 1];
+      // focus point above the viewport centre so the card reads higher on screen
+      const focus = vpH * 0.22;
+      const y0 = focus - mids[0];
+      const y1 = focus - mids[mids.length - 1];
       const ty = y0 + p * (y1 - y0);
       col.style.transform = `translateY(${ty}px)`;
       const half = vpH / 2;
       items.forEach((card, i) => {
-        const d = Math.abs(mids[i] + ty - half) / half;
+        const d = Math.abs(mids[i] + ty - focus) / half;
         const k = clamp(1 - d);
         card.style.opacity = String(0.3 + 0.7 * k);
         card.style.transform = `scale(${0.955 + 0.045 * k})`;
