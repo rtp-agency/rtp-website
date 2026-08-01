@@ -4155,6 +4155,10 @@ nav {
   perspective: 1700px;
   perspective-origin: 50% 46%;
   margin-top: 6px;
+  padding-bottom: 24px;
+  /* clip on the perspective element (it flattens its 3D children) so the cards
+     can't escape the section and leak over the next block */
+  overflow: hidden;
 }
 .svc3d-stage {
   position: relative;
@@ -4285,7 +4289,7 @@ nav {
 }
 .svc3d-count {
   position: absolute;
-  bottom: -6px;
+  bottom: 2px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 25;

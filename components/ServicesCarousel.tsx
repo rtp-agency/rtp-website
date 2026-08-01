@@ -76,6 +76,22 @@ export function ServicesCarousel() {
     setHint(false);
   };
 
+  // The 3D cards (preserve-3d) escape the section's overflow clip, so hide the
+  // whole carousel once it has mostly scrolled out — otherwise its cards / count
+  // leak over the next section.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        el.style.visibility = e.intersectionRatio > 0.5 ? "visible" : "hidden";
+      },
+      { threshold: [0, 0.5, 1] }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   // swipe / drag to rotate
   useEffect(() => {
     const el = rootRef.current;
