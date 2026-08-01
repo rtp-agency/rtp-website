@@ -56,8 +56,9 @@ export function CardScrolly({
       const total = root.offsetHeight - window.innerHeight;
       if (total <= 0) return;
       const p = clamp(-root.getBoundingClientRect().top / total);
-      // focus point above the viewport centre so the card reads higher on screen
-      const focus = vpH * 0.22;
+      // focus point a bit above the viewport centre so the card reads higher on
+      // screen, but with clear space below the header (no crowding)
+      const focus = vpH * 0.34;
       const y0 = focus - mids[0];
       const y1 = focus - mids[mids.length - 1];
       const ty = y0 + p * (y1 - y0);

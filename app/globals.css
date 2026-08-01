@@ -4794,9 +4794,15 @@ body::before {
   margin-left: auto;
   margin-right: auto;
 }
-/* pinned card-scrolly: tighter header so cards sit a touch higher */
+/* pinned card-scrolly: compact header at the top, clear gap before the cards */
 .vsc-inner {
-  padding-top: 92px;
+  padding-top: 64px;
+}
+.vsc-head {
+  margin-bottom: 34px;
+}
+.vsc-head h2 {
+  font-size: clamp(28px, 3.6vw, 44px);
 }
 /* card text centered */
 .vsc-card {
