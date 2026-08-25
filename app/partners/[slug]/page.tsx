@@ -129,14 +129,6 @@ export default async function PartnerPage({
                 >
                   Начать
                 </a>
-                <a
-                  href={p.managerUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary"
-                >
-                  Связаться с менеджером
-                </a>
               </div>
             </Reveal>
             {p.promo && (
@@ -324,14 +316,6 @@ export default async function PartnerPage({
                 className="btn btn-primary"
               >
                 Перейти на {p.websiteLabel} <span className="arrow">→</span>
-              </a>
-              <a
-                href={p.managerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
-              >
-                Связаться с менеджером
               </a>
             </div>
           </div>

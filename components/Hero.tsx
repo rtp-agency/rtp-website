@@ -20,9 +20,9 @@ export function Hero() {
             <span className="hero-agency">Agency</span>
           </h1>
           <p className="hero-tagline">
-            Преврати рутину в профит.
+            Эффективная автоматизация процессов в вашей команде.
             <br />
-            Воплоти свои идеи в реальность.
+            Превратите рутину в профит.
           </p>
           <a
             href={TG_URL}
