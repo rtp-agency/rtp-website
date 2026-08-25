@@ -16,7 +16,13 @@ declare global {
 // Terminal-style bar: on reveal it wipes open from a thin vertical line, types
 // the brand like a command line, then the nav items slide in. On scroll it
 // collapses back (items tuck away) but keeps the already-typed brand.
-export function Nav({ variant = "home" }: { variant?: "home" | "case" }) {
+export function Nav({
+  variant = "home",
+  back,
+}: {
+  variant?: "home" | "case";
+  back?: { href: string; label: string };
+}) {
   const t = ui.nav;
   const [stage, setStage] = useState<"line" | "wide" | "done">("line");
   const [typed, setTyped] = useState("");
@@ -105,8 +111,8 @@ export function Nav({ variant = "home" }: { variant?: "home" | "case" }) {
             ))}
           </ul>
         ) : (
-          <Link href="/#work" className="term-back">
-            {t.back}
+          <Link href={back?.href ?? "/#work"} className="term-back">
+            {back?.label ?? t.back}
           </Link>
         )}
       </div>

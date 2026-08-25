@@ -23,3 +23,7 @@
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# raw partner media kits / source logos (site uses public/partners + lib/partners)
+/partners/

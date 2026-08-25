@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { MatrixText } from "./MatrixText";
 import { CountUp } from "./CountUp";
 import { stats } from "@/lib/site";
+import { partners } from "@/lib/partners";
 
 const TG_URL = "https://t.me/rtp_agency";
 
@@ -39,6 +41,22 @@ export function Hero() {
                 <div className="hero-stat-label">{s.label}</div>
               </div>
             ))}
+          </div>
+
+          <div className="hero-partners" id="partners">
+            <span className="hero-partners-label">Партнёры</span>
+            <div className="hero-partners-logos">
+              {partners.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={`/partners/${p.slug}`}
+                  className="hero-partner"
+                  aria-label={p.name}
+                >
+                  <img src={p.logoWhite} alt={p.name} loading="lazy" />
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>

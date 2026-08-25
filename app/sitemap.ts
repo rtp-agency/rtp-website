@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { caseSlugs } from "@/lib/cases";
+import { partnerSlugs } from "@/lib/partners";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://rtp-agency.com";
@@ -17,6 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.8,
+    })),
+    ...partnerSlugs.map((slug) => ({
+      url: `${base}/partners/${slug}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
     })),
   ];
 }
