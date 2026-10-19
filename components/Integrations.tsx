@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { integrations, integrationCats, type IntegrationCat } from "@/lib/integrations";
+
+type Item = { slug: string; name: string; cat: string };
+type Cat = { id: string; label: string };
 
 const FEATURED = [
   "telegram", "threads", "instagram", "whatsapp", "hubspot", "slack", "notion", "stripe",
@@ -9,19 +11,27 @@ const FEATURED = [
   "python", "fastapi", "postgresql", "redis", "docker", "github", "cloudflare", "grafana",
 ];
 
-export function Integrations() {
-  const [cat, setCat] = useState<IntegrationCat | "all">("all");
+export function Integrations({
+  items,
+  cats,
+  allLabel,
+  tabsLabel,
+}: {
+  items: Item[];
+  cats: Cat[];
+  allLabel: string;
+  tabsLabel: string;
+}) {
+  const [cat, setCat] = useState<string>("all");
   const list =
     cat === "all"
-      ? FEATURED.map((f) => integrations.find((i) => i.slug === f)).filter(
-          (i): i is (typeof integrations)[number] => !!i
-        )
-      : integrations.filter((i) => i.cat === cat);
+      ? FEATURED.map((f) => items.find((i) => i.slug === f)).filter((i): i is Item => !!i)
+      : items.filter((i) => i.cat === cat);
 
   return (
     <div className="ig">
-      <div className="ig-tabs" role="tablist" aria-label="Категории интеграций">
-        {[{ id: "all" as const, label: "Все" }, ...integrationCats].map((c) => (
+      <div className="ig-tabs" role="tablist" aria-label={tabsLabel}>
+        {[{ id: "all", label: allLabel }, ...cats].map((c) => (
           <button
             key={c.id}
             type="button"

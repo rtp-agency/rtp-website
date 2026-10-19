@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/locale";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: "*", allow: "/" },
-    sitemap: "https://rtp-agency.com/sitemap.xml",
-    host: "https://rtp-agency.com",
+    rules: [{ userAgent: "*", allow: "/" }],
+    sitemap: `${SITE_URL}/sitemap.xml`,
+    host: SITE_URL,
   };
 }

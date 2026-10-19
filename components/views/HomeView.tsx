@@ -8,22 +8,14 @@ import { CaseSlider } from "@/components/CaseSlider";
 import { Integrations } from "@/components/Integrations";
 import { LogoMarquee } from "@/components/LogoMarquee";
 import { Rise } from "@/components/Rise";
-import { home, work, additional, testimonials } from "@/lib/site";
-import { ui } from "@/lib/i18n";
-import { getShots } from "@/lib/shots";
+import { Faq } from "@/components/Faq";
+import { getContent } from "@/lib/content";
+import { lp, type Locale } from "@/lib/locale";
 
 const TG_URL = "https://t.me/rtp_agency";
 const EMAIL = "solutions@rtp-agency.com";
 
-function Head({
-  eyebrow,
-  title,
-  lead,
-}: {
-  eyebrow: string;
-  title: string;
-  lead?: string;
-}) {
+function Head({ eyebrow, title, lead }: { eyebrow: string; title: string; lead?: string }) {
   return (
     <Rise className="head3">
       <p className="eyebrow3">{eyebrow}</p>
@@ -33,10 +25,27 @@ function Head({
   );
 }
 
-export default function Home() {
+export function HomeView({ locale }: { locale: Locale }) {
+  const C = getContent(locale);
+  const { t, ui } = C;
+  const { home, work, additional, testimonials, stats, services } = C.site;
+  const alt = lp(locale === "ru" ? "en" : "ru", "/");
+
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    inLanguage: locale,
+    mainEntity: C.faq.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   const caseSlides = work.map((c, i) => {
-    const cover = getShots(c.slug)?.cover;
+    const cover = C.getShots(c.slug)?.cover;
     const hi = c.highlights[0];
+    const href = lp(locale, `/work/${c.slug}`);
     return (
       <article className="case3">
         <div className="case3-body">
@@ -55,14 +64,14 @@ export default function Home() {
             ))}
           </dl>
           <div className="case3-foot">
-            <a href={`/work/${c.slug}`} className="pill pill-ink">
+            <a href={href} className="pill pill-ink">
               {ui.readCase} <span aria-hidden="true">→</span>
             </a>
             <span className="case3-tech">{c.tech}</span>
           </div>
         </div>
 
-        <a href={`/work/${c.slug}`} className="case3-panel" aria-label={c.title} tabIndex={-1}>
+        <a href={href} className="case3-panel" aria-label={c.title} tabIndex={-1}>
           {cover ? (
             <figure className="float-shot">
               <div className="float-bar" aria-hidden="true">
@@ -91,39 +100,47 @@ export default function Home() {
 
   return (
     <>
-      <Intro />
-      <Nav variant="home" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(C.jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
+      <Intro scrollLabel={t.intro.scroll} />
+      <Nav locale={locale} variant="home" altHref={alt} />
 
       <main id="main">
-        <Hero />
-        <LogoMarquee />
+        <Hero locale={locale} home={home} stats={stats} />
+        <LogoMarquee locale={locale} />
 
         <section id="services" className="band band-cream">
           <div className="wrap3">
-            <Head
-              eyebrow="Услуги"
-              title="Разработка под задачу."
-              lead="Не «ИИ-консалтинг» вообще, а конкретные вещи, которые собираем под ключ."
-            />
-            <Services />
+            <Head eyebrow={t.services.eyebrow} title={t.services.title} lead={t.services.lead} />
+            <Services locale={locale} services={services} />
           </div>
         </section>
 
         <section id="stack" className="band">
           <div className="wrap3">
-            <Head
-              eyebrow="Интеграции"
-              title="Работаем с тем, что у вас уже есть."
-              lead="Подключаем ИИ к вашим сервисам, мессенджерам и данным. Ничего переносить не нужно."
+            <Head eyebrow={t.stack.eyebrow} title={t.stack.title} lead={t.stack.lead} />
+            <Integrations
+              items={C.integrations}
+              cats={C.integrationCats}
+              allLabel={t.stack.all}
+              tabsLabel={t.stack.tabs}
             />
-            <Integrations />
           </div>
         </section>
 
         <section id="work" className="band band-cream">
           <div className="wrap3">
-            <Head eyebrow="Кейсы" title="Что мы уже автоматизировали." />
-            <CaseSlider slides={caseSlides} />
+            <Head eyebrow={t.work.eyebrow} title={t.work.title} />
+            <CaseSlider
+              slides={caseSlides}
+              labels={{ region: t.work.label, prev: t.work.prev, next: t.work.next }}
+            />
           </div>
         </section>
 
@@ -170,11 +187,18 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="faq" className="band">
+          <div className="wrap3">
+            <Head eyebrow={t.faq.eyebrow} title={t.faq.title} lead={t.faq.lead} />
+            <Faq items={C.faq} />
+          </div>
+        </section>
+
         <section id="contact" className="inset-wrap">
           <div className="cta3">
             <div className="cta3-copy">
               <p className="eyebrow3 eyebrow3-dark">{home.ctaEyebrow}</p>
-              <h2>{home.ctaHeading.replace("-", "\u2011")}</h2>
+              <h2>{home.ctaHeading.replace("-", "‑")}</h2>
               <p className="cta3-lead">{home.ctaLead}</p>
               <ul className="cta3-list">
                 {home.auditList.map((item) => (
@@ -191,7 +215,7 @@ export default function Home() {
               </p>
             </div>
             <Reveal className="cta3-form">
-              <ContactForm />
+              <ContactForm t={ui.form} />
               <p className="cta3-note">{home.priceNote}</p>
             </Reveal>
           </div>

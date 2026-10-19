@@ -4,7 +4,13 @@ import { useCallback, useEffect, useState } from "react";
 import type { ShotGroup } from "@/lib/shots";
 
 // Gallery groups + a keyboard-friendly lightbox shared across all groups.
-export function CaseGallery({ groups }: { groups: ShotGroup[] }) {
+export function CaseGallery({
+  groups,
+  labels,
+}: {
+  groups: ShotGroup[];
+  labels: { open: string; close: string; prev: string; next: string };
+}) {
   const flat = groups.flatMap((g) => g.shots);
   const [open, setOpen] = useState<number | null>(null);
 
@@ -48,7 +54,7 @@ export function CaseGallery({ groups }: { groups: ShotGroup[] }) {
                     type="button"
                     className="gshot-btn"
                     onClick={() => setOpen(idx)}
-                    aria-label={`Открыть: ${s.alt}`}
+                    aria-label={`${labels.open}: ${s.alt}`}
                   >
                     {s.frame === "browser" && (
                       <span className="shot-bar" aria-hidden="true">
@@ -89,7 +95,7 @@ export function CaseGallery({ groups }: { groups: ShotGroup[] }) {
           <button
             type="button"
             className="lb-close"
-            aria-label="Закрыть"
+            aria-label={labels.close}
             onClick={() => setOpen(null)}
           >
             ✕
@@ -99,7 +105,7 @@ export function CaseGallery({ groups }: { groups: ShotGroup[] }) {
               <button
                 type="button"
                 className="lb-nav lb-prev"
-                aria-label="Предыдущий"
+                aria-label={labels.prev}
                 onClick={(e) => {
                   e.stopPropagation();
                   step(-1);
@@ -110,7 +116,7 @@ export function CaseGallery({ groups }: { groups: ShotGroup[] }) {
               <button
                 type="button"
                 className="lb-nav lb-next"
-                aria-label="Следующий"
+                aria-label={labels.next}
                 onClick={(e) => {
                   e.stopPropagation();
                   step(1);

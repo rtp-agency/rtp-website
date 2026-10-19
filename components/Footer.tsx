@@ -1,9 +1,12 @@
 import { LogoMark } from "@/components/LogoMark";
+import { lp, type Locale } from "@/lib/locale";
+import { strings } from "@/lib/ui";
 
 const TG_URL = "https://t.me/rtp_agency";
 const EMAIL = "solutions@rtp-agency.com";
 
-export function Footer() {
+export function Footer({ locale }: { locale: Locale }) {
+  const t = strings[locale];
   return (
     <footer className="foot">
       <div className="foot-inner">
@@ -12,22 +15,20 @@ export function Footer() {
             <LogoMark />
             <span>RTP Agency</span>
           </div>
-          <p>
-            Автоматизируем рутину бизнеса с помощью ИИ: берём один процесс и
-            делаем так, чтобы он работал сам.
-          </p>
+          <p>{t.footer.blurb}</p>
         </div>
 
-        <div className="foot-col" role="navigation" aria-label="Разделы">
-          <h4>Разделы</h4>
-          <a href="/#services">Услуги</a>
-          <a href="/#work">Кейсы</a>
-          <a href="/#testimonials">Клиенты</a>
-          <a href="/#contact">Контакты</a>
+        <div className="foot-col" role="navigation" aria-label={t.footer.sections}>
+          <h4>{t.footer.sections}</h4>
+          <a href={lp(locale, "/#services")}>{t.nav.services}</a>
+          <a href={lp(locale, "/#work")}>{t.nav.work}</a>
+          <a href={lp(locale, "/#testimonials")}>{t.nav.clients}</a>
+          <a href={lp(locale, "/blog")}>{t.footer.blog}</a>
+          <a href={lp(locale, "/#contact")}>{t.nav.contact}</a>
         </div>
 
         <div className="foot-col">
-          <h4>Связаться</h4>
+          <h4>{t.footer.contact}</h4>
           <a href={TG_URL} target="_blank" rel="noopener noreferrer">
             Telegram @rtp_agency
           </a>
@@ -38,7 +39,7 @@ export function Footer() {
       </div>
       <div className="foot-base">
         <span>© 2026 RTP Agency</span>
-        <span>Бесплатный разбор — 30 минут, без обязательств</span>
+        <span>{t.footer.base}</span>
       </div>
     </footer>
   );

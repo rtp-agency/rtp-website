@@ -1,4 +1,6 @@
-import { services, type Service } from "@/lib/site";
+import type { Service } from "@/lib/site";
+import { strings } from "@/lib/ui";
+import type { Locale } from "@/lib/locale";
 import { Rise } from "@/components/Rise";
 
 const TG_URL = "https://t.me/rtp_agency";
@@ -60,12 +62,14 @@ function Icon({ kind }: { kind: Service["icon"] }) {
   }
 }
 
-export function Services() {
+export function Services({ locale, services }: { locale: Locale; services: Service[] }) {
+  const t = strings[locale].services;
   return (
     <Rise as="ul" className="svc3">
       {services.map((s) => (
         <li key={s.title}>
-          <a href={TG_URL} target="_blank" rel="noopener noreferrer" className="svc3-card">
+          <a href={TG_URL} target="_blank" rel="noopener noreferrer" className="svc3-card"
+            aria-label={`${t.write}: ${s.title}`}>
             <span className="svc3-icon">
               <Icon kind={s.icon} />
             </span>

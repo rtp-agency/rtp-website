@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import type { CaseVisual as CaseVisualData } from "@/lib/cases";
-import { ui } from "@/lib/i18n";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 const CYCLE = 5; // seconds
@@ -44,13 +43,14 @@ function Pipeline({ stages }: { stages: { label: string; sub: string }[] }) {
 }
 
 function CostBars({
+  toCosts,
   beforeLabel,
   beforeValue,
   afterLabel,
   afterValue,
   afterPct,
   reduction,
-}: Extract<CaseVisualData, { kind: "cost" }>) {
+}: Extract<CaseVisualData, { kind: "cost" }> & { toCosts: string }) {
   return (
     <div className="cv-cost">
       <div className="cv-row">
@@ -91,19 +91,25 @@ function CostBars({
         transition={{ duration: 0.6, ease: EASE, delay: 0.7 }}
       >
         −{reduction}
-        <span> {ui.toCosts}</span>
+        <span> {toCosts}</span>
       </motion.div>
     </div>
   );
 }
 
-export function CaseVisual({ visual }: { visual: CaseVisualData }) {
+export function CaseVisual({
+  visual,
+  toCosts,
+}: {
+  visual: CaseVisualData;
+  toCosts: string;
+}) {
   return (
     <div className="case-visual">
       {visual.kind === "pipeline" ? (
         <Pipeline stages={visual.stages} />
       ) : (
-        <CostBars {...visual} />
+        <CostBars {...visual} toCosts={toCosts} />
       )}
     </div>
   );

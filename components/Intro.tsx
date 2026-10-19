@@ -12,7 +12,7 @@ declare global {
 const WORD = "RTP AGENCY";
 type Phase = "type" | "ready" | "exit" | "done";
 
-export function Intro() {
+export function Intro({ scrollLabel }: { scrollLabel: string }) {
   const [phase, setPhase] = useState<Phase>("type");
   const [typed, setTyped] = useState("");
   const rainRef = useRef<HTMLCanvasElement>(null);
@@ -142,7 +142,7 @@ export function Intro() {
         </div>
       </div>
       <div className={`intro-scroll${phase === "ready" ? " is-on" : ""}`}>
-        <span className="intro-scroll-label">СКРОЛЛ</span>
+        <span className="intro-scroll-label">{scrollLabel}</span>
         <span className="intro-chevrons" aria-hidden="true">
           <i />
           <i />

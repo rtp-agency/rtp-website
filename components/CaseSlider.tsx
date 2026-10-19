@@ -5,7 +5,13 @@ import { useCallback, useState, type ReactNode } from "react";
 // Vertical slider: one case in focus, the next one peeking in below. Arrows,
 // keyboard and clicking the peeking card all move it. On small screens the CSS
 // turns it into a plain stacked list.
-export function CaseSlider({ slides }: { slides: ReactNode[] }) {
+export function CaseSlider({
+  slides,
+  labels,
+}: {
+  slides: ReactNode[];
+  labels: { region: string; prev: string; next: string };
+}) {
   const [i, setI] = useState(0);
   const n = slides.length;
 
@@ -22,16 +28,16 @@ export function CaseSlider({ slides }: { slides: ReactNode[] }) {
   };
 
   return (
-    <div className="cs" role="region" aria-roledescription="carousel" aria-label="Кейсы">
+    <div className="cs" role="region" aria-roledescription="carousel" aria-label={labels.region}>
       <div className="cs-bar">
         <div className="cs-count" aria-live="polite">
           <b>{String(i + 1).padStart(2, "0")}</b> / {String(n).padStart(2, "0")}
         </div>
         <div className="cs-arrows">
-          <button type="button" onClick={() => go(i - 1)} disabled={i === 0} aria-label="Предыдущий кейс">
+          <button type="button" onClick={() => go(i - 1)} disabled={i === 0} aria-label={labels.prev}>
             ↑
           </button>
-          <button type="button" onClick={() => go(i + 1)} disabled={i === n - 1} aria-label="Следующий кейс">
+          <button type="button" onClick={() => go(i + 1)} disabled={i === n - 1} aria-label={labels.next}>
             ↓
           </button>
         </div>

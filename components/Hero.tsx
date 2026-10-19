@@ -1,9 +1,18 @@
 import { CountUp } from "./CountUp";
-import { stats, home } from "@/lib/site";
+import { lp, type Locale } from "@/lib/locale";
+import { strings } from "@/lib/ui";
+import type { Home, Stat } from "@/lib/site";
 
-const FACTS = ["дешевле ручной работы", "сэкономлено клиентам", "систем в продакшене"];
-
-export function Hero() {
+export function Hero({
+  locale,
+  home,
+  stats,
+}: {
+  locale: Locale;
+  home: Home;
+  stats: Stat[];
+}) {
+  const t = strings[locale].hero;
   return (
     <section className="hero3" id="top">
       <svg className="hero3-mark" viewBox="0 0 32 32" aria-hidden="true">
@@ -20,14 +29,14 @@ export function Hero() {
           {home.heroTitle.post}
         </h1>
         <p className="hero3-sub">
-          <span>быстро.</span> <span>надёжно.</span> <span>недорого.</span>
+          <span>{t.sub[0]}</span> <span>{t.sub[1]}</span> <span>{t.sub[2]}</span>
         </p>
         <div className="hero3-actions">
-          <a href="#contact" className="pill pill-paper">
-            Бесплатный разбор
+          <a href={lp(locale, "/#contact")} className="pill pill-paper">
+            {t.cta}
           </a>
-          <a href="#work" className="pill pill-line">
-            Смотреть кейсы
+          <a href={lp(locale, "/#work")} className="pill pill-line">
+            {t.cases}
           </a>
         </div>
       </div>
@@ -38,7 +47,7 @@ export function Hero() {
             <b>
               <CountUp value={s.value} prefix={s.prefix} suffix={s.suffix} />
             </b>
-            {FACTS[i]}
+            {t.facts[i]}
           </li>
         ))}
       </ul>

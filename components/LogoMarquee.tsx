@@ -1,4 +1,6 @@
 import { integrations } from "@/lib/integrations";
+import { strings } from "@/lib/ui";
+import type { Locale } from "@/lib/locale";
 
 const PICK = [
   "telegram", "openai", "claude", "googlegemini", "hubspot", "slack", "stripe",
@@ -6,7 +8,8 @@ const PICK = [
   "threads", "elevenlabs", "googlesheets", "cloudflare", "grafana", "xero",
 ];
 
-export function LogoMarquee() {
+export function LogoMarquee({ locale }: { locale: Locale }) {
+  const t = strings[locale].marquee;
   const items = PICK.map((s) => integrations.find((i) => i.slug === s)).filter(
     (i): i is (typeof integrations)[number] => !!i
   );
@@ -21,8 +24,8 @@ export function LogoMarquee() {
     </ul>
   );
   return (
-    <div className="lm" role="group" aria-label="Технологии и сервисы, с которыми мы работаем">
-      <p className="lm-title">С чем мы работаем</p>
+    <div className="lm" role="group" aria-label={t.label}>
+      <p className="lm-title">{t.title}</p>
       <div className="lm-track">
         {row(false)}
         {row(true)}

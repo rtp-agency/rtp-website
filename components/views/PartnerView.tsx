@@ -1,47 +1,17 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Reveal } from "@/components/Reveal";
-import { getPartner, partnerSlugs } from "@/lib/partners";
+import { getContent } from "@/lib/content";
+import { SITE_URL, abs, lp, type Locale } from "@/lib/locale";
 
-const base = "https://rtp-agency.com";
-
-export function generateStaticParams() {
-  return partnerSlugs.map((slug) => ({ slug }));
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  const { slug } = await params;
-  const p = getPartner(slug);
-  if (!p) return {};
-  return {
-    title: `${p.name} — Партнёр RTP Agency`,
-    description: p.intro,
-    keywords: p.category,
-    alternates: { canonical: `/partners/${p.slug}` },
-    openGraph: {
-      title: `${p.name} — ${p.tagline}`,
-      description: p.intro,
-      type: "website",
-      url: `${base}/partners/${p.slug}`,
-      images: [{ url: p.logoWhite }],
-    },
-  };
-}
-
-export default async function PartnerPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const p = getPartner(slug);
+export function PartnerView({ locale, slug }: { locale: Locale; slug: string }) {
+  const C = getContent(locale);
+  const pt = C.t.partner;
+  const p = C.getPartner(slug);
   if (!p) notFound();
+  const base = SITE_URL;
+  const alt = lp(locale === "ru" ? "en" : "ru", `/partners/${p.slug}`);
 
   const jsonLd = [
     {
@@ -56,18 +26,18 @@ export default async function PartnerPage({
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Главная", item: base },
+        { "@type": "ListItem", position: 1, name: pt.breadcrumbHome, item: abs(locale, "/") },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Партнёры",
-          item: `${base}/#partners`,
+          name: pt.breadcrumbPartners,
+          item: abs(locale, "/#partners"),
         },
         {
           "@type": "ListItem",
           position: 3,
           name: p.name,
-          item: `${base}/partners/${p.slug}`,
+          item: abs(locale, `/partners/${p.slug}`),
         },
       ],
     },
@@ -79,14 +49,14 @@ export default async function PartnerPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Nav variant="case" back={{ href: "/#partners", label: "← Партнёры" }} />
+      <Nav locale={locale} variant="case" altHref={alt} back={{ href: lp(locale, "/#partners"), label: pt.back }} />
 
       <div className="case-detail partner-detail dark-page" id="main">
         <div className="container">
           {/* hero */}
           <section className="partner-hero">
             <Reveal>
-              <div className="partner-eyebrow">Партнёр RTP</div>
+              <div className="partner-eyebrow">{pt.eyebrow}</div>
             </Reveal>
             <Reveal delay={0.05}>
               <img
@@ -119,7 +89,7 @@ export default async function PartnerPage({
                   rel="noopener"
                   className="btn btn-primary"
                 >
-                  Перейти на сайт <span className="arrow">→</span>
+                  {pt.goSite} <span className="arrow">→</span>
                 </a>
                 <a
                   href={p.ctaUrl}
@@ -127,7 +97,7 @@ export default async function PartnerPage({
                   rel="noopener"
                   className="btn btn-secondary"
                 >
-                  Начать
+                  {pt.start}
                 </a>
               </div>
             </Reveal>
@@ -158,7 +128,7 @@ export default async function PartnerPage({
 
           {/* about */}
           <Reveal as="section" className="case-section">
-            <h2>Чем занимаются</h2>
+            <h2>{pt.whatTheyDo}</h2>
             {p.about.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
@@ -166,18 +136,15 @@ export default async function PartnerPage({
 
           {/* infrastructure — 2 pools */}
           <Reveal as="section" className="case-section">
-            <h2>Как устроена инфраструктура</h2>
-            <p>
-              Никаких арендованных пулов и общих IP с чужими — вот что реально
-              стоит за сетью:
-            </p>
+            <h2>{pt.infra}</h2>
+            <p>{pt.infraLead}</p>
             <div className="pt-cards pt-cards-2">
               {p.infra.map((it) => (
                 <div className="pt-card" key={it.pool}>
                   <h3>{it.pool}</h3>
                   <p className="pt-card-includes">{it.includes}</p>
                   <div className="pt-card-for">
-                    <span className="pt-card-for-label">Для чего</span>
+                    <span className="pt-card-for-label">{pt.infraFor}</span>
                     {it.usedFor}
                   </div>
                 </div>
@@ -187,7 +154,7 @@ export default async function PartnerPage({
 
           {/* why choose — checklist */}
           <Reveal as="section" className="case-section">
-            <h2>Почему выбирают {p.name}</h2>
+            <h2>{pt.why(p.name)}</h2>
             <ul className="pt-checklist">
               {p.whyChoose.map((w) => (
                 <li key={w}>{w}</li>
@@ -197,7 +164,7 @@ export default async function PartnerPage({
 
           {/* use cases */}
           <Reveal as="section" className="case-section">
-            <h2>Под какие задачи</h2>
+            <h2>{pt.useCases}</h2>
             <div className="pt-usecases">
               {p.useCases.map((u) => (
                 <div className="pt-usecase" key={u.case}>
@@ -210,7 +177,7 @@ export default async function PartnerPage({
 
           {/* AI agents */}
           <Reveal as="section" className="case-section">
-            <h2>Создано для AI-агентов</h2>
+            <h2>{pt.agents}</h2>
             <div className="pt-cards pt-cards-3">
               {p.aiAgents.map((a) => (
                 <div className="pt-card" key={a.title}>
@@ -223,28 +190,28 @@ export default async function PartnerPage({
 
           {/* pricing + free tiers */}
           <Reveal as="section" className="case-section">
-            <h2>Цены и биллинг</h2>
+            <h2>{pt.pricing}</h2>
             <ul className="pt-checklist">
               {p.pricing.map((x) => (
                 <li key={x}>{x}</li>
               ))}
             </ul>
-            <h3>Бесплатные параллельные подключения растут с объёмом</h3>
+            <h3>{pt.tiersTitle}</h3>
             <div className="pt-table-wrap">
               <table className="pt-table">
                 <thead>
                   <tr>
-                    <th>Тир</th>
-                    <th>Куплено трафика</th>
-                    <th>Бесплатных подключений</th>
+                    <th>{pt.tierCols[0]}</th>
+                    <th>{pt.tierCols[1]}</th>
+                    <th>{pt.tierCols[2]}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {p.tiers.map((t) => (
-                    <tr key={t.tier}>
-                      <td>{t.tier}</td>
-                      <td>{t.gb}</td>
-                      <td>{t.conns}</td>
+                  {p.tiers.map((tr) => (
+                    <tr key={tr.tier}>
+                      <td>{tr.tier}</td>
+                      <td>{tr.gb}</td>
+                      <td>{tr.conns}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -254,7 +221,7 @@ export default async function PartnerPage({
 
           {/* payments + security */}
           <Reveal as="section" className="case-section">
-            <h2>Оплата и безопасность</h2>
+            <h2>{pt.payments}</h2>
             <div className="pt-payments">
               {p.payments.map((pm) => (
                 <div className="pt-payment" key={pm.method}>
@@ -272,7 +239,7 @@ export default async function PartnerPage({
 
           {/* getting started — steps */}
           <Reveal as="section" className="case-section">
-            <h2>С чего начать</h2>
+            <h2>{pt.steps}</h2>
             <ol className="pt-steps">
               {p.steps.map((s, i) => (
                 <li key={s}>
@@ -287,7 +254,7 @@ export default async function PartnerPage({
 
           {/* FAQ */}
           <Reveal as="section" className="case-section">
-            <h2>Частые вопросы</h2>
+            <h2>{pt.faq}</h2>
             <div className="pt-faq">
               {p.faq.map((f) => (
                 <details className="pt-faq-item" key={f.q}>
@@ -302,10 +269,10 @@ export default async function PartnerPage({
         {/* backlink CTA */}
         <section className="case-cta partner-cta">
           <div className="container-narrow">
-            <h2>Готовы попробовать {p.name}?</h2>
+            <h2>{pt.ready(p.name)}</h2>
             {p.promo && (
               <p>
-                Промокод <strong>{p.promo.code}</strong> — {p.promo.text}.
+                {pt.promo} <strong>{p.promo.code}</strong> — {p.promo.text}.
               </p>
             )}
             <div className="partner-actions partner-actions-center">
@@ -315,7 +282,7 @@ export default async function PartnerPage({
                 rel="noopener"
                 className="btn btn-primary"
               >
-                Перейти на {p.websiteLabel} <span className="arrow">→</span>
+                {pt.goTo(p.websiteLabel)} <span className="arrow">→</span>
               </a>
             </div>
           </div>
@@ -323,8 +290,8 @@ export default async function PartnerPage({
 
         <div className="case-nav">
           <div className="case-nav-inner">
-            <Link href="/#partners" className="case-nav-link">
-              ← Все партнёры
+            <Link href={lp(locale, "/#partners")} className="case-nav-link">
+              {pt.allPartners}
             </Link>
             <a
               href={p.website}

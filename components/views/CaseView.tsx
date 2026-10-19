@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
@@ -6,35 +5,9 @@ import { Reveal } from "@/components/Reveal";
 import { CaseVisual } from "@/components/CaseVisual";
 import { ShotFrame } from "@/components/ShotFrame";
 import { CaseGallery } from "@/components/CaseGallery";
-import { getShots } from "@/lib/shots";
-import { getCase, caseSlugs, type Block } from "@/lib/cases";
-import { ui } from "@/lib/i18n";
-
-export function generateStaticParams() {
-  return caseSlugs.map((slug) => ({ slug }));
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  const { slug } = await params;
-  const c = getCase(slug);
-  if (!c) return {};
-  return {
-    title: `${c.title} ${ui.casePage.titleSuffix}`,
-    description: c.lead,
-    keywords: [...ui.casePage.keywords],
-    alternates: { canonical: `/work/${c.slug}` },
-    openGraph: {
-      title: c.title,
-      description: c.lead,
-      type: "article",
-      url: `https://rtp-agency.com/work/${c.slug}`,
-    },
-  };
-}
+import { getContent } from "@/lib/content";
+import { abs, lp, type Locale } from "@/lib/locale";
+import type { Block } from "@/lib/cases";
 
 function BlockView({ block }: { block: Block }) {
   switch (block.t) {
@@ -81,28 +54,25 @@ function BlockView({ block }: { block: Block }) {
   }
 }
 
-export default async function CasePage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const c = getCase(slug);
+export function CaseView({ locale, slug }: { locale: Locale; slug: string }) {
+  const C = getContent(locale);
+  const { ui } = C;
+  const c = C.getCase(slug);
   if (!c) notFound();
-  const shots = getShots(c.slug);
+  const shots = C.getShots(c.slug);
+  const alt = lp(locale === "ru" ? "en" : "ru", `/work/${c.slug}`);
 
-  const base = "https://rtp-agency.com";
   const jsonLd = [
     {
       "@context": "https://schema.org",
       "@type": "Article",
       headline: c.title,
       description: c.lead,
-      image: `${base}/work/${c.slug}/opengraph-image`,
-      inLanguage: "ru",
-      author: { "@type": "Organization", name: "RTP Agency", url: base },
+      image: abs(locale, `/work/${c.slug}/opengraph-image`),
+      inLanguage: locale,
+      author: { "@type": "Organization", name: "RTP Agency", url: abs(locale, "/") },
       publisher: { "@type": "Organization", name: "RTP Agency" },
-      mainEntityOfPage: `${base}/work/${c.slug}`,
+      mainEntityOfPage: abs(locale, `/work/${c.slug}`),
     },
     {
       "@context": "https://schema.org",
@@ -112,19 +82,19 @@ export default async function CasePage({
           "@type": "ListItem",
           position: 1,
           name: ui.casePage.breadcrumbHome,
-          item: base,
+          item: abs(locale, "/"),
         },
         {
           "@type": "ListItem",
           position: 2,
           name: ui.casePage.breadcrumbWork,
-          item: `${base}/#work`,
+          item: abs(locale, "/#work"),
         },
         {
           "@type": "ListItem",
           position: 3,
           name: c.title,
-          item: `${base}/work/${c.slug}`,
+          item: abs(locale, `/work/${c.slug}`),
         },
       ],
     },
@@ -136,7 +106,7 @@ export default async function CasePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Nav variant="case" />
+      <Nav locale={locale} variant="case" altHref={alt} back={{ href: lp(locale, "/#work"), label: ui.nav.back }} />
 
       <div className="case-detail dark-page" id="main">
         <div className="container">
@@ -187,7 +157,7 @@ export default async function CasePage({
 
           {c.visual && (
             <Reveal>
-              <CaseVisual visual={c.visual} />
+              <CaseVisual visual={c.visual} toCosts={ui.toCosts} />
             </Reveal>
           )}
 
@@ -196,7 +166,7 @@ export default async function CasePage({
         {shots && shots.groups.length > 0 && (
           <div className="gallery-wrap">
             <div className="container-wide">
-              <CaseGallery groups={shots.groups} />
+              <CaseGallery groups={shots.groups} labels={C.t.gallery} />
             </div>
           </div>
         )}
@@ -216,7 +186,7 @@ export default async function CasePage({
           <div className="container-narrow">
             <h2>{ui.casePage.ctaHeading}</h2>
             <p>{ui.casePage.ctaBody}</p>
-            <Link href="/#contact" className="btn btn-primary">
+            <Link href={lp(locale, "/#contact")} className="btn btn-primary">
               {ui.casePage.ctaButton} <span className="arrow">→</span>
             </Link>
           </div>
