@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Onest, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { StickyContact } from "@/components/StickyContact";
 import { Nebula } from "@/components/Nebula";
+import { Spotlight } from "@/components/Spotlight";
 import { meta, jsonLd } from "@/lib/i18n";
 
-const inter = Inter({
+const onest = Onest({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
+  variable: "--font-onest",
   weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -51,15 +51,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" className={`${inter.variable} ${jetbrains.variable}`}>
+    <html lang="ru" className={`${onest.variable} ${jetbrains.variable}`}>
       <body>
+        <a href="#main" className="skip-link">
+          К содержимому
+        </a>
+        <Spotlight />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <Nebula />
         <div className="grain" aria-hidden="true" />
-        <div className="site">
+        <div className="site" id="main">
           {children}
           <StickyContact />
           <Footer />
