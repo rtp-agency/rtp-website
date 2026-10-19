@@ -105,6 +105,18 @@ export const caseShots: Record<string, CaseShots> = {
     },
     groups: [],
   },
+  "open-source-lipsync": {
+    cover: {
+      src: "/work/lipsync/comfyui.jpg",
+      w: 1800,
+      h: 1037,
+      alt: "Рабочий процесс ComfyUI для липсинка: загрузчики моделей Wan 2.1, InfiniteTalk, обработка аудио",
+      caption: "Липсинк-пайплайн в ComfyUI: модели Wan 2.1 и InfiniteTalk, аудио-эмбеддинги, рендер",
+      frame: "browser",
+      chrome: "ComfyUI",
+    },
+    groups: [],
+  },
   "metra-ai": {
     cover: {
       src: "/work/metra/hero.jpg",
