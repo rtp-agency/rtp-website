@@ -105,6 +105,18 @@ export const caseShots: Record<string, CaseShots> = {
     },
     groups: [],
   },
+  "sinner-threads": {
+    cover: {
+      src: "/work/sinner/hero.jpg",
+      w: 1800,
+      h: 1035,
+      alt: "Интернет-магазин sinnerThreads: главная с реальными товарами в наличии",
+      caption: "sinnerThreads: витрина с товарами из наличия, UA / EN",
+      frame: "browser",
+      chrome: "sinner-threads.vercel.app",
+    },
+    groups: [],
+  },
   "open-source-lipsync": {
     cover: {
       src: "/work/lipsync/comfyui.jpg",
