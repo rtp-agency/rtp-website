@@ -2,6 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 
+declare global {
+  interface Window {
+    __rtpIntroActive?: boolean;
+    __rtpIntroDone?: boolean;
+  }
+}
+
 const WORD = "RTP AGENCY";
 type Phase = "type" | "ready" | "exit" | "done";
 

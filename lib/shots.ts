@@ -105,6 +105,18 @@ export const caseShots: Record<string, CaseShots> = {
     },
     groups: [],
   },
+  "metra-ai": {
+    cover: {
+      src: "/work/metra/hero.jpg",
+      w: 1800,
+      h: 1045,
+      alt: "Metra AI: платформа для Telegram, контент и обработка лидов в одном месте",
+      caption: "Metra AI — платформа автоматизации контента и лидов в Telegram",
+      frame: "browser",
+      chrome: "metra-ai.org",
+    },
+    groups: [],
+  },
   "telegram-receipts": {
     cover: {
       src: "/work/receipts/dashboard.jpg",

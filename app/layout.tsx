@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Onest, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import "./redesign.css";
 import { Footer } from "@/components/Footer";
-import { StickyContact } from "@/components/StickyContact";
-import { Nebula } from "@/components/Nebula";
-import { Spotlight } from "@/components/Spotlight";
 import { meta, jsonLd } from "@/lib/i18n";
 
 const onest = Onest({
@@ -56,16 +54,12 @@ export default function RootLayout({
         <a href="#main" className="skip-link">
           К содержимому
         </a>
-        <Spotlight />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Nebula />
-        <div className="grain" aria-hidden="true" />
-        <div className="site" id="main">
+        <div className="site">
           {children}
-          <StickyContact />
           <Footer />
         </div>
       </body>
