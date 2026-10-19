@@ -61,26 +61,25 @@ function Icon({ kind }: { kind: Service["icon"] }) {
 
 export function Services() {
   return (
-    <ol className="svc2-grid">
-      {services.map((s, i) => (
-        <li key={s.title} className="svc2">
-          <div className="svc2-top">
-            <span className="svc2-idx">{String(i + 1).padStart(2, "0")}</span>
-            <span className="svc2-icon">
+    <ul className="svc3">
+      {services.map((s) => (
+        <li key={s.title}>
+          <a href={TG_URL} target="_blank" rel="noopener noreferrer" className="svc3-card">
+            <span className="svc3-icon">
               <Icon kind={s.icon} />
             </span>
-          </div>
-          <h3>{s.title}</h3>
-          <ul>
-            {s.items.map((it) => (
-              <li key={it}>{it}</li>
-            ))}
-          </ul>
-          <a href={TG_URL} target="_blank" rel="noopener noreferrer">
-            Написать по услуге <span aria-hidden="true">→</span>
+            <h3>{s.title}</h3>
+            <ul>
+              {s.items.map((it) => (
+                <li key={it}>{it}</li>
+              ))}
+            </ul>
+            <span className="svc3-go" aria-hidden="true">
+              →
+            </span>
           </a>
         </li>
       ))}
-    </ol>
+    </ul>
   );
 }

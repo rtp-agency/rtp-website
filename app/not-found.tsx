@@ -4,7 +4,7 @@ import { ui } from "@/lib/i18n";
 export default function NotFound() {
   const t = ui.notFound;
   return (
-    <main className="notfound">
+    <main className="notfound dark-page" id="main">
       <div className="container" style={{ textAlign: "center" }}>
         <div className="eyebrow" style={{ justifyContent: "center" }}>
           404

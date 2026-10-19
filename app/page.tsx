@@ -12,25 +12,20 @@ import { getShots } from "@/lib/shots";
 const TG_URL = "https://t.me/rtp_agency";
 const EMAIL = "solutions@rtp-agency.com";
 
-function SecHead({
-  idx,
+function Head({
   eyebrow,
   title,
   lead,
 }: {
-  idx: string;
   eyebrow: string;
   title: string;
   lead?: string;
 }) {
   return (
-    <div className="sec-head">
-      <div className="sec-label">
-        <span>{idx}</span>
-        {eyebrow}
-      </div>
+    <div className="head3">
+      <p className="eyebrow3">{eyebrow}</p>
       <h2>{title}</h2>
-      {lead && <p>{lead}</p>}
+      {lead && <p className="head3-lead">{lead}</p>}
     </div>
   );
 }
@@ -40,11 +35,34 @@ export default function Home() {
     const cover = getShots(c.slug)?.cover;
     const hi = c.highlights[0];
     return (
-      <article className="case">
-        <a href={`/work/${c.slug}`} className="case-media" aria-label={c.title} tabIndex={-1}>
+      <article className="case3">
+        <div className="case3-body">
+          <div className="case3-meta">
+            <span>{String(i + 1).padStart(2, "0")}</span>
+            {c.number.split("—")[1]?.trim()}
+          </div>
+          <h3>{c.title}</h3>
+          <p>{c.summary}</p>
+          <dl className="case3-metrics">
+            {c.highlights.map((h) => (
+              <div key={h.label}>
+                <dt>{h.number}</dt>
+                <dd>{h.label}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="case3-foot">
+            <a href={`/work/${c.slug}`} className="pill pill-ink">
+              {ui.readCase} <span aria-hidden="true">→</span>
+            </a>
+            <span className="case3-tech">{c.tech}</span>
+          </div>
+        </div>
+
+        <a href={`/work/${c.slug}`} className="case3-panel" aria-label={c.title} tabIndex={-1}>
           {cover ? (
-            <figure className="frame">
-              <div className="frame-bar" aria-hidden="true">
+            <figure className="float-shot">
+              <div className="float-bar" aria-hidden="true">
                 <i />
                 <i />
                 <i />
@@ -53,40 +71,17 @@ export default function Home() {
               <img src={cover.src} width={cover.w} height={cover.h} alt={cover.alt} loading="lazy" decoding="async" />
             </figure>
           ) : (
-            <div className="case-stat">
-              <span className="case-stat-num">{hi?.number}</span>
-              <span className="case-stat-label">{hi?.label}</span>
+            <div className="case3-stat">
+              <span>{hi?.number}</span>
+              <small>{hi?.label}</small>
               {c.costBar && (
-                <span className="case-stat-bar" aria-hidden="true">
-                  <span style={{ width: `${c.costBar.afterPct}%` }} />
-                </span>
+                <i aria-hidden="true">
+                  <b style={{ width: `${c.costBar.afterPct}%` }} />
+                </i>
               )}
             </div>
           )}
         </a>
-
-        <div className="case-body">
-          <div className="case-idx">
-            {String(i + 1).padStart(2, "0")}
-            <span> — {c.number.split("—")[1]?.trim()}</span>
-          </div>
-          <h3>{c.title}</h3>
-          <p>{c.summary}</p>
-          <dl className="case-metrics">
-            {c.highlights.map((h) => (
-              <div key={h.label}>
-                <dt>{h.number}</dt>
-                <dd>{h.label}</dd>
-              </div>
-            ))}
-          </dl>
-          <div className="case-foot">
-            <span className="case-tech">{c.tech}</span>
-            <a href={`/work/${c.slug}`} className="case-link">
-              {ui.readCase} <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </div>
       </article>
     );
   });
@@ -99,10 +94,9 @@ export default function Home() {
       <main id="main">
         <Hero />
 
-        <section id="services" className="blk">
-          <div className="wrap">
-            <SecHead
-              idx="01"
+        <section id="services" className="band band-cream">
+          <div className="wrap3">
+            <Head
               eyebrow="Услуги"
               title="Разработка под задачу."
               lead="Не «ИИ-консалтинг» вообще, а конкретные вещи, которые собираем под ключ."
@@ -111,20 +105,20 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="work" className="blk">
-          <div className="wrap">
-            <SecHead idx="02" eyebrow="Кейсы" title="Что мы уже автоматизировали." />
+        <section id="work" className="band">
+          <div className="wrap3">
+            <Head eyebrow="Кейсы" title="Что мы уже автоматизировали." />
             <CaseSlider slides={caseSlides} />
           </div>
         </section>
 
-        <section className="blk">
-          <div className="wrap">
-            <SecHead idx="03" eyebrow={home.additionalEyebrow} title={home.additionalHeading} />
-            <ol className="rows">
+        <section className="band band-cream">
+          <div className="wrap3">
+            <Head eyebrow={home.additionalEyebrow} title={home.additionalHeading} />
+            <ol className="rows3">
               {additional.map((a, i) => (
                 <li key={a.title}>
-                  <span className="rows-idx">{String(i + 1).padStart(2, "0")}</span>
+                  <span>{String(i + 1).padStart(2, "0")}</span>
                   <h3>{a.title}</h3>
                   <p>{a.body}</p>
                 </li>
@@ -133,15 +127,15 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="testimonials" className="blk">
-          <div className="wrap">
-            <SecHead idx="04" eyebrow={home.testimonialsEyebrow} title={home.testimonialsHeading} />
-            <div className="quotes">
+        <section id="testimonials" className="band">
+          <div className="wrap3">
+            <Head eyebrow={home.testimonialsEyebrow} title={home.testimonialsHeading} />
+            <div className="quotes3">
               {testimonials.map((tm) => (
-                <figure className="quote" key={tm.name}>
+                <figure key={tm.name}>
                   <blockquote>«{tm.quote}»</blockquote>
                   <figcaption>
-                    <span className="quote-avatar">{tm.avatar}</span>
+                    <span className="quotes3-av">{tm.avatar}</span>
                     <span>
                       <b>
                         {tm.link ? (
@@ -161,32 +155,29 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="contact" className="blk blk-cta">
-          <div className="wrap cta2">
-            <div className="cta2-copy">
-              <div className="sec-label">
-                <span>05</span>
-                {home.ctaEyebrow}
-              </div>
+        <section id="contact" className="inset-wrap">
+          <div className="cta3">
+            <div className="cta3-copy">
+              <p className="eyebrow3 eyebrow3-dark">{home.ctaEyebrow}</p>
               <h2>{home.ctaHeading}</h2>
-              <p className="cta2-lead">{home.ctaLead}</p>
-              <ul className="cta2-list">
+              <p className="cta3-lead">{home.ctaLead}</p>
+              <ul className="cta3-list">
                 {home.auditList.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-              <div className="cta2-direct">
+              <p className="cta3-direct">
                 {home.ctaContactPrefix}{" "}
                 <a href={TG_URL} target="_blank" rel="noopener noreferrer">
                   Telegram @rtp_agency
                 </a>
                 {" · "}
                 <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-              </div>
+              </p>
             </div>
-            <Reveal className="cta2-form">
+            <Reveal className="cta3-form">
               <ContactForm />
-              <p className="cta2-note">{home.priceNote}</p>
+              <p className="cta3-note">{home.priceNote}</p>
             </Reveal>
           </div>
         </section>

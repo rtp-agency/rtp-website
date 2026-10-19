@@ -81,7 +81,7 @@ export default async function PartnerPage({
       />
       <Nav variant="case" back={{ href: "/#partners", label: "← Партнёры" }} />
 
-      <div className="case-detail partner-detail">
+      <div className="case-detail partner-detail dark-page" id="main">
         <div className="container">
           {/* hero */}
           <section className="partner-hero">

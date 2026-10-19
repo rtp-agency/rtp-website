@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Onest, JetBrains_Mono } from "next/font/google";
+import { Manrope, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import "./redesign.css";
 import { Footer } from "@/components/Footer";
 import { meta, jsonLd } from "@/lib/i18n";
 
-const onest = Onest({
+const sans = Manrope({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-onest",
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -49,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" className={`${onest.variable} ${jetbrains.variable}`}>
+    <html lang="ru" className={`${sans.variable} ${jetbrains.variable}`}>
       <body>
         <a href="#main" className="skip-link">
           К содержимому

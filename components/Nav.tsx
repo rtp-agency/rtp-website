@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 import { ui } from "@/lib/i18n";
 import { LogoMark } from "@/components/LogoMark";
 
+const TG_URL = "https://t.me/rtp_agency";
+const SECTIONS = ["services", "work", "testimonials", "contact"];
+
 export function Nav({
   variant = "home",
   back,
@@ -13,46 +16,63 @@ export function Nav({
   back?: { href: string; label: string };
 }) {
   const t = ui.nav;
-  const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("top");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    if (variant !== "home") return;
+    const els = SECTIONS.map((id) => document.getElementById(id)).filter(
+      (e): e is HTMLElement => !!e
+    );
+    const onScroll = () => {
+      const mid = window.innerHeight * 0.35;
+      let cur = "top";
+      for (const el of els) {
+        if (el.getBoundingClientRect().top <= mid) cur = el.id;
+      }
+      setActive(cur);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [variant]);
 
   const links = [
-    { href: "/#services", label: t.services },
-    { href: "/#work", label: t.work },
-    { href: "/#testimonials", label: t.testimonials },
-    { href: "/#contact", label: t.contact },
+    { id: "top", href: "/", label: "Главная" },
+    { id: "services", href: "/#services", label: t.services },
+    { id: "work", href: "/#work", label: t.work },
+    { id: "testimonials", href: "/#testimonials", label: t.testimonials },
+    { id: "contact", href: "/#contact", label: t.contact },
   ];
 
   return (
-    <header className={`topbar${scrolled ? " is-scrolled" : ""}`}>
-      <div className="topbar-inner">
-        <Link href="/" className="brand" aria-label="RTP Agency">
-          <LogoMark />
-          <span>RTP Agency</span>
+    <header className="pnav">
+      <Link href="/" className="pnav-brand" aria-label="RTP Agency">
+        <LogoMark />
+        <span>RTP</span>
+      </Link>
+
+      {variant === "home" ? (
+        <ul className="pnav-links">
+          {links.map((l) => (
+            <li key={l.id}>
+              <a href={l.href} className={active === l.id ? "is-active" : ""}>
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <Link href={back?.href ?? "/#work"} className="pnav-back">
+          {back?.label ?? t.back}
         </Link>
+      )}
 
-        {variant === "home" ? (
-          <ul className="topbar-links">
-            {links.map((l) => (
-              <li key={l.href}>
-                <a href={l.href}>{l.label}</a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <Link href={back?.href ?? "/#work"} className="topbar-back">
-            {back?.label ?? t.back}
-          </Link>
-        )}
-
-        <a href="/#contact" className="topbar-cta">
-          Обсудить проект
+      <div className="pnav-right">
+        <a href={TG_URL} target="_blank" rel="noopener noreferrer" className="pill pill-soft">
+          Telegram
+        </a>
+        <a href="/#contact" className="pill pill-ink">
+          Бесплатный разбор
         </a>
       </div>
     </header>

@@ -13,8 +13,8 @@
   --color-red: #ff3b3b;
   --color-red-deep: #c81e1e;
 
-  --font-serif: var(--font-onest), -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  --font-sans: var(--font-onest), -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-body), -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-body), -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-jb), "SF Mono", Menlo, Consolas, monospace;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);

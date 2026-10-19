@@ -138,7 +138,7 @@ export default async function CasePage({
       />
       <Nav variant="case" />
 
-      <div className="case-detail" id="main">
+      <div className="case-detail dark-page" id="main">
         <div className="container">
           <section className="case-hero">
             <Reveal>
