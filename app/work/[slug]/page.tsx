@@ -4,6 +4,9 @@ import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Reveal } from "@/components/Reveal";
 import { CaseVisual } from "@/components/CaseVisual";
+import { ShotFrame } from "@/components/ShotFrame";
+import { CaseGallery } from "@/components/CaseGallery";
+import { getShots } from "@/lib/shots";
 import { getCase, caseSlugs, type Block } from "@/lib/cases";
 import { ui } from "@/lib/i18n";
 
@@ -86,6 +89,7 @@ export default async function CasePage({
   const { slug } = await params;
   const c = getCase(slug);
   if (!c) notFound();
+  const shots = getShots(c.slug);
 
   const base = "https://rtp-agency.com";
   const jsonLd = [
@@ -169,12 +173,35 @@ export default async function CasePage({
             </Reveal>
           </section>
 
+          {shots && (
+            <Reveal>
+              <div className="shot-hero">
+                <span className="shot-hero-glow" aria-hidden="true" />
+                <ShotFrame shot={shots.cover} priority />
+                {shots.cover.caption && (
+                  <p className="shot-hero-cap">{shots.cover.caption}</p>
+                )}
+              </div>
+            </Reveal>
+          )}
+
           {c.visual && (
             <Reveal>
               <CaseVisual visual={c.visual} />
             </Reveal>
           )}
 
+        </div>
+
+        {shots && shots.groups.length > 0 && (
+          <div className="gallery-wrap">
+            <div className="container-wide">
+              <CaseGallery groups={shots.groups} />
+            </div>
+          </div>
+        )}
+
+        <div className="container">
           {c.sections.map((sec) => (
             <Reveal key={sec.heading} as="section" className="case-section">
               <h2>{sec.heading}</h2>

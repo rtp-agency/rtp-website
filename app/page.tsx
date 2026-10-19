@@ -8,6 +8,7 @@ import { ServicesCarousel } from "@/components/ServicesCarousel";
 import { CardScrolly } from "@/components/CardScrolly";
 import { home, work, additional, testimonials } from "@/lib/site";
 import { ui } from "@/lib/i18n";
+import { getShots } from "@/lib/shots";
 
 const TG_URL = "https://t.me/rtp_agency";
 const EMAIL = "solutions@rtp-agency.com";
@@ -15,9 +16,22 @@ const EMAIL = "solutions@rtp-agency.com";
 export default function Home() {
   const caseCards = work.map((c) => {
     const hi = c.highlights[0];
+    const cover = getShots(c.slug)?.cover;
     return (
       <a key={c.slug} href={`/work/${c.slug}`} className="vsc-card vsc-case">
         <span className="vsc-cardglow" aria-hidden="true" />
+        {cover && (
+          <div className="vsc-shot">
+            <img
+              src={cover.src}
+              width={cover.w}
+              height={cover.h}
+              alt={cover.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        )}
         <div className="vsc-num">{c.number}</div>
         {hi && (
           <div className="vsc-metric">

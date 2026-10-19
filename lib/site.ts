@@ -304,6 +304,19 @@ export const work: WorkItem[] = [
     ],
     tech: "Vertex AI · Whisper · Gemini · Qdrant",
   },
+  {
+    slug: "telegram-receipts",
+    number: "07 — Чеки и расходы в Telegram",
+    title: "142 бота и 2,4 млн сообщений в месяц при аптайме 99,98%",
+    meta: ["Разработка и эксплуатация", "12 регионов", "Работает в продакшене"],
+    summary:
+      "Платформа учёта чеков и расходов для команд в 12 регионах: у каждой команды свой бот, человек проверяет каждый чек, а ежедневные сверки формируются сами.",
+    highlights: [
+      { number: "142", label: "Бота в продакшене · 51K чеков в месяц" },
+      { number: "99,98%", label: "Аптайм за 90 дней" },
+    ],
+    tech: "Python · aiogram · SQLite · systemd",
+  },
 ];
 
 export const additional: Additional[] = [
