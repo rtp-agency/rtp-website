@@ -1,6 +1,7 @@
 export type Locale = "ru" | "en";
 export const locales: Locale[] = ["ru", "en"];
-export const SITE_URL = "https://rtp-agency.com";
+// The production host: rtp-agency.com 308-redirects to www, so www is canonical.
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rtp-agency.com";
 
 // Russian lives at the root, English under /en.
 export function lp(locale: Locale, p: string): string {

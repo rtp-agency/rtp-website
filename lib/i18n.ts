@@ -84,12 +84,12 @@ export const meta = {
 export const jsonLd: Record<string, unknown> = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  "@id": "https://rtp-agency.com/#service",
+  "@id": "https://www.rtp-agency.com/#service",
   name: "RTP Agency — автоматизация бизнес-процессов с помощью ИИ",
-  url: "https://rtp-agency.com",
+  url: "https://www.rtp-agency.com",
   description:
     "Автоматизируем рутинные бизнес-процессы с помощью ИИ: обработка заявок, ответы клиентам, контент, документы и отчёты. Надёжно, недорого и в привычных инструментах.",
-  image: "https://rtp-agency.com/opengraph-image",
+  image: "https://www.rtp-agency.com/opengraph-image",
   priceRange: "$$",
   areaServed: "Worldwide",
   sameAs: ["https://github.com/rtp-agency"],

@@ -1,7 +1,7 @@
 // Pings IndexNow (Bing, Yandex, Seznam, Naver) with every URL from the live sitemap.
 // Usage: node scripts/indexnow.mjs            (after a production deploy)
 // Google does not support IndexNow: submit the sitemap in Search Console instead.
-const HOST = "rtp-agency.com";
+const HOST = "www.rtp-agency.com";
 const KEY = "daeef7a020ef024f61f89ca91fa4b628";
 
 const xml = await (await fetch(`https://${HOST}/sitemap.xml`)).text();

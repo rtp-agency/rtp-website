@@ -166,7 +166,7 @@ export function PostView({ locale, slug }: { locale: Locale; slug: string }) {
         "@type": "Organization",
         name: "RTP Agency",
         url: abs(locale, "/"),
-        logo: { "@type": "ImageObject", url: "https://rtp-agency.com/icon" },
+        logo: { "@type": "ImageObject", url: "https://www.rtp-agency.com/icon" },
       },
     },
     {
