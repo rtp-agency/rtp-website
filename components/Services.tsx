@@ -1,4 +1,5 @@
 import { services, type Service } from "@/lib/site";
+import { Rise } from "@/components/Rise";
 
 const TG_URL = "https://t.me/rtp_agency";
 
@@ -61,7 +62,7 @@ function Icon({ kind }: { kind: Service["icon"] }) {
 
 export function Services() {
   return (
-    <ul className="svc3">
+    <Rise as="ul" className="svc3">
       {services.map((s) => (
         <li key={s.title}>
           <a href={TG_URL} target="_blank" rel="noopener noreferrer" className="svc3-card">
@@ -80,6 +81,6 @@ export function Services() {
           </a>
         </li>
       ))}
-    </ul>
+    </Rise>
   );
 }

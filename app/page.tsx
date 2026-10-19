@@ -5,6 +5,9 @@ import { Intro } from "@/components/Intro";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { CaseSlider } from "@/components/CaseSlider";
+import { Integrations } from "@/components/Integrations";
+import { LogoMarquee } from "@/components/LogoMarquee";
+import { Rise } from "@/components/Rise";
 import { home, work, additional, testimonials } from "@/lib/site";
 import { ui } from "@/lib/i18n";
 import { getShots } from "@/lib/shots";
@@ -22,11 +25,11 @@ function Head({
   lead?: string;
 }) {
   return (
-    <div className="head3">
+    <Rise className="head3">
       <p className="eyebrow3">{eyebrow}</p>
       <h2>{title}</h2>
       {lead && <p className="head3-lead">{lead}</p>}
-    </div>
+    </Rise>
   );
 }
 
@@ -93,6 +96,7 @@ export default function Home() {
 
       <main id="main">
         <Hero />
+        <LogoMarquee />
 
         <section id="services" className="band band-cream">
           <div className="wrap3">
@@ -105,17 +109,28 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="work" className="band">
+        <section id="stack" className="band">
+          <div className="wrap3">
+            <Head
+              eyebrow="Интеграции"
+              title="Работаем с тем, что у вас уже есть."
+              lead="Подключаем ИИ к вашим сервисам, мессенджерам и данным. Ничего переносить не нужно."
+            />
+            <Integrations />
+          </div>
+        </section>
+
+        <section id="work" className="band band-cream">
           <div className="wrap3">
             <Head eyebrow="Кейсы" title="Что мы уже автоматизировали." />
             <CaseSlider slides={caseSlides} />
           </div>
         </section>
 
-        <section className="band band-cream">
+        <section className="band">
           <div className="wrap3">
             <Head eyebrow={home.additionalEyebrow} title={home.additionalHeading} />
-            <ol className="rows3">
+            <Rise as="ol" className="rows3">
               {additional.map((a, i) => (
                 <li key={a.title}>
                   <span>{String(i + 1).padStart(2, "0")}</span>
@@ -123,14 +138,14 @@ export default function Home() {
                   <p>{a.body}</p>
                 </li>
               ))}
-            </ol>
+            </Rise>
           </div>
         </section>
 
-        <section id="testimonials" className="band">
+        <section id="testimonials" className="band band-cream">
           <div className="wrap3">
             <Head eyebrow={home.testimonialsEyebrow} title={home.testimonialsHeading} />
-            <div className="quotes3">
+            <Rise className="quotes3">
               {testimonials.map((tm) => (
                 <figure key={tm.name}>
                   <blockquote>«{tm.quote}»</blockquote>
@@ -151,7 +166,7 @@ export default function Home() {
                   </figcaption>
                 </figure>
               ))}
-            </div>
+            </Rise>
           </div>
         </section>
 
@@ -159,7 +174,7 @@ export default function Home() {
           <div className="cta3">
             <div className="cta3-copy">
               <p className="eyebrow3 eyebrow3-dark">{home.ctaEyebrow}</p>
-              <h2>{home.ctaHeading}</h2>
+              <h2>{home.ctaHeading.replace("-", "\u2011")}</h2>
               <p className="cta3-lead">{home.ctaLead}</p>
               <ul className="cta3-list">
                 {home.auditList.map((item) => (
