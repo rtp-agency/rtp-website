@@ -1,4 +1,5 @@
 import { CountUp } from "./CountUp";
+import { LOGO_PATH, LOGO_VIEWBOX } from "@/lib/logo";
 import { lp, type Locale } from "@/lib/locale";
 import { strings } from "@/lib/ui";
 import type { Home, Stat } from "@/lib/site";
@@ -17,9 +18,9 @@ export function Hero({
     <section className="hero3" id="top">
       <svg className="hero3-mark" viewBox="0 0 32 32" aria-hidden="true">
         <circle cx="16" cy="16" r="15.6" className="m-disc" />
-        <polygon points="16,3.6 27,9.8 27,22.2 16,28.4 5,22.2 5,9.8" className="m-hex" />
-        <polyline points="10,13 16,19 22,13" className="m-chev" />
-        <polyline points="10,18 16,24 22,18" className="m-chev" />
+        <svg x="6.5" y="6.5" width="19" height="19" viewBox={LOGO_VIEWBOX}>
+          <path d={LOGO_PATH} fillRule="evenodd" className="m-logo" />
+        </svg>
       </svg>
 
       <div className="hero3-body">

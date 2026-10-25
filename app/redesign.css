@@ -240,18 +240,8 @@ body::after,
 .hero3-mark .m-disc {
   fill: #232323;
 }
-.hero3-mark .m-hex {
-  fill: none;
-  stroke: #000;
-  stroke-width: 1.5;
-  stroke-linejoin: round;
-}
-.hero3-mark .m-chev {
-  fill: none;
-  stroke: #000;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.hero3-mark .m-logo {
+  fill: #000;
 }
 .hero3-body {
   max-width: 880px;
@@ -1616,18 +1606,6 @@ li {
 .hero3-mark {
   animation: mark-in 1.4s var(--ease-out) both;
 }
-.hero3-mark .m-chev {
-  stroke-dasharray: 22;
-  animation: chev 2.6s var(--ease-out) 0.5s both;
-}
-@keyframes chev {
-  from {
-    stroke-dashoffset: 22;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
 
 .rise > * {
   opacity: 0;
@@ -1664,7 +1642,6 @@ li {
   .hero3-actions,
   .hero3-facts,
   .hero3-mark,
-  .hero3-mark .m-chev,
   .ig-grid li,
   .lm-track {
     animation: none;
