@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getContent } from "./content";
 import { SITE_URL, alternatesFor, ogLocale, type Locale } from "./locale";
+import { studio } from "./studio";
 
 const verification = {
   google: process.env.GOOGLE_SITE_VERIFICATION,
@@ -92,6 +93,22 @@ export function partnerMetadata(locale: Locale, slug: string): Metadata {
       type: "website",
       url: `${SITE_URL}${a.canonical}`,
       images: [{ url: p.logoWhite }],
+    },
+  };
+}
+
+export function workMetadata(locale: Locale): Metadata {
+  const w = studio[locale].workPage;
+  const a = alternatesFor(locale, "/work");
+  return {
+    title: { absolute: w.metaTitle },
+    description: w.metaDescription,
+    alternates: a,
+    openGraph: {
+      title: w.metaTitle,
+      description: w.metaDescription,
+      type: "website",
+      url: `${SITE_URL}${a.canonical}`,
     },
   };
 }

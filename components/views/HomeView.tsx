@@ -3,12 +3,15 @@ import { Rise } from "@/components/Rise";
 import { SystemDemo } from "@/components/ee/SystemDemo";
 import { ContactSection } from "@/components/ee/Contact";
 import {
+  Crosses,
   HeroSection,
   CapabilitiesSection,
   WorkSection,
+  Interlude,
   ApproachSection,
   AboutSection,
   FaqSection,
+  homeFaqItems,
 } from "@/components/ee/Sections";
 import { getContent } from "@/lib/content";
 import { lp, type Locale } from "@/lib/locale";
@@ -23,7 +26,7 @@ export function HomeView({ locale }: { locale: Locale }) {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     inLanguage: locale,
-    mainEntity: C.faq.map((f) => ({
+    mainEntity: homeFaqItems(C).map((f) => ({
       "@type": "Question",
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -40,10 +43,13 @@ export function HomeView({ locale }: { locale: Locale }) {
         <HeroSection locale={locale} />
         <CapabilitiesSection locale={locale} />
         <WorkSection C={C} />
+      </main>
 
-        <section id="system" className="xsec" aria-labelledby="system-title">
-          <span className="xcross xcross-l" aria-hidden="true" />
-          <span className="xcross xcross-r" aria-hidden="true" />
+      <Interlude locale={locale} />
+
+      <div className="xframe">
+        <section id="system" className="xsec xsec-first" aria-labelledby="system-title">
+          <Crosses />
           <div className="xwrap">
             <Rise className="xsec-head">
               <p className="xlabel">{d.index}</p>
@@ -61,7 +67,7 @@ export function HomeView({ locale }: { locale: Locale }) {
         <ApproachSection locale={locale} />
         <AboutSection C={C} />
         <FaqSection C={C} />
-      </main>
+      </div>
       <ContactSection locale={locale} />
     </>
   );

@@ -23,7 +23,7 @@ export function Footer({ locale }: { locale: Locale }) {
           <nav className="xfoot-col" aria-label={t.footer.sections}>
             <h2 className="xlabel">{t.footer.sections}</h2>
             <ul>
-              <li><a href={lp(locale, "/#work")}>{s.nav.work}</a></li>
+              <li><a href={lp(locale, "/work")}>{s.nav.work}</a></li>
               <li><a href={lp(locale, "/#services")}>{s.nav.services}</a></li>
               <li><a href={lp(locale, "/#approach")}>{s.nav.approach}</a></li>
               <li><a href={lp(locale, "/#about")}>{s.nav.about}</a></li>

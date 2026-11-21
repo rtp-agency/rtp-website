@@ -31,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const C = getContent("ru");
   return [
     ...both("/", 1, "weekly"),
+    ...both("/work", 0.9, "monthly"),
     ...both("/blog", 0.9, "weekly"),
     ...C.postSlugs.flatMap((slug) => {
       const p = C.getPost(slug)!;
