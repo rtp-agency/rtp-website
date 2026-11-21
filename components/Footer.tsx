@@ -1,45 +1,66 @@
-import { LogoMark } from "@/components/LogoMark";
+import { Wordmark } from "@/components/Wordmark";
 import { lp, type Locale } from "@/lib/locale";
 import { strings } from "@/lib/ui";
+import { studio } from "@/lib/studio";
 
 const TG_URL = "https://t.me/rtp_agency";
 const EMAIL = "solutions@rtp-agency.com";
 
 export function Footer({ locale }: { locale: Locale }) {
   const t = strings[locale];
+  const s = studio[locale];
   return (
-    <footer className="foot">
-      <div className="foot-inner">
-        <div className="foot-brand">
-          <div className="foot-logo">
-            <LogoMark />
-            <span>RTP Agency</span>
+    <footer className="xfoot">
+      <div className="xfoot-in">
+        <div className="xfoot-top">
+          <div className="xfoot-brand">
+            <Wordmark title="rtp." />
+            <p>
+              {s.tagline}. {s.hero.eyebrow}. {s.hero.lead}
+            </p>
           </div>
-          <p>{t.footer.blurb}</p>
+
+          <nav className="xfoot-col" aria-label={t.footer.sections}>
+            <h2 className="xlabel">{t.footer.sections}</h2>
+            <ul>
+              <li><a href={lp(locale, "/#work")}>{s.nav.work}</a></li>
+              <li><a href={lp(locale, "/#services")}>{s.nav.services}</a></li>
+              <li><a href={lp(locale, "/#approach")}>{s.nav.approach}</a></li>
+              <li><a href={lp(locale, "/#about")}>{s.nav.about}</a></li>
+              <li><a href={lp(locale, "/blog")}>{t.footer.blog}</a></li>
+            </ul>
+          </nav>
+
+          <div className="xfoot-col">
+            <h2 className="xlabel">{t.footer.contact}</h2>
+            <ul>
+              <li><a href={`mailto:${EMAIL}`}>{EMAIL}</a></li>
+              <li><a href={TG_URL} target="_blank" rel="noopener noreferrer">Telegram @rtp_agency</a></li>
+            </ul>
+          </div>
+
+          <div className="xfoot-col">
+            <h2 className="xlabel">{locale === "ru" ? "Ещё" : "Elsewhere"}</h2>
+            <ul>
+              <li><a href="https://github.com/rtp-agency" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+              <li>
+                <a href="https://www.linkedin.com/in/david-chistiy-01a3a2376/" target="_blank" rel="noopener noreferrer">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a href={lp(locale === "ru" ? "en" : "ru", "/")} hrefLang={locale === "ru" ? "en" : "ru"}>
+                  {locale === "ru" ? "English" : "Русский"}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div className="foot-col" role="navigation" aria-label={t.footer.sections}>
-          <h4>{t.footer.sections}</h4>
-          <a href={lp(locale, "/#services")}>{t.nav.services}</a>
-          <a href={lp(locale, "/#work")}>{t.nav.work}</a>
-          <a href={lp(locale, "/#testimonials")}>{t.nav.clients}</a>
-          <a href={lp(locale, "/blog")}>{t.footer.blog}</a>
-          <a href={lp(locale, "/#contact")}>{t.nav.contact}</a>
+        <div className="xfoot-base mono">
+          <span>© 2026 RTP — Routine to Profit</span>
+          <span>{s.hero.eyebrow}</span>
         </div>
-
-        <div className="foot-col">
-          <h4>{t.footer.contact}</h4>
-          <a href={TG_URL} target="_blank" rel="noopener noreferrer">
-            Telegram @rtp_agency
-          </a>
-          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-          <a href="https://www.linkedin.com/in/david-chistiy-01a3a2376/">LinkedIn</a>
-          <a href="https://github.com/rtp-agency">GitHub</a>
-        </div>
-      </div>
-      <div className="foot-base">
-        <span>© 2026 RTP Agency</span>
-        <span>{t.footer.base}</span>
       </div>
     </footer>
   );

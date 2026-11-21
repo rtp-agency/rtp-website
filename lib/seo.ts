@@ -14,10 +14,10 @@ export function siteMetadata(locale: Locale): Metadata {
     title: { default: meta.title, template: `%s` },
     description: meta.description,
     keywords: [...meta.keywords],
-    applicationName: "RTP Agency",
-    authors: [{ name: "RTP Agency", url: SITE_URL }],
-    creator: "RTP Agency",
-    publisher: "RTP Agency",
+    applicationName: "RTP — Routine to Profit",
+    authors: [{ name: "RTP — Routine to Profit", url: SITE_URL }],
+    creator: "RTP — Routine to Profit",
+    publisher: "RTP — Routine to Profit",
     category: "technology",
     formatDetection: { email: false, address: false, telephone: false },
     verification,
@@ -27,7 +27,7 @@ export function siteMetadata(locale: Locale): Metadata {
       googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
     },
     openGraph: {
-      siteName: "RTP Agency",
+      siteName: "RTP — Routine to Profit",
       locale: ogLocale[locale],
       alternateLocale: ogLocale[locale === "ru" ? "en" : "ru"],
       type: "website",
@@ -121,7 +121,7 @@ export function postMetadata(locale: Locale, slug: string): Metadata {
   if (!p) return {};
   const a = alternatesFor(locale, `/blog/${p.slug}`);
   return {
-    title: { absolute: `${p.title} — RTP Agency` },
+    title: { absolute: `${p.title} — RTP` },
     description: p.description,
     keywords: p.keywords,
     authors: [{ name: C.t.blog.by, url: SITE_URL }],

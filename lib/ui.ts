@@ -330,16 +330,16 @@ export type HomeFaq = { q: string; a: string }[];
 export const homeFaq: Record<Locale, HomeFaq> = {
   ru: [
     {
-      q: "Что вы автоматизируете?",
-      a: "Повторяющиеся процессы, где команда теряет время: ответы клиентам и обработка заявок, контент, документы и отчёты, видео на потоке, учёт и сверки. Берём один конкретный процесс и делаем так, чтобы он работал сам.",
+      q: "Что вы делаете?",
+      a: "Автоматизируем повторяющиеся процессы, связываем системы, которые не умеют работать друг с другом, и разрабатываем собственные инструменты: внутренние приложения, дашборды, бэкенд-сервисы, ИИ-процессы. Начинаем с одного конкретного узкого места.",
     },
     {
       q: "Как проходит работа?",
-      a: "Три шага: бесплатный разбор (находим процесс и считаем экономию), решение (настраиваем под ваш процесс), запуск и поддержка. Все решения подключаются к вашим текущим инструментам.",
+      a: "Четыре шага: разбираемся в процессе, проектируем решение и считаем стоимость, разрабатываем и запускаем поэтапно, затем поддерживаем. Первый разговор — бесплатные 30 минут.",
     },
     {
       q: "Сколько это стоит?",
-      a: "Стоимость зависит от процесса, поэтому мы считаем её на бесплатном 30-минутном разборе, когда понятен объём работы и ожидаемая экономия.",
+      a: "Стоимость зависит от объёма, поэтому называем её после бесплатного 30-минутного разговора, когда понятны работа и ожидаемая экономия.",
     },
     {
       q: "ИИ может ошибаться?",
@@ -347,25 +347,25 @@ export const homeFaq: Record<Locale, HomeFaq> = {
     },
     {
       q: "Нужно ли менять наши инструменты?",
-      a: "Нет. Мы подключаемся к тому, чем вы уже пользуетесь: Telegram, CRM, таблицам, почте, платёжным сервисам. Часто интерфейсом становится сам Telegram.",
+      a: "Нет. Мы подключаемся к тому, чем вы уже пользуетесь: CRM, почте, таблицам, проектным и финансовым сервисам, мессенджерам, платёжкам. Если чего-то не хватает — разрабатываем.",
     },
     {
       q: "Сколько времени занимает запуск?",
-      a: "Зависит от процесса: простой сценарий можно собрать за считанные дни, сложные системы занимают недели. Точные сроки называем после разбора.",
+      a: "Зависит от объёма: простой процесс можно собрать за считанные дни, большие системы занимают недели. Точные сроки называем после первого разговора.",
     },
   ],
   en: [
     {
-      q: "What do you automate?",
-      a: "Repetitive processes where a team loses time: customer replies and lead handling, content, documents and reports, video at scale, accounting and reconciliations. We take one specific process and make it run on its own.",
+      q: "What do you do?",
+      a: "We automate repetitive processes, connect systems that don't talk to each other, and build custom tools: internal applications, dashboards, backend services and AI workflows. We start with one specific bottleneck.",
     },
     {
       q: "How does the work go?",
-      a: "Three steps: a free teardown (we find the process and calculate the savings), the solution (set up around your process), then launch and support. Everything plugs into your current tools.",
+      a: "Four steps: we understand the workflow, design the solution and price it, build and roll it out in stages, then support it. The first conversation is a free 30-minute call.",
     },
     {
       q: "How much does it cost?",
-      a: "It depends on the process, so we calculate it during the free 30-minute teardown, when the scope and expected savings are clear.",
+      a: "It depends on the scope, so we price it after the free 30-minute call, once the work and the expected savings are clear.",
     },
     {
       q: "Can AI make mistakes?",
@@ -373,11 +373,11 @@ export const homeFaq: Record<Locale, HomeFaq> = {
     },
     {
       q: "Do we have to change our tools?",
-      a: "No. We connect to what you already use: Telegram, CRM, spreadsheets, email, payment services. Often Telegram itself becomes the interface.",
+      a: "No. We connect to what you already use: CRM, email, spreadsheets, project and finance tools, messengers, payment services. When something is missing, we build it.",
     },
     {
       q: "How long does launch take?",
-      a: "It depends on the process: a simple scenario can be built in a matter of days, complex systems take weeks. We give exact timelines after the teardown.",
+      a: "It depends on the scope: a simple workflow can be built in days, larger systems take weeks. We give exact timelines after the first call.",
     },
   ],
 };

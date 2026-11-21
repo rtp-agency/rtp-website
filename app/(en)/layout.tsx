@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import "../redesign.css";
+import "../ee.css";
 import { RootShell } from "@/components/RootShell";
 import { siteMetadata } from "@/lib/seo";
 

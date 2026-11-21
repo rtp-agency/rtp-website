@@ -1,5 +1,6 @@
 import "./globals.css";
 import "./redesign.css";
+import "./ee.css";
 import { display, sans, mono } from "@/lib/fonts";
 
 // Shown for URLs that match no route at all (the per-language 404s handle the rest).

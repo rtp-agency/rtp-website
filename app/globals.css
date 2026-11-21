@@ -383,14 +383,6 @@ section > .container-narrow {
 }
 
 /* nav — floating capsule wrapping a real liquid-glass layer */
-nav {
-  position: fixed;
-  top: 14px;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  padding: 0 20px;
-}
 .nav-glass {
   max-width: var(--max-width);
   margin: 0 auto;
@@ -3370,10 +3362,6 @@ footer {
 }
 
 /* ===== terminal-style nav bar ===== */
-nav {
-  display: flex;
-  justify-content: center;
-}
 .term-bar {
   pointer-events: auto;
   display: inline-flex;

@@ -1,20 +1,22 @@
-import { Geologica, Golos_Text, JetBrains_Mono } from "next/font/google";
+import { Inter_Tight, Inter, IBM_Plex_Mono } from "next/font/google";
 
-export const display = Geologica({
+// Headings: Inter Tight (tight neo-grotesk). Body: Inter. Metadata: IBM Plex Mono.
+// All three cover Cyrillic, so the RU site uses the same system.
+export const display = Inter_Tight({
   subsets: ["latin", "cyrillic"],
   variable: "--font-display",
+  weight: ["500", "600", "700", "800"],
+  display: "swap",
+});
+
+export const sans = Inter({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-body",
   weight: ["400", "500", "600"],
   display: "swap",
 });
 
-export const sans = Golos_Text({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-body",
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-export const mono = JetBrains_Mono({
+export const mono = IBM_Plex_Mono({
   subsets: ["latin", "cyrillic"],
   variable: "--font-jb",
   weight: ["400", "500"],

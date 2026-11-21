@@ -2,19 +2,20 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { LogoMark } from "@/components/LogoMark";
+import { Wordmark } from "@/components/Wordmark";
+import { Arrow } from "@/components/ee/Arrow";
 import { lp, type Locale } from "@/lib/locale";
-import { strings } from "@/lib/ui";
+import { studio } from "@/lib/studio";
 
 const TG_URL = "https://t.me/rtp_agency";
-const SECTIONS = ["services", "work", "testimonials", "contact"];
+const EMAIL = "solutions@rtp-agency.com";
+const SECTIONS = ["work", "services", "approach", "about"];
 
 export function Nav({
   locale,
   variant = "home",
   back,
   altHref,
-  current,
 }: {
   locale: Locale;
   variant?: "home" | "case" | "page";
@@ -22,8 +23,9 @@ export function Nav({
   altHref: string;
   current?: "blog";
 }) {
-  const t = strings[locale].nav;
-  const [active, setActive] = useState("top");
+  const t = studio[locale].nav;
+  const [active, setActive] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (variant !== "home") return;
@@ -31,10 +33,11 @@ export function Nav({
       (e): e is HTMLElement => !!e
     );
     const onScroll = () => {
-      const mid = window.innerHeight * 0.35;
-      let cur = "top";
+      const mid = window.innerHeight * 0.4;
+      let cur = "";
       for (const el of els) {
-        if (el.getBoundingClientRect().top <= mid) cur = el.id;
+        const r = el.getBoundingClientRect();
+        if (r.top <= mid && r.bottom > mid) cur = el.id;
       }
       setActive(cur);
     };
@@ -43,56 +46,102 @@ export function Nav({
     return () => window.removeEventListener("scroll", onScroll);
   }, [variant]);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   const links = [
-    { id: "top", href: lp(locale, "/"), label: t.home },
-    { id: "services", href: lp(locale, "/#services"), label: t.services },
     { id: "work", href: lp(locale, "/#work"), label: t.work },
-    { id: "testimonials", href: lp(locale, "/#testimonials"), label: t.clients },
-    { id: "blog", href: lp(locale, "/blog"), label: t.blog },
-    { id: "contact", href: lp(locale, "/#contact"), label: t.contact },
+    { id: "services", href: lp(locale, "/#services"), label: t.services },
+    { id: "approach", href: lp(locale, "/#approach"), label: t.approach },
+    { id: "about", href: lp(locale, "/#about"), label: t.about },
   ];
-  const activeId = current ?? (variant === "home" ? active : "");
+  const other = locale === "ru" ? "en" : "ru";
 
   return (
-    <header className="pnav">
-      <Link href={lp(locale, "/")} className="brand-link pnav-brand" aria-label="RTP Agency">
-        <LogoMark />
-        <span>RTP</span>
-      </Link>
+    <>
+    <header className="xnav">
+      <div className="xnav-in">
+        <Link href={lp(locale, "/")} className="xnav-brand" aria-label="RTP — Routine to Profit">
+          <Wordmark />
+          <span className="xnav-tag">Routine to Profit®</span>
+        </Link>
 
-      {variant !== "case" ? (
-        <ul className="pnav-links">
-          {links.map((l) => (
+        {variant === "case" && back ? (
+          <Link href={back.href} className="xnav-back">
+            {back.label}
+          </Link>
+        ) : (
+          <ul className="xnav-links">
+            {links.map((l) => (
+              <li key={l.id}>
+                <a href={l.href} aria-current={active === l.id ? "true" : undefined}>
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div className="xnav-right">
+          <a href={altHref} hrefLang={other} lang={other} className="xnav-lang">
+            {other.toUpperCase()}
+          </a>
+          <a href={lp(locale, "/#contact")} className="xbtn xbtn-sm">
+            {t.cta} <Arrow />
+          </a>
+          <button
+            type="button"
+            className="xnav-menu"
+            aria-expanded={open}
+            aria-controls="xnav-sheet"
+            onClick={() => setOpen((o) => !o)}
+          >
+            {open ? t.close : t.menu} <i aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+    </header>
+
+      <div id="xnav-sheet" className={`xnav-sheet${open ? " is-open" : ""}`} aria-hidden={!open}>
+        <ol>
+          {links.map((l, i) => (
             <li key={l.id}>
-              <a href={l.href} className={activeId === l.id ? "is-active" : ""}>
+              <a href={l.href} onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}>
+                <span>{String(i + 1).padStart(2, "0")}</span>
                 {l.label}
               </a>
             </li>
           ))}
-        </ul>
-      ) : (
-        <Link href={back?.href ?? lp(locale, "/#work")} className="pnav-back">
-          {back?.label}
-        </Link>
-      )}
-
-      <div className="pnav-right">
-        <a
-          href={altHref}
-          hrefLang={locale === "ru" ? "en" : "ru"}
-          lang={locale === "ru" ? "en" : "ru"}
-          className="pill pill-soft pnav-lang"
-          aria-label={t.langLabel}
-        >
-          {locale === "ru" ? "EN" : "RU"}
-        </a>
-        <a href={TG_URL} target="_blank" rel="noopener noreferrer" className="pill pill-soft pnav-tg">
-          Telegram
-        </a>
-        <a href={lp(locale, "/#contact")} className="pill pill-ink">
-          {t.cta}
-        </a>
+        </ol>
+        <div className="xnav-sheet-foot">
+          <a
+            href={lp(locale, "/#contact")}
+            className="xbtn"
+            onClick={() => setOpen(false)}
+            tabIndex={open ? 0 : -1}
+          >
+            {t.cta} <Arrow />
+          </a>
+          <p className="mono">
+            <a href={`mailto:${EMAIL}`} tabIndex={open ? 0 : -1}>{EMAIL}</a>
+            <a href={altHref} hrefLang={other} tabIndex={open ? 0 : -1}>{other.toUpperCase()}</a>
+          </p>
+          <p className="mono">
+            <a href={TG_URL} target="_blank" rel="noopener noreferrer" tabIndex={open ? 0 : -1}>
+              Telegram
+            </a>
+          </p>
+        </div>
       </div>
-    </header>
+    </>
   );
 }
