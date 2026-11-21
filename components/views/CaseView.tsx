@@ -5,8 +5,10 @@ import { Reveal } from "@/components/Reveal";
 import { CaseVisual } from "@/components/CaseVisual";
 import { ShotFrame } from "@/components/ShotFrame";
 import { CaseGallery } from "@/components/CaseGallery";
+import { Arrow } from "@/components/ee/Arrow";
 import { getContent } from "@/lib/content";
 import { abs, lp, type Locale } from "@/lib/locale";
+import { studio, caseMeta } from "@/lib/studio";
 import type { Block } from "@/lib/cases";
 
 function BlockView({ block }: { block: Block }) {
@@ -54,13 +56,31 @@ function BlockView({ block }: { block: Block }) {
   }
 }
 
+const L = {
+  en: { client: "Client", discipline: "Discipline", flow: "System flow", contents: "Contents", prev: "Previous", next: "Next", all: "All work" },
+  ru: { client: "Клиент", discipline: "Направление", flow: "Схема системы", contents: "Содержание", prev: "Назад", next: "Дальше", all: "Все работы" },
+};
+
+// "← Back: Black Camel →" → "Black Camel"
+const cleanLabel = (s: string) =>
+  s
+    .replace(/^←\s*/, "")
+    .replace(/\s*→$/, "")
+    .replace(/^(Back|Next|Назад|Далее|Следующий|Предыдущий|Дальше)\s*:\s*/i, "");
+
+const anchor = (i: number) => `s${i + 1}`;
+
 export function CaseView({ locale, slug }: { locale: Locale; slug: string }) {
   const C = getContent(locale);
   const { ui } = C;
   const c = C.getCase(slug);
   if (!c) notFound();
+  const s = studio[locale];
+  const l = L[locale];
+  const m = caseMeta[locale][c.slug];
   const shots = C.getShots(c.slug);
   const alt = lp(locale === "ru" ? "en" : "ru", `/work/${c.slug}`);
+  const no = c.eyebrow.replace(/\D/g, "").padStart(2, "0");
 
   const jsonLd = [
     {
@@ -78,131 +98,157 @@ export function CaseView({ locale, slug }: { locale: Locale; slug: string }) {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: ui.casePage.breadcrumbHome,
-          item: abs(locale, "/"),
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: ui.casePage.breadcrumbWork,
-          item: abs(locale, "/#work"),
-        },
-        {
-          "@type": "ListItem",
-          position: 3,
-          name: c.title,
-          item: abs(locale, `/work/${c.slug}`),
-        },
+        { "@type": "ListItem", position: 1, name: ui.casePage.breadcrumbHome, item: abs(locale, "/") },
+        { "@type": "ListItem", position: 2, name: ui.casePage.breadcrumbWork, item: abs(locale, "/#work") },
+        { "@type": "ListItem", position: 3, name: c.title, item: abs(locale, `/work/${c.slug}`) },
       ],
     },
   ];
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Nav locale={locale} variant="case" altHref={alt} back={{ href: lp(locale, "/#work"), label: ui.nav.back }} />
 
-      <div className="case-detail dark-page" id="main">
-        <div className="container">
-          <section className="case-hero">
-            <Reveal>
-              <div className="case-eyebrow">{c.eyebrow}</div>
-            </Reveal>
-            <Reveal delay={0.05}>
+      <main id="main" className="xframe">
+        <div className="xwrap">
+          <header className="xcs-head">
+            <nav className="xcs-crumbs mono" aria-label="Breadcrumb">
+              <Link href={lp(locale, "/")}>{ui.casePage.breadcrumbHome}</Link>
+              <span aria-hidden="true">/</span>
+              <Link href={lp(locale, "/#work")}>{ui.casePage.breadcrumbWork}</Link>
+              <span aria-hidden="true">/</span>
+              <span>{c.eyebrow}</span>
+            </nav>
+            <div>
+              <p className="xlabel">
+                {no} / {m ? m.discipline.map((d) => s.work.discipline[d]).join(" · ") : c.eyebrow}
+              </p>
               <h1>{c.title}</h1>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="lead">{c.lead}</p>
-            </Reveal>
-            <Reveal delay={0.15}>
-              <div className="case-meta">
-                <span className="case-meta-item">
-                  <strong>{ui.casePage.role}</strong> {c.meta.role}
-                </span>
-                <span className="case-meta-divider">·</span>
-                <span className="case-meta-item">
-                  <strong>{ui.casePage.timeline}</strong> {c.meta.timeline}
-                </span>
-                <span className="case-meta-divider">·</span>
-                <span className="case-meta-item">
-                  <strong>{ui.casePage.status}</strong> {c.meta.status}
-                </span>
+              <p className="xcs-lead">{c.lead}</p>
+            </div>
+            {m && (
+              <div className="xcs-out">
+                {m.outcome.map((o) => (
+                  <div key={o.label}>
+                    <b>{o.value}</b>
+                    <span>{o.label}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </header>
+
+          <dl className="xcs-spec">
+            {m && (
+              <div>
+                <dt className="mono">{l.client}</dt>
+                <dd>{m.client}</dd>
+              </div>
+            )}
+            {m && (
+              <div>
+                <dt className="mono">{l.discipline}</dt>
+                <dd>{m.kind}</dd>
+              </div>
+            )}
+            <div>
+              <dt className="mono">{ui.casePage.role.replace(":", "")}</dt>
+              <dd>{c.meta.role}</dd>
+            </div>
+            <div>
+              <dt className="mono">{ui.casePage.timeline.replace(":", "")}</dt>
+              <dd>{c.meta.timeline}</dd>
+            </div>
+            <div>
+              <dt className="mono">{ui.casePage.status.replace(":", "")}</dt>
+              <dd>
+                {c.meta.status}
                 {c.meta.link && (
                   <>
-                    <span className="case-meta-divider">·</span>
-                    <a href={c.meta.link.href}>{c.meta.link.text}</a>
+                    <br />
+                    <a href={c.meta.link.href} target="_blank" rel="noopener noreferrer">
+                      {c.meta.link.text.replace(/\s*→$/, "")}
+                    </a>
                   </>
                 )}
-              </div>
-            </Reveal>
-          </section>
+              </dd>
+            </div>
+          </dl>
 
           {shots && (
-            <Reveal>
-              <div className="shot-hero">
-                <span className="shot-hero-glow" aria-hidden="true" />
-                <ShotFrame shot={shots.cover} priority />
-                {shots.cover.caption && (
-                  <p className="shot-hero-cap">{shots.cover.caption}</p>
-                )}
-              </div>
+            <Reveal className="xcs-cover">
+              <ShotFrame shot={shots.cover} priority />
+              <p className="xcs-cap mono">
+                <span>Fig. 01{shots.cover.caption ? ` — ${shots.cover.caption}` : ""}</span>
+              </p>
             </Reveal>
           )}
 
           {c.visual && (
-            <Reveal>
+            <section className="xcs-flow" aria-label={l.flow}>
+              <p className="xlabel">
+                {shots ? "Fig. 02" : "Fig. 01"} / {l.flow}
+              </p>
               <CaseVisual visual={c.visual} toCosts={ui.toCosts} />
-            </Reveal>
+            </section>
           )}
 
-        </div>
-
-        {shots && shots.groups.length > 0 && (
-          <div className="gallery-wrap">
-            <div className="container-wide">
-              <CaseGallery groups={shots.groups} labels={C.t.gallery} />
+          <div className="xcs-body">
+            <nav className="xcs-toc" aria-label={l.contents}>
+              <p className="xlabel">{l.contents}</p>
+              <ol>
+                {c.sections.map((sec, i) => (
+                  <li key={sec.heading}>
+                    <a href={`#${anchor(i)}`}>
+                      <span>{String(i + 1).padStart(2, "0")}</span>
+                      {sec.heading}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+            <div>
+              {c.sections.map((sec, i) => (
+                <section key={sec.heading} id={anchor(i)} className="xcs-sec" aria-labelledby={`${anchor(i)}-h`}>
+                  <p className="xlabel">{String(i + 1).padStart(2, "0")}</p>
+                  <h2 id={`${anchor(i)}-h`}>{sec.heading}</h2>
+                  {sec.blocks.map((block, j) => (
+                    <BlockView key={j} block={block} />
+                  ))}
+                </section>
+              ))}
             </div>
           </div>
-        )}
 
-        <div className="container">
-          {c.sections.map((sec) => (
-            <Reveal key={sec.heading} as="section" className="case-section">
-              <h2>{sec.heading}</h2>
-              {sec.blocks.map((block, i) => (
-                <BlockView key={i} block={block} />
-              ))}
-            </Reveal>
-          ))}
+          {shots && shots.groups.length > 0 && (
+            <div className="xcs-gallery">
+              <CaseGallery groups={shots.groups} labels={C.t.gallery} />
+            </div>
+          )}
+
+          <nav className="xcs-next" aria-label={l.all}>
+            <Link href={c.prev.href}>
+              <span className="mono">← {l.prev}</span>
+              <b>{cleanLabel(c.prev.label)}</b>
+            </Link>
+            <Link href={c.next.href}>
+              <span className="mono">{l.next} →</span>
+              <b>{cleanLabel(c.next.label)}</b>
+            </Link>
+          </nav>
         </div>
+      </main>
 
-        <section className="case-cta">
-          <div className="container-narrow">
-            <h2>{ui.casePage.ctaHeading}</h2>
-            <p>{ui.casePage.ctaBody}</p>
-            <Link href={lp(locale, "/#contact")} className="btn btn-primary">
-              {ui.casePage.ctaButton} <span className="arrow">→</span>
-            </Link>
-          </div>
-        </section>
-
-        <div className="case-nav">
-          <div className="case-nav-inner">
-            <Link href={c.prev.href} className="case-nav-link">
-              {c.prev.label}
-            </Link>
-            <Link href={c.next.href} className="case-nav-link">
-              {c.next.label}
-            </Link>
-          </div>
+      <section className="xcta-band" aria-labelledby="case-cta">
+        <div>
+          <p className="xlabel">{s.contact.index}</p>
+          <h2 id="case-cta">{ui.casePage.ctaHeading}</h2>
         </div>
-      </div>
+        <Link href={lp(locale, "/#contact")} className="xbtn xbtn-light">
+          {s.hero.cta} <Arrow />
+        </Link>
+      </section>
     </>
   );
 }

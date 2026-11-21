@@ -1,9 +1,10 @@
 import { ImageResponse } from "next/og";
-import { LOGO_PATH, LOGO_VIEWBOX } from "@/lib/logo";
+import { WORDMARK as W, BRAND } from "@/lib/brand";
 
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
+// Favicon: the r of the wordmark and its orange period on ink.
 export default function Icon() {
   return new ImageResponse(
     (
@@ -14,13 +15,12 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0a0a0a",
-          color: "#fafafa",
-          borderRadius: 14,
+          background: BRAND.ink,
         }}
       >
-        <svg width="42" height="42" viewBox={LOGO_VIEWBOX}>
-          <path d={LOGO_PATH} fillRule="evenodd" fill="#fafafa" />
+        <svg width="46" height="46" viewBox="-7 22 72 72">
+          <path d={W.paths[0]} fill="none" stroke={BRAND.paper} strokeWidth={W.stroke + 2} />
+          <circle cx="54" cy={W.dot.cy} r={W.dot.r + 1.5} fill={BRAND.signal} />
         </svg>
       </div>
     ),

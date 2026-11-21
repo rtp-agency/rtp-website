@@ -11,9 +11,10 @@ export function RootShell({ locale, children }: { locale: Locale; children: Reac
       {
         "@type": "Organization",
         "@id": `${SITE_URL}/#organization`,
-        name: "RTP Agency",
+        name: "RTP — Routine to Profit",
+        alternateName: ["RTP", "RTP Agency"],
         url: SITE_URL,
-        logo: `${SITE_URL}/icon`,
+        logo: `${SITE_URL}/brand/rtp-wordmark.png`,
         email: "solutions@rtp-agency.com",
         sameAs: ["https://github.com/rtp-agency", "https://t.me/rtp_agency"],
         contactPoint: {
@@ -27,7 +28,7 @@ export function RootShell({ locale, children }: { locale: Locale; children: Reac
         "@type": "WebSite",
         "@id": `${SITE_URL}/#website`,
         url: SITE_URL,
-        name: "RTP Agency",
+        name: "RTP — Routine to Profit",
         inLanguage: ["ru", "en"],
         publisher: { "@id": `${SITE_URL}/#organization` },
       },
