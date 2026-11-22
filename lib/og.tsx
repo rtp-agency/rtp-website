@@ -127,7 +127,7 @@ export async function homeOg(locale: Locale) {
               color: INK,
               fontSize: 96,
               lineHeight: 0.98,
-              fontWeight: 700,
+              fontWeight: 600,
               letterSpacing: "-0.045em",
             }}
           >
@@ -179,7 +179,7 @@ export async function pageOg({
             display: "flex",
             color: INK,
             fontSize: title.length > 70 ? 50 : 60,
-            fontWeight: 700,
+            fontWeight: 600,
             lineHeight: 1.04,
             letterSpacing: "-0.035em",
             maxWidth: 1000,
@@ -205,7 +205,7 @@ export async function pageOg({
                 gap: 12,
                 color: INK,
                 fontSize: 60,
-                fontWeight: 700,
+                fontWeight: 600,
                 letterSpacing: "-0.04em",
               }}
             >

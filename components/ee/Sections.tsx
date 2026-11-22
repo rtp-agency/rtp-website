@@ -9,13 +9,10 @@ import { lp, type Locale } from "@/lib/locale";
 import { studio, caseMeta, featuredSlugs, homeFaqPick } from "@/lib/studio";
 import type { Content } from "@/lib/content";
 
+// Registration crosses were retired in the unslop pass; kept as a no-op so
+// section markup stays the same.
 export function Crosses() {
-  return (
-    <>
-      <span className="xcross xcross-l" aria-hidden="true" />
-      <span className="xcross xcross-r" aria-hidden="true" />
-    </>
-  );
+  return null;
 }
 
 function SecHead({ index, title, id, aside }: { index: string; title: string; id: string; aside?: React.ReactNode }) {
@@ -39,7 +36,10 @@ export function HeroSection({ locale }: { locale: Locale }) {
           <p className="xhero-eyebrow">{h.eyebrow}</p>
           <h1 id="hero-title">
             <span>{h.line1}</span>
-            <span className="is-signal">{h.line2}</span>
+            <span className="is-second">
+              {h.line2.replace(/\.$/, "")}
+              <span className="xdot">.</span>
+            </span>
           </h1>
           <p className="xhero-lead">{h.lead}</p>
           <div className="xhero-actions">
@@ -55,7 +55,6 @@ export function HeroSection({ locale }: { locale: Locale }) {
         <figure className="xhero-fig">
           <div className="xhero-fig-head mono">
             <span>{h.figLabel}</span>
-            <span>Fig. 01</span>
           </div>
           <HeroDiagram
             title={`${h.figLabel}. ${h.figCaption}`}
@@ -66,7 +65,6 @@ export function HeroSection({ locale }: { locale: Locale }) {
             layer={h.layer}
           />
         </figure>
-        <span className="xcross xcross-signal" aria-hidden="true" style={{ right: -5, bottom: -5 }} />
       </section>
 
       <aside className="xproof" aria-label={h.proofLabel}>
@@ -157,9 +155,7 @@ export function WorkSection({ C }: { C: Content }) {
               <InView as="article" className={`xfeat-row xfeat-${m.visual}${i % 2 ? " is-flip" : ""}`} key={slug} threshold={0.15}>
                 <a href={href} className="xfeat-media" tabIndex={-1} aria-hidden="true">
                   <CaseVisualFor C={C} slug={slug} />
-                  <span className="xfeat-fig mono">
-                    Fig. {no(slug)} — {m.kind}
-                  </span>
+                  <span className="xfeat-fig mono">{m.kind}</span>
                 </a>
                 <div className="xfeat-body">
                   <p className="xfeat-tags mono">
@@ -296,8 +292,7 @@ export function AboutSection({ C }: { C: Content }) {
           </ul>
         </div>
         <figure className="xquote">
-          <span className="xquote-mark" aria-hidden="true">“</span>
-          <blockquote>{q.quote}</blockquote>
+          <blockquote>“{q.quote}”</blockquote>
           <figcaption>
             <b>
               {q.link ? (

@@ -24,10 +24,11 @@
   --ink-muted: #9a9c99;
 
   /* type */
+  --font-body: var(--font-display);
   --f-display: var(--font-display), "Helvetica Neue", Arial, sans-serif;
   --f-body: var(--font-body), -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   --f-mono: var(--font-jb), ui-monospace, "SF Mono", Menlo, monospace;
-  --t-hero: clamp(46px, 5.7vw, 92px);
+  --t-hero: clamp(44px, 5.4vw, 84px);
   --t-h2: clamp(32px, 4.2vw, 60px);
   --t-h3: clamp(22px, 2vw, 28px);
   --t-lead: clamp(17px, 1.35vw, 20px);
@@ -69,9 +70,9 @@
   --body: #4a4d4b;
   --faint: var(--muted);
   --red: var(--signal);
-  --r-lg: 2px;
-  --r-md: 2px;
-  --radius: 2px;
+  --r-lg: 8px;
+  --r-md: 6px;
+  --radius: 6px;
   --color-bg: var(--paper);
   --color-bg2: var(--paper-2);
   --color-bg3: var(--paper-3);
@@ -94,6 +95,14 @@ html {
   scrollbar-gutter: auto;
   scroll-padding-top: 84px;
   -webkit-text-size-adjust: 100%;
+}
+b,
+dt,
+.xproof b,
+.xfeat-out dt,
+.xcs-out b,
+.case-stat-number {
+  font-variant-numeric: tabular-nums;
 }
 body,
 body:has(.dark-page) {
@@ -163,10 +172,9 @@ body:has(.dark-page) {
 .mono,
 .xlabel {
   font-family: var(--f-mono);
-  font-size: var(--t-label);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
 }
 
 /* "01 / CAPABILITIES" with a small registration tick in front */
@@ -174,25 +182,17 @@ body:has(.dark-page) {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: var(--ink);
+  color: var(--muted);
   margin: 0;
 }
-.xlabel::before {
-  content: "";
-  width: 11px;
-  height: 11px;
-  flex: none;
-  background:
-    linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat,
-    linear-gradient(currentColor, currentColor) 3px 50% / 1px 7px no-repeat;
-  opacity: 0.55;
-}
+
 .xlabel-signal {
   color: var(--signal-text);
 }
 
 /* registration cross: 9px, hairline */
 .xcross {
+  display: none;
   position: absolute;
   width: 9px;
   height: 9px;
@@ -234,7 +234,7 @@ body:has(.dark-page) {
   height: var(--h);
   padding: 0 22px;
   border: 1px solid var(--ink);
-  border-radius: 2px;
+  border-radius: 6px;
   background: var(--ink);
   color: var(--paper);
   font-family: var(--f-body);
@@ -342,9 +342,9 @@ body:has(.dark-page) {
   margin: 0;
   font-family: var(--f-display);
   font-size: var(--t-h2);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.02;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
   text-wrap: balance;
   max-width: 14ch;
 }
@@ -420,8 +420,7 @@ body:has(.dark-page) {
   font-family: var(--f-mono);
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 .xnav-links {
   display: flex;
@@ -472,7 +471,7 @@ body:has(.dark-page) {
   font-family: var(--f-mono);
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
   padding: 6px 4px;
   color: var(--muted);
 }
@@ -487,13 +486,12 @@ body:has(.dark-page) {
   padding: 0 14px;
   border: var(--rule);
   border-color: var(--ink);
-  border-radius: 2px;
+  border-radius: 6px;
   background: transparent;
   color: var(--ink);
   font-family: var(--f-mono);
   font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   cursor: pointer;
 }
 .xnav-menu i {
@@ -570,14 +568,14 @@ body:has(.dark-page) {
     border-bottom: var(--rule);
     font-family: var(--f-display);
     font-size: 34px;
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: -0.03em;
   }
   .xnav-sheet li a span {
     font-family: var(--f-mono);
     font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.06em;
+    letter-spacing: 0;
     color: var(--muted);
   }
   .xnav-sheet-foot {
@@ -615,25 +613,27 @@ body:has(.dark-page) {
 }
 .xhero-eyebrow {
   margin: 0;
-  color: var(--signal-text);
+  color: var(--muted);
   font-family: var(--f-mono);
   font-size: 12.5px;
   font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 .xhero h1 {
   margin: 0;
   font-family: var(--f-display);
   font-size: var(--t-hero);
-  font-weight: 800;
-  line-height: 0.94;
-  letter-spacing: -0.045em;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
 }
-.xhero h1 span {
+.xhero h1 > span {
   display: block;
 }
-.xhero h1 .is-signal {
+.xhero h1 .is-second {
+  color: #8a8c89;
+}
+.xdot {
   color: var(--signal);
 }
 .xhero-lead {
@@ -673,13 +673,6 @@ body:has(.dark-page) {
   display: flex;
   align-items: center;
   padding: var(--s-4) var(--s-5) 0;
-  background-image:
-    linear-gradient(var(--line-faint) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-faint) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-position: -1px -1px;
-  mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, #000 55%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 75% 70% at 50% 50%, #000 55%, transparent 100%);
 }
 .xhero-diagram svg {
   display: block;
@@ -721,9 +714,9 @@ body:has(.dark-page) {
   display: block;
   font-family: var(--f-display);
   font-size: clamp(30px, 2.8vw, 44px);
-  font-weight: 800;
+  font-weight: 500;
   line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
 }
 .xproof span {
   display: block;
@@ -740,8 +733,7 @@ body:has(.dark-page) {
   color: var(--muted);
   font-family: var(--f-mono);
   font-size: 10.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   transition: color var(--d-fast) ease;
 }
 .xproof small svg {
@@ -790,8 +782,7 @@ body:has(.dark-page) {
   font-family: var(--f-mono);
   font-size: 11.5px;
   font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 .xdg-out-m text {
   font-size: 10px;
@@ -853,8 +844,7 @@ body:has(.dark-page) {
   fill: var(--muted);
   font-family: var(--f-mono);
   font-size: 10.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -873,14 +863,8 @@ body:has(.dark-page) {
     animation-delay: calc(0.1s + var(--i, 0) * 0.07s);
   }
   .xdg-pulse {
-    animation: xpulse 3.6s linear infinite;
+    animation: xpulse 3.6s linear 2;
     animation-delay: calc(1.8s + var(--i, 0) * 0.55s);
-  }
-  .xdg-bracket {
-    animation: xblink 3.6s var(--ease-io) infinite 1.8s;
-  }
-  .xdg-event {
-    animation: xevent 2.4s ease-in-out infinite 1.6s;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1050,8 +1034,8 @@ body:has(.dark-page) {
   margin: 0;
   font-family: var(--f-display);
   font-size: clamp(30px, 3vw, 44px);
-  font-weight: 700;
-  letter-spacing: -0.035em;
+  font-weight: 500;
+  letter-spacing: -0.025em;
   line-height: 1;
 }
 .xcap-text p {
@@ -1094,8 +1078,7 @@ body:has(.dark-page) {
   stroke: none !important;
   font-family: var(--f-mono);
   font-size: 10.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 
 /* automate */
@@ -1263,7 +1246,7 @@ body:has(.dark-page) {
     stroke-dashoffset: 0;
   }
   .is-in .xart-auto .xa-pulse {
-    animation: xpulse 3.2s linear infinite;
+    animation: xpulse 3.2s linear 1;
     animation-delay: calc(1.8s + var(--i) * 0.6s);
   }
 
@@ -1290,7 +1273,7 @@ body:has(.dark-page) {
     opacity: 1;
   }
   .is-in .xart-conn .xc-pulse {
-    animation: xpulse 2.8s linear infinite;
+    animation: xpulse 2.8s linear 1;
     animation-delay: calc(1.4s + var(--i) * 0.7s);
   }
 
@@ -1401,8 +1384,8 @@ body:has(.dark-page) {
   margin: 0;
   font-family: var(--f-display);
   font-size: clamp(32px, 3.2vw, 48px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
   line-height: 0.98;
 }
 .xfeat-body h3 a {
@@ -1429,8 +1412,8 @@ body:has(.dark-page) {
 .xfeat-out dt {
   font-family: var(--f-display);
   font-size: clamp(28px, 2.4vw, 36px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
   line-height: 1;
 }
 .xfeat-out dd {
@@ -1447,6 +1430,7 @@ body:has(.dark-page) {
 .xshot {
   position: relative;
   margin: 0;
+  border-radius: 8px;
   overflow: hidden;
   background: var(--paper-2);
   border: var(--rule);
@@ -1476,7 +1460,7 @@ body:has(.dark-page) {
   font-family: var(--f-mono);
   font-size: 10px;
   color: var(--muted);
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 .xshot-card {
   border-radius: 14px;
@@ -1486,20 +1470,15 @@ body:has(.dark-page) {
 
 /* reveal: visuals wipe in once */
 @media (prefers-reduced-motion: no-preference) {
-  .xfeat-media .xshot,
+  .xfeat-media,
   .xgrid-vis {
-    clip-path: inset(0 0 100% 0);
-    transition: clip-path 1.1s var(--ease-io);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
   }
-  .is-in .xfeat-media .xshot,
+  .is-in .xfeat-media,
   .is-in .xgrid-vis {
-    clip-path: inset(0 0 0 0);
-  }
-  .xfeat-media .xshot img {
-    transform: scale(1.04);
-    transition: transform 1.6s var(--ease);
-  }
-  .is-in .xfeat-media .xshot img {
+    opacity: 1;
     transform: none;
   }
 }
@@ -1796,9 +1775,7 @@ body:has(.dark-page) {
   object-position: top left;
   transition: transform 1.2s var(--ease);
 }
-.xgrid-item a:hover .xv-thumb img {
-  transform: scale(1.04);
-}
+
 .xgrid-meta {
   display: flex;
   gap: 10px;
@@ -1813,7 +1790,7 @@ body:has(.dark-page) {
   margin: 0;
   font-family: var(--f-display);
   font-size: 21px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.025em;
   line-height: 1.1;
 }
@@ -1885,8 +1862,8 @@ body:has(.dark-page) {
 .xv-cost strong {
   font-family: var(--f-display);
   font-size: 40px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
   line-height: 1;
 }
 .xv-mini-stages {
@@ -1982,8 +1959,8 @@ body:has(.dark-page) {
 .xinter-to {
   font-family: var(--f-display);
   font-size: clamp(44px, 8.2vw, 128px);
-  font-weight: 800;
-  letter-spacing: -0.055em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
   line-height: 0.9;
 }
 .xinter-from {
@@ -2019,7 +1996,7 @@ body:has(.dark-page) {
     transform-box: view-box;
   }
   .is-in .xinter-dot {
-    animation: xinter 3.2s var(--ease-io) infinite 0.6s;
+    animation: xinter 2.4s var(--ease-io) 0.4s forwards;
   }
   .xinter-to {
     opacity: 0.15;
@@ -2030,21 +2007,11 @@ body:has(.dark-page) {
   }
 }
 @keyframes xinter {
-  0% {
+  from {
     transform: translateX(0);
-    opacity: 0;
   }
-  10% {
-    opacity: 1;
-  }
-  75% {
+  to {
     transform: translateX(384px);
-    opacity: 1;
-  }
-  90%,
-  100% {
-    transform: translateX(384px);
-    opacity: 0;
   }
 }
 @media (max-width: 640px) {
@@ -2104,8 +2071,8 @@ body:has(.dark-page) {
   margin: var(--s-5) 0 var(--s-4);
   font-family: var(--f-display);
   font-size: clamp(56px, 9vw, 140px);
-  font-weight: 800;
-  letter-spacing: -0.055em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
   line-height: 0.9;
 }
 .xwork-head p {
@@ -2153,7 +2120,7 @@ body:has(.dark-page) {
   display: block;
   padding: 12px 14px 12px 34px;
   border: var(--rule);
-  border-radius: 2px;
+  border-radius: 6px;
   background: var(--paper);
   cursor: pointer;
   transition: border-color var(--d-fast) ease;
@@ -2205,8 +2172,6 @@ body:has(.dark-page) {
 .xdemo-stage {
   position: relative;
   padding: var(--s-6) var(--s-5) var(--s-5);
-  background-image: radial-gradient(var(--line) 1px, transparent 1px);
-  background-size: 16px 16px;
 }
 .xdemo-stage-head {
   position: absolute;
@@ -2218,8 +2183,7 @@ body:has(.dark-page) {
   color: var(--muted);
   font-family: var(--f-mono);
   font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 .xdemo-stage svg {
   display: block;
@@ -2236,8 +2200,7 @@ body:has(.dark-page) {
   font-family: var(--f-mono);
   font-size: 10.5px;
   font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   fill: var(--ink);
   transition: fill var(--d-med) ease;
 }
@@ -2409,8 +2372,7 @@ body:has(.dark-page) {
     background: var(--paper);
     font-family: var(--f-mono);
     font-size: 12.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0;
     transition: background var(--d-med) ease, color var(--d-med) ease;
   }
   .xdn-row span {
@@ -2523,7 +2485,7 @@ body:has(.dark-page) {
   margin: 8px 0 10px;
   font-family: var(--f-display);
   font-size: var(--t-h3);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.03em;
 }
 .xsteps p {
@@ -2581,9 +2543,9 @@ body:has(.dark-page) {
   margin: var(--s-5) 0 var(--s-5);
   font-family: var(--f-display);
   font-size: var(--t-h2);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.02;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
   max-width: 14ch;
 }
 .xabout-body {
@@ -2628,9 +2590,10 @@ body:has(.dark-page) {
   position: relative;
   margin: var(--s-8) 0 0;
   padding: var(--s-6) 0 0 var(--s-6);
-  border-left: 1px solid var(--signal);
+  border-left: 1px solid var(--line);
 }
 .xquote-mark {
+  display: none;
   position: absolute;
   left: var(--s-6);
   top: -36px;
@@ -2762,8 +2725,8 @@ body:has(.dark-page) {
   margin: var(--s-5) 0 0;
   font-family: var(--f-display);
   font-size: clamp(28px, 3vw, 42px);
-  font-weight: 700;
-  letter-spacing: -0.035em;
+  font-weight: 500;
+  letter-spacing: -0.025em;
   line-height: 1.05;
 }
 .xfaq .faq {
@@ -2888,9 +2851,9 @@ body:has(.dark-page) {
   margin: var(--s-5) 0 var(--s-5);
   font-family: var(--f-display);
   font-size: var(--t-h2);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.02;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
   max-width: 13ch;
 }
 .xcontact-lead {
@@ -2931,8 +2894,7 @@ body:has(.dark-page) {
   color: var(--ink-muted);
   font-family: var(--f-mono);
   font-size: 10.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 .xform {
   display: flex;
@@ -2960,8 +2922,7 @@ body:has(.dark-page) {
   color: var(--ink-muted);
   font-family: var(--f-mono);
   font-size: 10.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
 .xfield label i {
   font-style: normal;
@@ -3120,9 +3081,9 @@ body:has(.dark-page) {
   margin: var(--s-4) 0 var(--s-5);
   font-family: var(--f-display);
   font-size: clamp(36px, 5vw, 76px);
-  font-weight: 800;
+  font-weight: 500;
   line-height: 0.98;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 .xcs-lead {
@@ -3144,8 +3105,8 @@ body:has(.dark-page) {
   display: block;
   font-family: var(--f-display);
   font-size: clamp(36px, 3.4vw, 52px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
   line-height: 1;
 }
 .xcs-out span {
@@ -3260,7 +3221,7 @@ body:has(.dark-page) {
   font-family: var(--f-mono);
   font-size: 10.5px;
   color: var(--muted);
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
 }
 
 /* pipeline schematic from case data */
@@ -3298,7 +3259,7 @@ body:has(.dark-page) {
   width: 18%;
   height: 1px;
   background: var(--signal);
-  animation: xbeam linear infinite;
+  display: none;
 }
 @keyframes xbeam {
   from {
@@ -3415,8 +3376,8 @@ body:has(.dark-page) {
 .xcs-flow .cv-reduction {
   font-family: var(--f-display);
   font-size: clamp(40px, 4vw, 60px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
   color: var(--ink);
 }
 .xcs-flow .cv-reduction span {
@@ -3475,15 +3436,15 @@ body:has(.dark-page) {
   margin: var(--s-3) 0 var(--s-5);
   font-family: var(--f-display);
   font-size: clamp(28px, 3vw, 40px);
-  font-weight: 700;
-  letter-spacing: -0.035em;
+  font-weight: 500;
+  letter-spacing: -0.025em;
   line-height: 1.05;
 }
 .xcs-sec h3 {
   margin: var(--s-6) 0 var(--s-3);
   font-family: var(--f-display);
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.02em;
 }
 .xcs-sec p,
@@ -3560,8 +3521,8 @@ body:has(.dark-page) {
 .xcs-sec .case-stat-number {
   font-family: var(--f-display);
   font-size: clamp(30px, 2.8vw, 42px);
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-weight: 500;
+  letter-spacing: -0.03em;
   line-height: 1;
   color: var(--ink);
   background: none;
@@ -3588,8 +3549,7 @@ body:has(.dark-page) {
   color: var(--muted);
   font-family: var(--f-mono);
   font-size: 11.5px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   padding-top: 15px;
 }
 @media (max-width: 960px) {
@@ -3613,7 +3573,7 @@ body:has(.dark-page) {
 .xcs-gallery .gallery-group h2 {
   font-family: var(--f-display);
   font-size: clamp(24px, 2.4vw, 32px);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.03em;
   color: var(--ink);
 }
@@ -3651,7 +3611,7 @@ body:has(.dark-page) {
 .xcs-next a b {
   font-family: var(--f-display);
   font-size: clamp(20px, 2vw, 26px);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.03em;
 }
 .xcs-next a:hover b {
@@ -3686,8 +3646,8 @@ body:has(.dark-page) {
   margin: 10px 0 0;
   font-family: var(--f-display);
   font-size: clamp(28px, 3.4vw, 46px);
-  font-weight: 700;
-  letter-spacing: -0.035em;
+  font-weight: 500;
+  letter-spacing: -0.025em;
   line-height: 1.05;
 }
 
@@ -3705,7 +3665,7 @@ body:has(.dark-page) {
 .partner-detail h2,
 .case-section h2 {
   font-family: var(--f-display);
-  letter-spacing: -0.035em;
+  letter-spacing: -0.025em;
   color: var(--ink);
 }
 .blog .bc-grid > *,
@@ -3721,13 +3681,13 @@ body:has(.dark-page) {
 .partner-cat,
 .eyebrow {
   font-family: var(--f-mono);
-  letter-spacing: 0.06em;
+  letter-spacing: 0;
   border-radius: 0;
 }
 .btn,
 .btn-primary,
 .pill {
-  border-radius: 2px !important;
+  border-radius: 6px !important;
 }
 .btn-primary {
   background: var(--ink) !important;

@@ -145,7 +145,7 @@ export const strings: Record<Locale, Dict> = {
     },
     faq: {
       eyebrow: "Вопросы",
-      title: "Частые вопросы.",
+      title: "Частые вопросы",
       lead: "Коротко о том, как мы работаем.",
     },
     blog: {
@@ -262,7 +262,7 @@ export const strings: Record<Locale, Dict> = {
     },
     faq: {
       eyebrow: "FAQ",
-      title: "Frequently asked questions.",
+      title: "Frequently asked questions",
       lead: "A short summary of how we work.",
     },
     blog: {

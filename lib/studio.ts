@@ -158,7 +158,7 @@ const en: StudioCopy = {
   },
   capabilities: {
     index: "01 / Services",
-    title: "Automate. Connect. Build.",
+    title: "Automate, connect, build",
     items: [
       {
         n: "01",
@@ -190,7 +190,7 @@ const en: StudioCopy = {
   },
   work: {
     index: "02 / Selected work",
-    title: "Real systems, running in production.",
+    title: "Real systems, running in production",
     read: "Read the case",
     allLink: "All work",
     moreTitle: "More work",
@@ -205,7 +205,7 @@ const en: StudioCopy = {
   interlude: { from: "Routine", to: "Profit.", caption: "RTP stands for Routine to Profit." },
   demo: {
     index: "03 / System flow",
-    title: "One request, six systems.",
+    title: "One request, six systems",
     lead: "Pick a scenario, press Run, and step in when an approval is needed.",
     tag: "Concept · Interactive demonstration",
     disclaimer: "Sample data. Not connected to any live system or client environment.",
@@ -246,7 +246,7 @@ const en: StudioCopy = {
   },
   approach: {
     index: "04 / Approach",
-    title: "From problem to result.",
+    title: "From problem to result",
     steps: [
       { n: "01", title: "Understand", body: "Map the workflow as it really runs." },
       { n: "02", title: "Design", body: "The smallest system that removes the bottleneck." },
@@ -256,7 +256,7 @@ const en: StudioCopy = {
   },
   about: {
     index: "05 / About",
-    title: "An independent studio with engineering discipline.",
+    title: "An independent studio with engineering discipline",
     body: "We turn the repetitive, fragile parts of a business into systems that work reliably: sometimes a workflow between your tools, sometimes the software underneath.",
     principles: [
       { title: "Engineering first", body: "Tested code, monitoring, fallbacks." },
@@ -268,7 +268,7 @@ const en: StudioCopy = {
   },
   contact: {
     index: "07 / Let's talk",
-    title: "Let's make your systems work better.",
+    title: "Let's make your systems work better",
     lead: "Tell us what's slowing you down. A few sentences is enough.",
     emailLabel: "Email",
     tgLabel: "Telegram",
@@ -329,7 +329,7 @@ const ru: StudioCopy = {
   },
   capabilities: {
     index: "01 / Услуги",
-    title: "Автоматизируем. Связываем. Разрабатываем.",
+    title: "Автоматизируем, связываем, разрабатываем",
     items: [
       {
         n: "01",
@@ -361,7 +361,7 @@ const ru: StudioCopy = {
   },
   work: {
     index: "02 / Работы",
-    title: "Реальные системы в продакшене.",
+    title: "Реальные системы в продакшене",
     read: "Читать кейс",
     allLink: "Все работы",
     moreTitle: "Ещё работы",
@@ -376,7 +376,7 @@ const ru: StudioCopy = {
   interlude: { from: "Routine", to: "Profit.", caption: "RTP — это Routine to Profit: из рутины в прибыль." },
   demo: {
     index: "03 / Поток",
-    title: "Один запрос, шесть систем.",
+    title: "Один запрос, шесть систем",
     lead: "Выберите сценарий, нажмите «Запустить» и вмешайтесь, когда понадобится согласование.",
     tag: "Концепт · Интерактивная демонстрация",
     disclaimer: "Демо-данные. Не подключено ни к одной живой системе или среде клиента.",
@@ -417,7 +417,7 @@ const ru: StudioCopy = {
   },
   approach: {
     index: "04 / Подход",
-    title: "От задачи к результату.",
+    title: "От задачи к результату",
     steps: [
       { n: "01", title: "Разбираемся", body: "Смотрим, как процесс идёт на самом деле." },
       { n: "02", title: "Проектируем", body: "Минимальная система, снимающая узкое место." },
@@ -427,7 +427,7 @@ const ru: StudioCopy = {
   },
   about: {
     index: "05 / О студии",
-    title: "Независимая студия с инженерной дисциплиной.",
+    title: "Независимая студия с инженерной дисциплиной",
     body: "Превращаем повторяющиеся и хрупкие части бизнеса в системы, которые работают надёжно: иногда это связка ваших инструментов, иногда — софт под ними.",
     principles: [
       { title: "Сначала инженерия", body: "Тесты, мониторинг, запасные сценарии." },
@@ -439,7 +439,7 @@ const ru: StudioCopy = {
   },
   contact: {
     index: "07 / Связаться",
-    title: "Сделаем ваши системы лучше.",
+    title: "Сделаем ваши системы лучше",
     lead: "Расскажите, что вас тормозит. Достаточно пары предложений.",
     emailLabel: "Email",
     tgLabel: "Telegram",

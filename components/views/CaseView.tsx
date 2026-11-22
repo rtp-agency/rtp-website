@@ -180,7 +180,7 @@ export function CaseView({ locale, slug }: { locale: Locale; slug: string }) {
             <Reveal className="xcs-cover">
               <ShotFrame shot={shots.cover} priority />
               <p className="xcs-cap mono">
-                <span>Fig. 01{shots.cover.caption ? ` — ${shots.cover.caption}` : ""}</span>
+                <span>{shots.cover.caption ?? ""}</span>
               </p>
             </Reveal>
           )}
@@ -188,7 +188,7 @@ export function CaseView({ locale, slug }: { locale: Locale; slug: string }) {
           {c.visual && (
             <section className="xcs-flow" aria-label={l.flow}>
               <p className="xlabel">
-                {shots ? "Fig. 02" : "Fig. 01"} / {l.flow}
+                {l.flow}
               </p>
               <CaseVisual visual={c.visual} toCosts={ui.toCosts} />
             </section>

@@ -99,12 +99,7 @@ export function ConnectArt({ labels }: { labels: { apps: string[]; core: string;
 export function BuildArt({ labels }: { labels: { app: string; kpis: string[]; table: string } }) {
   const chart = "M190 248L222 232L254 238L286 212L318 218L350 190L382 196L414 168L446 172";
   return (
-    <svg className="xart xart-build" viewBox="0 -18 752 336" role="img" aria-label={labels.app}>
-      <g className="xb-dim">
-        <path d="M10 6V0M730 6V0M10 3H730" />
-        <path d="M736 22H742M736 310H742M739 22V310" />
-        <text className="xart-label" x="370" y="-4" textAnchor="middle">12 col · 1440</text>
-      </g>
+    <svg className="xart xart-build" viewBox="0 12 740 306" role="img" aria-label={labels.app}>
       <g className="xb-frame">
         <rect x="10" y="22" width="720" height="288" />
         <path d="M10 46H730" />
@@ -148,9 +143,6 @@ export function BuildArt({ labels }: { labels: { app: string; kpis: string[]; ta
             <rect className={k === 0 ? "xb-chip xb-chip-hot" : "xb-chip"} x="664" y={183 + k * 22} width="36" height="11" />
           </g>
         ))}
-      </g>
-      <g className="xb-cross">
-        <path d="M455 137h10M460 132v10M711 137h10M716 132v10" />
       </g>
     </svg>
   );

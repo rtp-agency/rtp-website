@@ -168,7 +168,6 @@ export function SystemDemo({ locale }: { locale: Locale }) {
 
       <div className="xdemo-stage">
         <div className="xdemo-stage-head" aria-hidden="true">
-          <span>Fig. 02</span>
           <span>{d.tag}</span>
         </div>
         <svg viewBox="0 0 542 280" role="img" aria-label={`${d.title} ${d.tag}`}>

@@ -72,7 +72,7 @@ export function Nav({
       <div className="xnav-in">
         <Link href={lp(locale, "/")} className="xnav-brand" aria-label="RTP — Routine to Profit">
           <Wordmark />
-          <span className="xnav-tag">Routine to Profit®</span>
+          <span className="xnav-tag">Routine to Profit</span>
         </Link>
 
         {variant === "case" && back ? (

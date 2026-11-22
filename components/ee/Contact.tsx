@@ -9,12 +9,6 @@ export function ContactSection({ locale }: { locale: Locale }) {
   const c = studio[locale].contact;
   return (
     <section id="contact" className="xcontact" aria-labelledby="contact-title">
-      <svg className="xcontact-lines" viewBox="0 0 1440 640" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M760 640C900 420 1080 300 1440 250" />
-        <path d="M900 640C1010 470 1160 380 1440 360" />
-        <path d="M0 120H1440" />
-        <path d="M720 0V640" />
-      </svg>
       <div className="xcontact-in">
         <div>
           <p className="xlabel">{c.index}</p>
